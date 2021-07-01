@@ -1,27 +1,32 @@
-import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useRef } from "react";
 import type { OBJ } from "@util/Types";
 
 /**
  * This is a custom hook that we have to use for any all all hash URL's.
  * This is a very hacky solution but it works so we'll use it
  *
- * **CAN NOT HAVE A DEPENDENCY ARRAY**
+ * @see {@link useRouter}
  */
 export const useHashChange = () => {
+  const { asPath } = useRouter();
+  const time = useRef<any>();
   useEffect(() => {
-    const path = window.location.hash;
-    if (path && path.includes("#")) {
-      setTimeout(() => {
-        const id = path.replace("#", "");
-        const el = window.document.getElementById(id);
-        const r = el?.getBoundingClientRect();
-        window.top.scroll({
-          top: pageYOffset + (r?.top || 0),
-          behavior: "smooth",
-        });
-      }, 100);
+    if (/#.+/g.test(asPath)) {
+      const id = asPath.replace(/\/.*#(.+)/g, "$1");
+      const el = window.document.getElementById(id);
+      if (el) {
+        time.current = setTimeout(() => {
+          const r = el.getBoundingClientRect();
+          window.top.scroll({
+            top: pageYOffset + r.top,
+            behavior: "smooth",
+          });
+        }, 100);
+      }
     }
-  });
+    return () => clearTimeout(time.current);
+  }, [asPath]);
 };
 
 /**

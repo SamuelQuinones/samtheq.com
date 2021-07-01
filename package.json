@@ -1,16 +1,15 @@
 {
-  "name": "nextjs-typescript-boilerplate",
-  "version": "3.0.0",
+  "name": "samtheq-com",
+  "version": "1.0.0",
   "author": "Samuel Quiñones",
-  "description": "A more advanced Typescript starter for nextjs",
+  "description": "Samuel Quinones' Website made in React and NextJS",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SamuelQuinones/nextjs-typescript-boilerplate"
+    "url": "https://github.com/SamuelQuinones/samtheq.com"
   },
   "bugs": {
-    "url": "https://github.com/SamuelQuinones/nextjs-typescript-boilerplate/issues"
+    "url": "https://github.com/SamuelQuinones/samtheq.com/issues"
   },
-  "license": "MIT",
   "config": {
     "static_out": "out"
   },
@@ -33,20 +32,20 @@
     "pretty:fix": "prettier --write ."
   },
   "dependencies": {
-    "next": "11.0.0",
+    "next": "11.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "sass": "1.35.1"
   },
   "devDependencies": {
-    "@types/node": "15.12.2",
+    "@types/node": "15.12.5",
     "@types/react": "17.0.11",
-    "@types/react-dom": "17.0.7",
-    "@typescript-eslint/eslint-plugin": "4.27.0",
-    "@typescript-eslint/parser": "4.27.0",
+    "@types/react-dom": "17.0.8",
+    "@typescript-eslint/eslint-plugin": "4.28.1",
+    "@typescript-eslint/parser": "4.28.1",
     "cross-env": "7.0.3",
-    "eslint": "7.28.0",
-    "eslint-config-next": "11.0.0",
+    "eslint": "7.29.0",
+    "eslint-config-next": "11.0.1",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-prettier": "3.4.0",
