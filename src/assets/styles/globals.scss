@@ -1,11 +1,21 @@
-@import "fonts";
+@import "variables";
+// personal overrides
+@import "stq-bootstrap/override";
+// all of bootstrap - needed for changes
+@import "~bootstrap/scss/bootstrap";
+// Fonts
+@import "font-face";
 
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: Roboto, Lato, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  color: $light;
+  font-family: Montserrat, Roboto, Lato, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+    sans-serif;
+}
+
+body {
+  background-color: $stq-body-color;
 }
 
 a {
