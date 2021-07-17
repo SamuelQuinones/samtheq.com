@@ -1,10 +1,11 @@
+// Fonts
+@import "font-face";
+// variables
 @import "variables";
 // personal overrides
 @import "stq-bootstrap/override";
 // all of bootstrap - needed for changes
 @import "~bootstrap/scss/bootstrap";
-// Fonts
-@import "font-face";
 
 html,
 body {

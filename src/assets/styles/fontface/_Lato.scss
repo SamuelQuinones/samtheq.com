@@ -10,6 +10,7 @@
   src: local("Lato"), url(../../fonts/Lato/Lato-Regular.ttf) format("truetype");
   font-weight: normal;
   font-style: normal;
+  // font-display: swap;
 }
 
 @font-face {
@@ -17,6 +18,7 @@
   src: local("Lato"), url(../../fonts/Lato/Lato-Italic.ttf) format("truetype");
   font-weight: normal;
   font-style: italic;
+  // font-display: swap;
 }
 
 @font-face {
@@ -24,4 +26,5 @@
   src: local("Lato"), url(../../fonts/Lato/Lato-Bold.ttf) format("truetype");
   font-weight: bold;
   font-style: normal;
+  // font-display: swap;
 }
