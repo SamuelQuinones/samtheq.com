@@ -7,6 +7,7 @@ const About: FC = () => {
       <STQHead
         title="About"
         description="Learn a little bit about Samuel Quinones"
+        flipOrder
       />
       <h1>About me</h1>
     </>

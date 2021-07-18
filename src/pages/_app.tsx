@@ -10,6 +10,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Navbar>
         <NavItem to="/">Home</NavItem>
         <NavItem to="/about">About</NavItem>
+        <NavItem to="/experience">Experience</NavItem>
       </Navbar>
       <Container style={{ paddingTop: "4rem" }} fluid="md">
         <Component {...pageProps} />
