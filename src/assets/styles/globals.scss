@@ -2,14 +2,14 @@
 @import "font-face";
 // variables
 @import "variables";
-// personal overrides
-@import "stq-bootstrap/override";
-// all of bootstrap - needed for changes
-@import "~bootstrap/scss/bootstrap";
+// Tailwind
+@import "Tailwind";
+// components
+@import "components";
 
 html,
 body {
-  color: $light;
+  color: white;
   font-family: Montserrat, Roboto, Lato, -apple-system, BlinkMacSystemFont,
     Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
     sans-serif;

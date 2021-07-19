@@ -5,7 +5,7 @@ export type ActiveLinkProps = LinkProps & {
   activeClassName: string;
 };
 
-export type ItemProps = Omit<LinkProps, "href"> & {
+export type ItemProps = Omit<LinkProps, "href" | "passHref"> & {
   to: string;
 };
 

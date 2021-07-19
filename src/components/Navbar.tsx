@@ -1,31 +1,57 @@
-import { FC } from "react";
-import BootNav from "react-bootstrap/Nav";
-import BootNavbar from "react-bootstrap/Navbar";
+/* eslint-disable @next/next/no-img-element */
+import { FC, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import useOutsideClick from "src/hooks/useOutsideClick";
 
 const Navbar: FC = ({ children }) => {
+  const [open, setOpen] = useState(false);
+  const NAV_REF = useRef<HTMLElement>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const hideNavbar = () => {
+      setOpen(false);
+    };
+    router.events.on("routeChangeStart", hideNavbar);
+    return () => {
+      router.events.off("routeChangeStart", hideNavbar);
+    };
+  }, [router.events]);
+
+  useOutsideClick(NAV_REF, () => setOpen(false));
+
   return (
-    <BootNavbar
-      className="shadow-sm"
-      collapseOnSelect
-      expand="sm"
-      fixed="top"
-      variant="dark"
-      bg="secondary"
+    <nav
+      ref={NAV_REF}
+      className="navbar sm:flex sm:justify-between fixed w-full top-0 left-0 right-0 sm:px-4 sm:py-3 shadow-md bg-secondary"
     >
-      <BootNavbar.Brand href="#">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          alt="SamTheQ favicon"
-          className="d-inline-block align-top"
-          src="/favicon.ico"
-          height="32px"
-        />
-      </BootNavbar.Brand>
-      <BootNavbar.Toggle aria-controls="samtheq-navbar" />
-      <BootNavbar.Collapse id="samtheq-navbar">
-        <BootNav>{children}</BootNav>
-      </BootNavbar.Collapse>
-    </BootNavbar>
+      <div className="flex items-center justify-between px-4 py-3 sm:p-0">
+        {/* Logo */}
+        <div>
+          <img src="/favicon.ico" className="h-8" alt="SamTheQ Logo" />
+        </div>
+        {/* Toggle Button */}
+        <div className="sm:hidden flex">
+          <button onClick={() => setOpen(!open)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      {/* Content */}
+      <div className={`${open ? "block" : "hidden"} px-2 py-2 sm:flex sm:p-0`}>
+        {children}
+      </div>
+    </nav>
   );
 };
 

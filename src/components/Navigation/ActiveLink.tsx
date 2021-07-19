@@ -11,14 +11,16 @@ const ActiveLink: FC<ActiveLinkProps> = ({
   const child = Children.only(children);
   const childClassName = (child as ReactElement).props.className || "";
 
-  const className =
-    asPath === props.href || asPath === props.as
-      ? `${childClassName} ${activeClassName}`.trim()
-      : childClassName;
+  const isActive = asPath === props.href || asPath === props.as;
+
+  const className = isActive
+    ? `${childClassName} ${activeClassName}`.trim()
+    : childClassName;
 
   return (
     <Link {...props}>
       {cloneElement(child as ReactElement, {
+        "aria-current": isActive ? "page" : undefined,
         className: className || null,
       })}
     </Link>
