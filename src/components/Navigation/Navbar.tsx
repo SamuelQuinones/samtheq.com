@@ -30,12 +30,13 @@ const Navbar: FC = ({ children }) => {
         <div>
           <img src="/favicon.ico" className="h-8" alt="SamTheQ Logo" />
         </div>
+        <div className="block sm:hidden">SamTheQ</div>
         {/* Toggle Button */}
         <div className="sm:hidden flex">
           <button onClick={() => setOpen(!open)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="h-7 w-7"
               fill="currentColor"
               viewBox="0 0 16 16"
             >
