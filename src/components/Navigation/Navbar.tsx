@@ -1,29 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
 import { FC, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import useOutsideClick from "src/hooks/useOutsideClick";
+import useOutsideClick from "@hooks/useOutsideClick";
 
 const Navbar: FC = ({ children }) => {
   const [open, setOpen] = useState(false);
   const NAV_REF = useRef<HTMLElement>(null);
   const router = useRouter();
 
+  const hideNavbar = () => setOpen(false);
+
   useEffect(() => {
-    const hideNavbar = () => {
-      setOpen(false);
-    };
     router.events.on("routeChangeStart", hideNavbar);
     return () => {
       router.events.off("routeChangeStart", hideNavbar);
     };
   }, [router.events]);
 
-  useOutsideClick(NAV_REF, () => setOpen(false));
+  useOutsideClick(NAV_REF, hideNavbar);
 
   return (
     <nav
       ref={NAV_REF}
-      className="navbar sm:flex sm:justify-between fixed w-full top-0 left-0 right-0 sm:px-4 sm:py-3 shadow-md bg-secondary"
+      className="navbar sm:flex sm:justify-between fixed w-full top-0 left-0 right-0 sm:px-4 sm:py-3 shadow-md bg-gray-900"
+      style={{ zIndex: 9999999 }}
     >
       <div className="flex items-center justify-between px-4 py-3 sm:p-0">
         {/* Logo */}

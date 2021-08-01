@@ -9,7 +9,7 @@ const About: FC = () => {
         description="Learn a little bit about Samuel Quinones"
         flipOrder
       />
-      <h1>About me</h1>
+      <h1>About Me</h1>
     </>
   );
 };

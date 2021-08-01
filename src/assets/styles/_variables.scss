@@ -1,5 +1,9 @@
 $stq-bg-base: #6c757d;
-$stq-body-color: lighten($stq-bg-base, 10%);
+$stq-body-color: #371b36;
 $stq-footer-color: lighten($stq-bg-base, 8%);
-$primary: #4d4a73;
-$secondary: #007277;
+
+$primary: #e63462;
+
+:root {
+  --stq-primary: #{$primary};
+}

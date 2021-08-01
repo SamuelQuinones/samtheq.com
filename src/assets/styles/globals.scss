@@ -1,9 +1,13 @@
 // Fonts
 @import "font-face";
+
+// Tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 // variables
 @import "variables";
-// Tailwind
-@import "Tailwind";
 // Utilities
 @import "headings";
 // components
