@@ -1,5 +1,5 @@
 import { FC } from "react";
-import STQHead from "@components/Head";
+import STQHead from "@modules/Layout/Head";
 
 const About: FC = () => {
   return (

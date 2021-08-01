@@ -1,4 +1,9 @@
-import { JobItem } from "./types";
+export type JobItem = {
+  title: string;
+  company: string;
+  description: string;
+  time: string;
+};
 
 const WORK: JobItem[] = [
   {

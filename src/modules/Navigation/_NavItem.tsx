@@ -1,5 +1,5 @@
 import { FC } from "react";
-import ActiveLink from "./ActiveLink";
+import ActiveLink from "./_ActiveLink";
 import { ItemProps } from "./Helper";
 
 const NavItem: FC<ItemProps> = ({ children, to, ...props }) => {

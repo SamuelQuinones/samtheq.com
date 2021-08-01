@@ -1,5 +1,5 @@
 import { FC } from "react";
-import STQHead from "@components/Head";
+import STQHead from "@modules/Layout/Head";
 import { MetaData } from "@util/Config";
 
 const Home: FC = () => {

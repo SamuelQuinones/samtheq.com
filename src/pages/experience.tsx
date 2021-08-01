@@ -1,9 +1,9 @@
 import "react-vertical-timeline-component/style.min.css";
 import { FC } from "react";
 import { InferGetStaticPropsType } from "next";
-import STQHead from "@components/Head";
+import STQHead from "@modules/Layout/Head";
 import { VerticalTimeline } from "react-vertical-timeline-component";
-import { EducationNode, WorkNode } from "src/modules/Experience";
+import { EducationNode, WorkNode } from "@modules/Experience";
 
 export const getStaticProps = async () => {
   const { EDUCATION, WORK } = await import("../modules/Experience");

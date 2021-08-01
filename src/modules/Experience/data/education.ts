@@ -1,4 +1,10 @@
-import { EducationItem } from "./types";
+type EducationItem = {
+  university: string;
+  major: string;
+  degree: string;
+  description: string;
+  time: string;
+};
 
 const EDUCATION: EducationItem[] = [
   {

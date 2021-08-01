@@ -1,6 +1,6 @@
 import "../assets/styles/globals.scss";
 import type { AppProps } from "next/app";
-import SiteLayout from "@components/Layout";
+import SiteLayout from "@modules/Layout/Page";
 import useHashChange from "@hooks/useHashChange";
 
 function MyApp({ Component, pageProps }: AppProps) {
