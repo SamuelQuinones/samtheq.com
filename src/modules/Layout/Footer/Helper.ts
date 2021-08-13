@@ -8,6 +8,10 @@ export type FooterIconProps = {
 
 export const icons: Array<FooterIconProps> = [
   { prefix: "fab", name: "youtube", url: "http://corporalsaturn.com" },
-  { prefix: "fab", name: "twitter", url: "https://github.com/SamuelQuinones" },
-  { prefix: "fab", name: "github", url: "https://twitter.com/SamuelQuinones1" },
+  {
+    prefix: "fab",
+    name: "twitter",
+    url: "https://twitter.com/SamuelQuinones1",
+  },
+  { prefix: "fab", name: "github", url: "https://github.com/SamuelQuinones" },
 ];
