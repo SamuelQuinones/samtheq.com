@@ -5,12 +5,17 @@ import { MetaData } from "@util/Config";
 type HeadProps = {
   title: string;
   flipOrder?: boolean;
-  description: string;
+  description?: string;
   slug?: string;
   // hideNavbar?: boolean;
 };
 
-const STQHead: FC<HeadProps> = ({ title, flipOrder, description, slug }) => {
+const STQHead: FC<HeadProps> = ({
+  title,
+  flipOrder,
+  description = MetaData.description,
+  slug,
+}) => {
   const titleString = flipOrder
     ? `${MetaData.title} ${title}`
     : `${title} ${MetaData.title}`;
