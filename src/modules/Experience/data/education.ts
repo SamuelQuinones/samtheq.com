@@ -1,10 +1,4 @@
-type EducationItem = {
-  university: string;
-  major: string;
-  degree: string;
-  description: string;
-  time: string;
-};
+import { EducationItem } from "../types";
 
 const EDUCATION: EducationItem[] = [
   {
@@ -12,7 +6,7 @@ const EDUCATION: EducationItem[] = [
     major: "Cinema & Photography",
     university: "Ithaca College",
     time: "August 2015 - May 2019",
-    description: "sasds",
+    description: ["sasds"],
   },
 ];
 export default EDUCATION;

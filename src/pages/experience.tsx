@@ -1,27 +1,10 @@
 import "react-vertical-timeline-component/style.min.css";
 import { FC } from "react";
-import { InferGetStaticPropsType } from "next";
 import STQHead from "@modules/Layout/Head";
 import { VerticalTimeline } from "react-vertical-timeline-component";
-import { EducationNode, WorkNode } from "@modules/Experience";
+import { EducationNode, WorkNode, EDUCATION, WORK } from "@modules/Experience";
 
-export const getStaticProps = async () => {
-  const { EDUCATION, WORK } = await import("../modules/Experience");
-  // const education = (await import("../modules/Experience/education")).default;
-  // const work = (await import("../modules/Experience/work")).default;
-
-  return {
-    props: {
-      education: EDUCATION,
-      work: WORK,
-    },
-  };
-};
-
-const Experience: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
-  education,
-  work,
-}) => {
+const Experience: FC = () => {
   return (
     <>
       <STQHead
@@ -36,10 +19,10 @@ const Experience: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
       {/* Experience */}
       {/* TODO: Fix overflow on mobile */}
       <VerticalTimeline>
-        {work.map((item) => (
+        {WORK.map((item) => (
           <WorkNode key={item.company} {...item} />
         ))}
-        {education.map((item) => (
+        {EDUCATION.map((item) => (
           <EducationNode key={item.university} {...item} />
         ))}
       </VerticalTimeline>
