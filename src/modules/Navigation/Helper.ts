@@ -3,9 +3,13 @@ import { useRouter } from "next/router";
 
 export type ActiveLinkProps = LinkProps & {
   activeClassName: string;
+  switchClasses?: { isActive: string; notActive: string };
 };
 
-export type ItemProps = Omit<LinkProps, "href" | "passHref"> & {
+export type ItemProps = Omit<
+  LinkProps,
+  "href" | "passHref" | "switchClasses"
+> & {
   to: string;
 };
 
