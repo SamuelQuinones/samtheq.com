@@ -22,14 +22,16 @@ const Button = forwardRef<any, Props>(
     const classes = classNames(
       "btn",
       variant && `btn-${variant}`,
-      "transition-color",
-      disabled,
+      disabled && "disabled",
       className
     );
 
     if (props.href !== undefined) {
+      const special = disabled
+        ? { "aria-disabled": true, tabIndex: -1 }
+        : { "aria-disabled": props["aria-disabled"], tabIndex: props.tabIndex };
       return (
-        <a {...props} className={classes} ref={ref}>
+        <a {...special} {...props} className={classes} ref={ref}>
           {children}
         </a>
       );

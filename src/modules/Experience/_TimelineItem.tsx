@@ -35,7 +35,7 @@ export const WorkNode: FC<JobItem> = ({
   return (
     <VerticalTimelineElement
       className="vertical-timeline-element--work"
-      contentStyle={{ background: "var(--stq-primary)", color: "#fff" }}
+      contentStyle={{ background: "rgb(var(--stq-primary))", color: "#fff" }}
       contentArrowStyle={{ borderRight: "7px solid #E63462" }}
       date={time}
     >
