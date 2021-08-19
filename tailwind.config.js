@@ -1,3 +1,19 @@
+/**
+ * used to help generate opacity classes for custom colors
+ * @param {string} color color key: primary, secondary, etc.
+ */
+const opacityHelper = (color) => {
+  return ({ opacityVariable, opacityValue }) => {
+    if (opacityValue !== undefined) {
+      return `rgba(var(--stq-${color}), ${opacityValue})`;
+    }
+    if (opacityVariable !== undefined) {
+      return `rgba(var(--stq-${color}), var(${opacityVariable}, 1))`;
+    }
+    return `rgb(var(--stq-${color}))`;
+  };
+};
+
 module.exports = {
   purge: ["./src/pages/**/*.tsx", "./src/components/**/*.tsx"],
   darkMode: false, // or 'media' or 'class'
@@ -23,14 +39,16 @@ module.exports = {
         ],
       },
       colors: {
-        primary: "var(--stq-primary)",
+        primary: opacityHelper("primary"),
+        secondary: opacityHelper("secondary"),
       },
     },
   },
   variants: {
     extend: {
       textColor: ["active"],
-      baclgroundColor: ["active"],
+      backgroundColor: ["active"],
+      borderColor: ["active"],
     },
   },
   plugins: [],

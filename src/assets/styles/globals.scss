@@ -6,18 +6,10 @@
 // Tailwind
 @tailwind base;
 @tailwind components;
+@import "components";
 @tailwind utilities;
-
 // Utilities
 @import "headings";
-// components
-@import "components";
-
-#__next {
-  display: flex !important;
-  flex-direction: column !important;
-  min-height: 100vh;
-}
 
 html,
 body {
@@ -33,4 +25,10 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+#__next {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 100vh;
 }
