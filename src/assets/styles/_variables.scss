@@ -1,7 +1,27 @@
-$stq-body-color: #371b36;
+// chosen colors
+$black: #000;
+$white: #fff;
+$paradise-pink: #e63462;
+$dark-purple: #371b36;
+$cerulean-blue: #2b59c3;
+$steel-blue: #548bac;
+$silver: #cacaca;
 
-$primary: #e63462;
+// Misc
+$stq-body-color: $dark-purple;
+
+// theme based assignments
+$primary: $paradise-pink;
+// $secondary: #E9C46A;
+$secondary: $silver;
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+);
 
 :root {
-  --stq-primary: #{$primary};
+  @each $color, $value in $theme-colors {
+    --stq-#{$color}: #{red($value)}, #{green($value)}, #{blue($value)};
+  }
 }
