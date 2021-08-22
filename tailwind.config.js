@@ -14,6 +14,14 @@ const opacityHelper = (color) => {
   };
 };
 
+const createLighterDarker = (color) => {
+  return {
+    lighter: opacityHelper(`${color}-lighter`),
+    DEFAULT: opacityHelper(color),
+    darker: opacityHelper(`${color}-darker`),
+  };
+};
+
 module.exports = {
   purge: ["./src/pages/**/*.tsx", "./src/components/**/*.tsx"],
   darkMode: false, // or 'media' or 'class'
@@ -39,8 +47,8 @@ module.exports = {
         ],
       },
       colors: {
-        primary: opacityHelper("primary"),
-        secondary: opacityHelper("secondary"),
+        primary: createLighterDarker("primary"),
+        secondary: createLighterDarker("secondary"),
       },
     },
   },
