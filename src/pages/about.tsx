@@ -1,16 +1,16 @@
 import { FC } from "react";
-import STQHead from "@modules/Layout/Head";
+import PageLayout from "@modules/Layout/Page";
 
 const About: FC = () => {
   return (
-    <>
-      <STQHead
-        title="About"
-        description="Learn a little bit about Samuel Quinones"
-        flipOrder
-      />
+    <PageLayout
+      title="About"
+      description="Learn a little bit about Samuel Quinones"
+      flipOrder
+      underConstruction
+    >
       <h1>About Me</h1>
-    </>
+    </PageLayout>
   );
 };
 

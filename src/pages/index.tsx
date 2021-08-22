@@ -1,12 +1,16 @@
 import { FC } from "react";
-import STQHead from "@modules/Layout/Head";
+import PageLayout from "@modules/Layout/Page";
 
 const Home: FC = () => {
   return (
-    <>
-      <STQHead title="Home" flipOrder />
-      <h1 className="text-center">Hello World!</h1>
-    </>
+    <PageLayout
+      title="Home"
+      flipOrder
+      sourceFile="/blob/main/src/pages"
+      underConstruction
+    >
+      <h1>Hello World</h1>
+    </PageLayout>
   );
 };
 

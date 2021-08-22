@@ -20,7 +20,7 @@ export const EducationNode: FC<EducationItem> = ({
       <h5 className="vertical-timeline-element-subtitle">{degree}</h5>
       <h5 className="vertical-timeline-element-subtitle">{major}</h5>
       {description.map((paragraph, index) => (
-        <p key={`education${index}`}>{paragraph}</p>
+        <p key={`education-${index}-desc`}>{paragraph}</p>
       ))}
     </VerticalTimelineElement>
   );
@@ -42,7 +42,7 @@ export const WorkNode: FC<JobItem> = ({
       <h4 className="vertical-timeline-element-title">{title}</h4>
       <h5 className="vertical-timeline-element-subtitle">{company}</h5>
       {description.map((paragraph, index) => (
-        <p key={`work${index}`}>{paragraph}</p>
+        <p key={`work-${index}-desc`}>{paragraph}</p>
       ))}
     </VerticalTimelineElement>
   );
