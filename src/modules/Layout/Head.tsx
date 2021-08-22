@@ -2,7 +2,7 @@ import { FC } from "react";
 import NextHead from "next/head";
 import { MetaData } from "@util/Config";
 
-type HeadProps = {
+export type HeadProps = {
   title: string;
   flipOrder?: boolean;
   description?: string;

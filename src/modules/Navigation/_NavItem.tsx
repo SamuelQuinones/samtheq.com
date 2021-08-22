@@ -8,7 +8,7 @@ const NavItem: FC<ItemProps> = ({ children, to, ...props }) => {
 
   return (
     <ActiveLink
-      activeClassName="font-bold text-opacity-100"
+      activeClassName="font-bold"
       href={to}
       switchClasses={{
         isActive: "text-opacity-100",
@@ -18,6 +18,7 @@ const NavItem: FC<ItemProps> = ({ children, to, ...props }) => {
       passHref
     >
       <a
+        title={to}
         className={`font-lato flex px-2 py-2 md:py-1 text-white rounded transition-colors ${focusClasses}`}
       >
         {children}

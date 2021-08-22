@@ -6,7 +6,7 @@ const FooterIcon: FC<FooterIconProps> = ({ name, prefix, url }) => {
   return url ? (
     <a
       href={url}
-      className="flex text-white active:text-gray-300 focus:text-gray-300 hover:text-gray-300"
+      className="flex text-white active:text-gray-300 focus:text-gray-300 hover:text-gray-300 transition-colors duration-200"
       title={name}
       target="_blank"
       rel="noopener noreferrer"

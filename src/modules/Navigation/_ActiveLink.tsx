@@ -16,11 +16,9 @@ const ActiveLink: FC<ActiveLinkProps> = ({
   const isActive = asPath === props.href || asPath === props.as;
 
   const cn = classNames(
-    {
-      [activeClassName]: isActive,
-      [`${switchClasses?.isActive}`]: isActive && switchClasses?.isActive,
-      [`${switchClasses?.notActive}`]: !isActive && switchClasses?.notActive,
-    },
+    switchClasses?.isActive && isActive && switchClasses.isActive,
+    switchClasses?.notActive && !isActive && switchClasses.notActive,
+    isActive && activeClassName,
     childClassName
   );
 
