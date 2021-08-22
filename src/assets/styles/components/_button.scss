@@ -1,3 +1,38 @@
+$button-text: (
+  "primary": "text-white",
+  "secondary": "text-black",
+);
+
+// @mixin button-variant-lighten($theme-color, $color-class) {
+//   @apply #{$color-class} bg-#{$theme-color} border-#{$theme-color} hover:bg-#{$theme-color}-lighter hover:border-#{$theme-color}-lighter focus:ring-#{$theme-color} focus:ring-opacity-60 focus:border-#{$theme-color}-lighter;
+//   &:active,
+//   &.active {
+//     @apply #{$color-class} bg-#{$theme-color}-lighter border-#{$theme-color}-lighter focus:ring-#{$theme-color} focus:ring-opacity-60;
+//   }
+// }
+
+// @mixin button-variant-darken($theme-color, $color-class) {
+//   @apply bg-#{$theme-color} border-#{theme-color} #{$color-class} hover:bg-#{$theme-color}-darker hover:border-#{$theme-color}-darker focus:ring-#{$theme-color} focus:ring-opacity-60 focus:border-#{$theme-color}-darker;
+//   &:active,
+//   &.active {
+//     @apply #{$color-class} bg-#{$theme-color}-darker border-#{$theme-color}-darker focus:ring-#{$theme-color} focus:ring-opacity-60;
+//   }
+// }
+
+// @mixin button-variant-outline($theme-color, $color-class) {
+//   @apply text-#{$theme-color} border-#{$theme-color} hover:bg-#{$theme-color} hover:#{$color-class} focus:ring-#{$theme-color} focus:ring-opacity-60;
+//   &:active,
+//   &.active {
+//     background-color: $value;
+//     border-color: $value;
+//     @apply #{$color-class} bg-#{$theme-color} border-#{$theme-color} focus:ring-#{$theme-color} focus:ring-opacity-60 focus:bg-#{$theme-color} focus:#{$color-class};
+//   }
+//   &:disabled,
+//   &.disabled {
+//     background-color: transparent;
+//   }
+// }
+
 .btn {
   text-align: center;
   cursor: pointer;
@@ -19,22 +54,34 @@
   @apply inline-block px-3 rounded-lg focus:ring focus:ring-opacity-60 focus:outline-none;
 
   @each $color, $value in $theme-colors {
+    //* get tailwind text class
+    $_temp-color: map-get(
+      $map: $button-text,
+      $key: $color,
+    );
+    //* default is white
+    @if not $_temp-color {
+      $_temp-color: "text-white";
+    }
     &-#{$color} {
       background-color: $value;
       border-color: $value;
-      @apply focus:ring-#{$color} focus:ring-opacity-60;
+      @apply #{$_temp-color} hover:bg-#{$color}-darker hover:border-#{$color}-darker focus:ring-#{$color} focus:ring-opacity-60 focus:border-#{$color}-darker;
+      &:active,
+      &.active {
+        @apply #{$_temp-color} bg-#{$color}-darker border-#{$color}-darker focus:ring-#{$color} focus:ring-opacity-60;
+      }
     }
     // * Outline variants
     &-outline-#{$color} {
       color: $value;
       border-color: $value;
-      @apply hover:bg-#{$color} hover:text-white focus:ring-#{$color} focus:ring-opacity-60;
+      @apply hover:bg-#{$color} hover:#{$_temp-color} focus:ring-#{$color} focus:ring-opacity-60;
       &:active,
       &.active {
-        color: white;
         background-color: $value;
         border-color: $value;
-        @apply focus:ring-#{$color} focus:ring-opacity-60 focus:bg-#{$color} focus:text-white;
+        @apply #{$_temp-color} focus:ring-#{$color} focus:ring-opacity-60 focus:bg-#{$color} focus:#{$_temp-color};
       }
       &:disabled,
       &.disabled {

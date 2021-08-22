@@ -6,22 +6,37 @@ $dark-purple: #371b36;
 $cerulean-blue: #2b59c3;
 $steel-blue: #548bac;
 $silver: #cacaca;
+$gray-100: #f3f4f6;
 
 // Misc
 $stq-body-color: $dark-purple;
 
 // theme based assignments
 $primary: $paradise-pink;
-// $secondary: #E9C46A;
-$secondary: $silver;
+$secondary: $gray-100;
 
 $theme-colors: (
   "primary": $primary,
   "secondary": $secondary,
 );
 
+$theme-shade-tint: ();
+@each $theme, $hex in $theme-colors {
+  $theme-shade-tint: map-merge(
+    $map1: $theme-shade-tint,
+    $map2: (
+      #{$theme}-lighter: tint-color($hex, 15%),
+      #{$theme}-darker: shade-color($hex, 15%),
+    ),
+  );
+}
+
 :root {
   @each $color, $value in $theme-colors {
+    --stq-#{$color}: #{red($value)}, #{green($value)}, #{blue($value)};
+  }
+
+  @each $color, $value in $theme-shade-tint {
     --stq-#{$color}: #{red($value)}, #{green($value)}, #{blue($value)};
   }
 }
