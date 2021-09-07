@@ -1,7 +1,7 @@
-import { FC } from "react";
 import PageLayout from "@modules/Layout/Page";
+import { PageView } from "@util/Types";
 
-const About: FC = () => {
+const About: PageView = () => {
   return (
     <PageLayout
       title="About"

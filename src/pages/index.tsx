@@ -1,14 +1,9 @@
-import { FC } from "react";
 import PageLayout from "@modules/Layout/Page";
+import { PageView } from "@util/Types";
 
-const Home: FC = () => {
+const Home: PageView = () => {
   return (
-    <PageLayout
-      title="Home"
-      flipOrder
-      sourceFile="/blob/main/src/pages"
-      underConstruction
-    >
+    <PageLayout underConstruction title="Home" flipOrder>
       <h1>Hello World</h1>
     </PageLayout>
   );

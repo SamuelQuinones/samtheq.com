@@ -1,14 +1,13 @@
 import "react-vertical-timeline-component/style.min.css";
-import { FC } from "react";
+import { PageView } from "@util/Types";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import { EducationNode, WorkNode, EDUCATION, WORK } from "@modules/Experience";
 import PageLayout from "@modules/Layout/Page";
 
-const Experience: FC = () => {
+const Experience: PageView = () => {
   return (
     <PageLayout
       title="Experience"
-      // containerClasses="overflow-x-hidden md:overflow-x-auto"
       description="A page dedicated to my work experience, resume is also available for download"
     >
       <h1 className="text-center mb-2">Experience Timeline</h1>
