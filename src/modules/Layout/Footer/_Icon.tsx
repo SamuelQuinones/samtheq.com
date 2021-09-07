@@ -1,8 +1,8 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FooterIconProps } from "./Helper";
 
-const FooterIcon: FC<FooterIconProps> = ({ name, prefix, url }) => {
+const FooterIcon: FC<FooterIconProps> = memo(({ name, prefix, url }) => {
   return url ? (
     <a
       href={url}
@@ -28,6 +28,7 @@ const FooterIcon: FC<FooterIconProps> = ({ name, prefix, url }) => {
       />
     </div>
   );
-};
+});
 
+FooterIcon.displayName = "FooterIcon";
 export default FooterIcon;
