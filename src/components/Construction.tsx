@@ -1,7 +1,11 @@
 import { FC } from "react";
 import Button from "./Button";
 
-const UnderConstruction: FC<{ sourceFile: string }> = ({ sourceFile }) => {
+// type ConstructionProps = {
+//   sourceFile
+// }
+
+const UnderConstruction: FC<{ sourceFile?: string }> = ({ sourceFile }) => {
   return (
     <div className="text-center text-yellow-600">
       <svg
@@ -25,19 +29,21 @@ const UnderConstruction: FC<{ sourceFile: string }> = ({ sourceFile }) => {
       >
         Under Contstruction
       </h1>
-      <div>
-        <Button
-          className="m-1"
-          href={`https://github.com/SamuelQuinones/samtheq.com${sourceFile}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View Source
-        </Button>
-        <Button className="m-1" variant="secondary">
-          Hi
-        </Button>
-      </div>
+      {sourceFile && (
+        <div>
+          <Button
+            className="m-1"
+            href={sourceFile}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Source
+          </Button>
+          <Button className="m-1" variant="secondary">
+            Hi
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

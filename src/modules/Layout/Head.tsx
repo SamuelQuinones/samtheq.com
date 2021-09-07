@@ -18,7 +18,7 @@ const STQHead: FC<HeadProps> = ({
 }) => {
   const titleString = flipOrder
     ? `${MetaData.title} ${title}`
-    : `${title} ${MetaData.title}`;
+    : `${title} | ${MetaData.title}`;
 
   const path = title.toLowerCase() === "home" ? "" : title.toLowerCase();
 
@@ -28,6 +28,7 @@ const STQHead: FC<HeadProps> = ({
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="icon" href="/favicon.ico" />
       <meta name="description" content={description} />
+      <meta name="author" content={MetaData.social.author} />
       <meta property="og:title" content={titleString} />
       <meta property="og:description" content={description} />
       <meta property="og:type" content="website" />
@@ -44,6 +45,7 @@ const STQHead: FC<HeadProps> = ({
       />
       <meta property="twitter:card" content="summary" />
       <meta property="twitter:creator" content={MetaData.social.twitter} />
+      <meta property="twitter:site" content={MetaData.social.twitter} />
       <meta property="twitter:title" content={titleString} />
       <meta property="twitter:description" content={description} />
       <meta

@@ -1,11 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import useOutsideClick from "@hooks/useOutsideClick";
+import { useRouter } from "next/router";
 
 const Navbar: FC = ({ children }) => {
   const [open, setOpen] = useState(false);
   const NAV_REF = useRef<HTMLElement>(null);
-  useOutsideClick(NAV_REF, () => setOpen(false));
+  const router = useRouter();
+
+  const hideNavbar = () => setOpen(false);
+
+  useEffect(() => {
+    router.events.on("routeChangeStart", hideNavbar);
+    return () => {
+      router.events.off("routeChangeStart", hideNavbar);
+    };
+  }, [router.events]);
+
+  useOutsideClick(NAV_REF, hideNavbar);
 
   return (
     <nav
