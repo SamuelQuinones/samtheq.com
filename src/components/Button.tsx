@@ -4,6 +4,7 @@ import { useButtonProps } from "@restart/ui/Button";
 
 type ButtonProps = ComponentPropsWithoutRef<"button"> & {
   as?: keyof JSX.IntrinsicElements;
+  shape?: "pill" | "square";
   disabled?: boolean;
   href?: string;
   target?: string;
@@ -12,7 +13,10 @@ type ButtonProps = ComponentPropsWithoutRef<"button"> & {
 };
 
 const Button = forwardRef<HTMLElement, ButtonProps>(
-  ({ as: asProp, disabled, variant = "primary", className, ...rest }, ref) => {
+  (
+    { as: asProp, disabled, variant = "primary", className, shape, ...rest },
+    ref
+  ) => {
     const [buttonProps, { tagName: Tag }] = useButtonProps({
       tagName: asProp,
       disabled,
@@ -21,7 +25,9 @@ const Button = forwardRef<HTMLElement, ButtonProps>(
     const classes = classNames(
       "btn",
       variant && `btn-${variant}`,
-      disabled && "disabled",
+      rest.href && disabled && "disabled",
+      shape === "pill" && "rounded-full",
+      shape === "square" && "rounded-none",
       className
     );
 
