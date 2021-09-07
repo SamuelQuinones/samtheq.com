@@ -1,3 +1,6 @@
+/**
+ * @type {import('next').NextConfig}
+ */
 module.exports = {
   /** By default Next.js will add the `x-powered-by` header. This will opt-out of it */
   poweredByHeader: false,
