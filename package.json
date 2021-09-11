@@ -2,6 +2,7 @@
   "name": "samtheq-com",
   "version": "1.0.0",
   "author": "Samuel Quiñones",
+  "private": true,
   "description": "Samuel Quinones' Website made in React and NextJS",
   "repository": {
     "type": "git",
@@ -43,7 +44,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-vertical-timeline-component": "3.3.3",
-    "sass": "1.38.2"
+    "sass": "1.39.2"
   },
   "devDependencies": {
     "@types/node": "14.17.9",
@@ -52,21 +53,18 @@
     "@types/react-vertical-timeline-component": "3.0.1",
     "@typescript-eslint/eslint-plugin": "4.31.0",
     "@typescript-eslint/parser": "4.31.0",
-    "autoprefixer": "10.3.3",
+    "autoprefixer": "10.3.4",
     "cross-env": "7.0.3",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
     "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-jsx-a11y": "6.4.1",
     "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-react": "7.25.1",
-    "eslint-plugin-react-hooks": "4.2.0",
     "postcss": "8.3.6",
-    "prettier": "2.3.2",
+    "prettier": "2.4.0",
     "serve": "12.0.0",
     "stylelint": "13.13.1",
     "stylelint-config-recommended": "5.0.0",
-    "tailwindcss": "2.2.9",
+    "tailwindcss": "2.2.15",
     "typescript": "4.3.5"
   }
 }
