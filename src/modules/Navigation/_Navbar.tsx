@@ -2,6 +2,7 @@
 import { FC, useEffect, useRef, useState } from "react";
 import useOutsideClick from "@hooks/useOutsideClick";
 import { useRouter } from "next/router";
+import classNames from "classnames";
 
 const Navbar: FC = ({ children }) => {
   const [open, setOpen] = useState(false);
@@ -19,6 +20,18 @@ const Navbar: FC = ({ children }) => {
 
   useOutsideClick(NAV_REF, hideNavbar);
 
+  const commonBurgerClasses = classNames(
+    "h-[0.1875rem]",
+    "rounded-full",
+    "w-full",
+    "relative",
+    "bg-white",
+    "transform",
+    "duration-300",
+    "ease-in-out",
+    !open && "rotate-0 translate-y-0 translate-x-0 opacity-1 scale-1"
+  );
+
   return (
     <nav
       ref={NAV_REF}
@@ -33,22 +46,32 @@ const Navbar: FC = ({ children }) => {
           {/* </div> */}
           <div className="flex sm:hidden">SamTheQ</div>
           {/* Toggle Button */}
-          <div className="sm:hidden flex">
+          <div className="flex sm:hidden">
             <button
-              className="focus:ring focus:ring-opacity-60 focus:outline-none rounded-sm transition-shadow"
+              className="h-8 w-8 flex flex-col justify-around items-center rounded-sm transition-shadow focus:ring focus:ring-opacity-60 focus:outline-none"
               onClick={() => setOpen(!open)}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-7 w-7"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
-                />
-              </svg>
+              <span
+                className={classNames(
+                  commonBurgerClasses,
+                  "transition-transform",
+                  open && "rotate-45 translate-y-2.5"
+                )}
+              />
+              <span
+                className={classNames(
+                  commonBurgerClasses,
+                  "transition-slide",
+                  open && "scale-90 opacity-0"
+                )}
+              />
+              <span
+                className={classNames(
+                  commonBurgerClasses,
+                  "transition-transform",
+                  open && "-rotate-45 translate-y-[-0.7rem]"
+                )}
+              />
             </button>
           </div>
         </div>
