@@ -23,7 +23,12 @@ const createLighterDarker = (color) => {
 };
 
 module.exports = {
-  purge: ["./src/pages/**/*.tsx", "./src/components/**/*.tsx"],
+  mode: "jit",
+  purge: [
+    "./src/pages/**/*.tsx",
+    "./src/components/**/*.tsx",
+    "./src/modules/**/*.tsx",
+  ],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -49,6 +54,9 @@ module.exports = {
       colors: {
         primary: createLighterDarker("primary"),
         secondary: createLighterDarker("secondary"),
+      },
+      transitionProperty: {
+        slide: "opacity, transform",
       },
     },
   },
