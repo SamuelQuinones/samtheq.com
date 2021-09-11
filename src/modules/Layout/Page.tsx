@@ -22,12 +22,17 @@ const PageLayout: FC<PageProps> = ({
     <>
       <STQHead {...head} />
       {underConstruction ? (
-        <div className="bs-container-md pt-16 flex-auto flex justify-center items-center">
+        <div
+          id="stq-page-content"
+          className="bs-container-md pt-16 flex-auto flex justify-center items-center"
+        >
           <UnderConstruction sourceFile={pageSource} />
         </div>
       ) : (
         <>
-          <div className={cn}>{children}</div>
+          <div id="stq-page-content" className={cn}>
+            {children}
+          </div>
           <main className="flex-auto" />
         </>
       )}
