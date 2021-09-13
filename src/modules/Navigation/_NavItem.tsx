@@ -18,7 +18,6 @@ const NavItem: FC<ItemProps> = ({ children, to, ...props }) => {
       passHref
     >
       <a
-        title={to}
         className={`font-lato flex px-2 py-2 md:py-1 text-white rounded transition-colors ${focusClasses}`}
       >
         {children}

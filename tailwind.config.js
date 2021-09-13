@@ -55,9 +55,6 @@ module.exports = {
         primary: createLighterDarker("primary"),
         secondary: createLighterDarker("secondary"),
       },
-      transitionProperty: {
-        slide: "opacity, transform",
-      },
     },
   },
   variants: {

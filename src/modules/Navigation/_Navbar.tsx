@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { FC, useEffect, useRef, useState } from "react";
+import { useSpring, a } from "@react-spring/web";
 import useOutsideClick from "@hooks/useOutsideClick";
 import { useRouter } from "next/router";
 import classNames from "classnames";
@@ -8,6 +9,20 @@ const Navbar: FC = ({ children }) => {
   const [open, setOpen] = useState(false);
   const NAV_REF = useRef<HTMLElement>(null);
   const router = useRouter();
+
+  //* Helper to minimize redundant code
+  const useTopBottom = (multpilier: 1 | -1, translateY: number) => {
+    const translate = `translateY(${open ? multpilier * translateY : 0}rem)`;
+    const rotate = `rotate(${open ? multpilier * 45 : 0}deg)`;
+    return useSpring({
+      transform: `${translate} ${rotate}`,
+    });
+  };
+
+  const middle = useSpring({
+    transform: `scale(${open ? 0.5 : 1})`,
+    opacity: open ? 0 : 1,
+  });
 
   const hideNavbar = () => setOpen(false);
 
@@ -20,22 +35,18 @@ const Navbar: FC = ({ children }) => {
 
   useOutsideClick(NAV_REF, hideNavbar);
 
-  const commonBurgerClasses = classNames(
+  const burgerLine = classNames(
     "h-[0.1875rem]",
     "rounded-full",
     "w-full",
     "relative",
-    "bg-white",
-    "transform",
-    "duration-300",
-    "ease-in-out",
-    !open && "rotate-0 translate-y-0 translate-x-0 opacity-1 scale-1"
+    "bg-white"
   );
 
   return (
     <nav
       ref={NAV_REF}
-      className="navbar fixed w-full top-0 left-0 right-0 py-0 sm:py-2 shadow-md bg-gray-900"
+      className="navbar fixed w-full top-0 inset-x-0 py-0 sm:py-2 shadow-md bg-gray-900"
       style={{ zIndex: 9999 }}
     >
       <div className="bs-container-xl sm:flex sm:justify-between">
@@ -51,27 +62,9 @@ const Navbar: FC = ({ children }) => {
               className="h-8 w-8 flex flex-col justify-around items-center rounded-sm transition-shadow focus:ring focus:ring-opacity-60 focus:outline-none"
               onClick={() => setOpen(!open)}
             >
-              <span
-                className={classNames(
-                  commonBurgerClasses,
-                  "transition-transform",
-                  open && "rotate-45 translate-y-2.5"
-                )}
-              />
-              <span
-                className={classNames(
-                  commonBurgerClasses,
-                  "transition-slide",
-                  open && "scale-90 opacity-0"
-                )}
-              />
-              <span
-                className={classNames(
-                  commonBurgerClasses,
-                  "transition-transform",
-                  open && "-rotate-45 translate-y-[-0.7rem]"
-                )}
-              />
+              <a.span className={burgerLine} style={useTopBottom(1, 0.625)} />
+              <a.span className={burgerLine} style={middle} />
+              <a.span className={burgerLine} style={useTopBottom(-1, 0.7)} />
             </button>
           </div>
         </div>
