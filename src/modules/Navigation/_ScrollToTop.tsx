@@ -1,29 +1,22 @@
-import { useEffect, useState, MouseEvent, memo } from "react";
-import { useTransition, animated } from "@react-spring/web";
+//TODO: Look into switching the span tags with an svg parent and path children a-la https://codesandbox.io/s/framer-motion-side-menu-mx2rw?from-embed=&file=/src/MenuToggle.tsx
+
+import { useEffect, useState, memo } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "@components/Button";
 
-/**
- * A Button element that appears when the vertical offest exceeds 300px.
- *
- * Currently throws strict mode error
- *
- * @returns DOM element that when clicked, will smoothly scroll back to the top of the page.
- */
+/** A Button element that appears when the vertical offest exceeds 300px.*/
 const ScrollToTop = memo(() => {
   const [isVisible, setIsVisible] = useState(false);
-  const transition = useTransition(isVisible, {
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-  });
 
-  const scroll = (e: MouseEvent<HTMLElement>) => {
+  const scroll = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-    e.currentTarget.blur();
+    document.body.setAttribute("tabIndex", "-1");
+    document.body.focus();
+    document.body.removeAttribute("tabIndex");
   };
 
   useEffect(() => {
@@ -40,10 +33,21 @@ const ScrollToTop = memo(() => {
     };
   }, []);
 
-  return transition(
-    (style, item) =>
-      item && (
-        <animated.div style={style} className="fixed bottom-4 right-4">
+  return (
+    <AnimatePresence initial={false} exitBeforeEnter={true}>
+      {isVisible && (
+        <motion.div
+          className="fixed bottom-4 right-4"
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          exit={{
+            opacity: 0,
+          }}
+        >
           <Button
             onClick={scroll}
             variant="secondary"
@@ -52,8 +56,9 @@ const ScrollToTop = memo(() => {
           >
             <FontAwesomeIcon icon={["fas", "angle-up"]} size="2x" />
           </Button>
-        </animated.div>
-      )
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 });
 

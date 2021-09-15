@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { FC, useEffect, useRef, useState } from "react";
-import { useSpring, a } from "@react-spring/web";
+import { motion } from "framer-motion";
 import useOutsideClick from "@hooks/useOutsideClick";
 import { useRouter } from "next/router";
 import classNames from "classnames";
@@ -11,18 +11,16 @@ const Navbar: FC = ({ children }) => {
   const router = useRouter();
 
   //* Helper to minimize redundant code
-  const useTopBottom = (multpilier: 1 | -1, translateY: number) => {
-    const translate = `translateY(${open ? multpilier * translateY : 0}rem)`;
-    const rotate = `rotate(${open ? multpilier * 45 : 0}deg)`;
-    return useSpring({
-      transform: `${translate} ${rotate}`,
-    });
+  const useTopBottom = (mult: 1 | -1, moveY: number) => {
+    return {
+      open: {
+        transform: `translateY(${mult * moveY}rem) rotate(${mult * 45}deg)`,
+      },
+      closed: {
+        transform: "translateY(0rem) rotate(0deg)",
+      },
+    };
   };
-
-  const middle = useSpring({
-    transform: `scale(${open ? 0.5 : 1})`,
-    opacity: open ? 0 : 1,
-  });
 
   const hideNavbar = () => setOpen(false);
 
@@ -44,7 +42,9 @@ const Navbar: FC = ({ children }) => {
   );
 
   return (
-    <nav
+    <motion.nav
+      animate={open ? "open" : "closed"}
+      initial={false}
       ref={NAV_REF}
       className="navbar fixed w-full top-0 inset-x-0 py-0 sm:py-2 shadow-md bg-gray-900"
       style={{ zIndex: 9999 }}
@@ -52,9 +52,7 @@ const Navbar: FC = ({ children }) => {
       <div className="bs-container-xl sm:flex sm:justify-between">
         <div className="flex items-center justify-between py-3 sm:py-0">
           {/* Logo */}
-          {/* <div> */}
           <img src="/favicon.ico" className="h-8" alt="SamTheQ Logo" />
-          {/* </div> */}
           <div className="flex sm:hidden">SamTheQ</div>
           {/* Toggle Button */}
           <div className="flex sm:hidden">
@@ -62,9 +60,26 @@ const Navbar: FC = ({ children }) => {
               className="h-8 w-8 flex flex-col justify-around items-center rounded-sm transition-shadow focus:ring focus:ring-opacity-60 focus:outline-none"
               onClick={() => setOpen(!open)}
             >
-              <a.span className={burgerLine} style={useTopBottom(1, 0.625)} />
-              <a.span className={burgerLine} style={middle} />
-              <a.span className={burgerLine} style={useTopBottom(-1, 0.7)} />
+              <motion.span
+                className={burgerLine}
+                variants={useTopBottom(1, 0.625)}
+              />
+              <motion.span
+                className={burgerLine}
+                variants={{
+                  open: {
+                    opacity: 0,
+                  },
+                  closed: {
+                    opacity: 1,
+                  },
+                }}
+                transition={{ duration: 0.1 }}
+              />
+              <motion.span
+                className={burgerLine}
+                variants={useTopBottom(-1, 0.7)}
+              />
             </button>
           </div>
         </div>
@@ -73,7 +88,7 @@ const Navbar: FC = ({ children }) => {
           {children}
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 
