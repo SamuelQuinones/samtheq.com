@@ -1,8 +1,17 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import SiteLayout from "src/layout/Site";
+import { initializeFontAwesome } from "@util/FontAwesome";
+
+initializeFontAwesome();
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <SiteLayout>
+      <Component {...pageProps} />
+    </SiteLayout>
+  );
 }
 
-export default MyApp
+export default MyApp;
