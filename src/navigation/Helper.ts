@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import type { LinkProps } from "next/link";
 import { useRouter } from "next/router";
 
@@ -30,3 +31,30 @@ export function useRegexAsPath() {
 
   return asPathThree;
 }
+
+//* Helper to minimize redundant code
+//* outside of main component to save on renders
+const makeTopBottom = (mult: 1 | -1, moveY: number) => {
+  return {
+    open: {
+      transform: `translateY(${mult * moveY}rem) rotate(${mult * 45}deg)`,
+    },
+    closed: {
+      transform: "translateY(0rem) rotate(0deg)",
+    },
+  };
+};
+export const burgerTop = makeTopBottom(1, 0.625);
+export const burgerBottom = makeTopBottom(-1, 0.7);
+export const navbarSmallHeight = {
+  open: { height: "auto" },
+  closed: { height: `${NAVBAR_BASE_HEIGHT}rem` },
+};
+
+export const burgerLine = classNames(
+  "h-[0.1875rem]",
+  "rounded-full",
+  "w-full",
+  "relative",
+  "bg-white"
+);

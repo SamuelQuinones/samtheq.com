@@ -3,36 +3,13 @@
 /* eslint-disable @next/next/no-img-element */
 import { FC, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import classNames from "classnames";
 import { useOutsideClick, useOnRouterEvent } from "@hooks";
-import { NAVBAR_BASE_HEIGHT } from "./Helper";
-
-//* Helper to minimize redundant code
-//* outside of main component to save on renders
-const makeTopBottom = (mult: 1 | -1, moveY: number) => {
-  return {
-    open: {
-      transform: `translateY(${mult * moveY}rem) rotate(${mult * 45}deg)`,
-    },
-    closed: {
-      transform: "translateY(0rem) rotate(0deg)",
-    },
-  };
-};
-const top = makeTopBottom(1, 0.625);
-const bottom = makeTopBottom(-1, 0.7);
-const smallHeight = {
-  open: { height: "auto" },
-  closed: { height: `${NAVBAR_BASE_HEIGHT}rem` },
-};
-
-const burgerLine = classNames(
-  "h-[0.1875rem]",
-  "rounded-full",
-  "w-full",
-  "relative",
-  "bg-white"
-);
+import {
+  burgerBottom,
+  burgerLine,
+  navbarSmallHeight,
+  burgerTop,
+} from "./Helper";
 
 const Navbar: FC = ({ children }) => {
   const [open, setOpen] = useState(false);
@@ -49,7 +26,7 @@ const Navbar: FC = ({ children }) => {
       animate={open ? "open" : "closed"}
       initial={false}
       ref={NAV_REF}
-      variants={smallHeight}
+      variants={navbarSmallHeight}
       className="navbar fixed inset-x-0 top-0 w-full overflow-y-hidden bg-gray-900 py-0 shadow-lg sm:overflow-y-visible sm:py-2"
       style={{ zIndex: 9999 }}
     >
@@ -64,7 +41,7 @@ const Navbar: FC = ({ children }) => {
               className="flex h-8 w-8 flex-col items-center justify-around rounded-sm transition-shadow focus:outline-none focus:ring focus:ring-opacity-60"
               onClick={() => setOpen(!open)}
             >
-              <motion.span className={burgerLine} variants={top} />
+              <motion.span className={burgerLine} variants={burgerTop} />
               <motion.span
                 className={burgerLine}
                 variants={{
@@ -77,7 +54,7 @@ const Navbar: FC = ({ children }) => {
                 }}
                 transition={{ duration: 0.1 }}
               />
-              <motion.span className={burgerLine} variants={bottom} />
+              <motion.span className={burgerLine} variants={burgerBottom} />
             </button>
           </section>
         </div>
