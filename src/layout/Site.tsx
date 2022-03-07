@@ -1,8 +1,10 @@
-import { FC, memo, MouseEventHandler, useEffect, useState } from "react";
+import { FC, memo, MouseEventHandler, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
+import { useEventListener } from "@hooks";
 import Navbar from "src/navigation/NavBar";
 import NavLink from "src/navigation/NavLink";
+import Footer from "./Footer";
 import Button from "@components/Button";
 
 /** A Button element that appears when the vertical offest exceeds 300px.*/
@@ -17,19 +19,15 @@ const ScrollToTop = memo(() => {
     e.currentTarget.blur();
   };
 
-  useEffect(() => {
-    const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
-    window.addEventListener("scroll", toggleVisibility);
-    return () => {
-      window.removeEventListener("scroll", toggleVisibility);
-    };
-  }, []);
+  const toggleVisibility = () => {
+    if (window.pageYOffset > 300) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
+
+  useEventListener("window", "scroll", toggleVisibility);
 
   return (
     <AnimatePresence initial={false} exitBeforeEnter={true}>
@@ -68,6 +66,7 @@ const SiteLayout: FC = ({ children }) => {
         <NavLink href="/">Home</NavLink>
       </Navbar>
       {children}
+      <Footer />
       <ScrollToTop />
     </>
   );

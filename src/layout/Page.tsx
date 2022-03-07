@@ -28,10 +28,10 @@ const PageLayout: FC<LayoutProps> = ({
         <title>{metaTitle}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        <meta name="metaDescription" content={metaDescription} />
+        <meta name="description" content={metaDescription} />
         <meta name="author" content="Samuel Quinones" />
         <meta property="og:title" content={metaTitle} />
-        <meta property="og:metaDescription" content={metaDescription} />
+        <meta property="og:description" content={metaDescription} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="SamTheQ" />
         <meta
@@ -48,7 +48,7 @@ const PageLayout: FC<LayoutProps> = ({
         <meta property="twitter:creator" content="@SamuelQuinones1" />
         <meta property="twitter:site" content="@SamuelQuinones1" />
         <meta property="twitter:title" content={metaTitle} />
-        <meta property="twitter:metaDescription" content={metaDescription} />
+        <meta property="twitter:description" content={metaDescription} />
         <meta
           property="twitter:image"
           content={`${process.env.NEXT_PUBLIC_BASE_URL}/favicon.ico`}
