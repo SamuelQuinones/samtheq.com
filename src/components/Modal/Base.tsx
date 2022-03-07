@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, useMemo, useRef } from "react";
 import classNames from "classnames";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,20 +20,22 @@ const BaseModal: FC<BaseProps> = ({
   bodyClassName,
   footerClassName,
 }) => {
+  const baseRef = useRef<HTMLDivElement>(null);
   const focusTrapOptions = {
     onDeactivate: handleClose,
     clickOutsideDeactivates: true,
     returnFocusOnDeactivate: true,
-    initialFocus: ".modal-dialog",
+    // initialFocus: baseRef?.current as HTMLDivElement,
   };
+  console.log(focusTrapOptions);
   useLockBodyModal();
 
   const headerClasses = useMemo(
-    () => classNames("modal-header", headerClassName),
+    () => classNames("relative p-3", headerClassName),
     [headerClassName]
   );
   const bodyClasses = useMemo(
-    () => classNames("modal-body", bodyClassName),
+    () => classNames("flex-1 p-3 overflow-auto", bodyClassName),
     [bodyClassName]
   );
   const footerClasses = useMemo(
@@ -43,11 +45,15 @@ const BaseModal: FC<BaseProps> = ({
 
   return (
     <FocusTrap focusTrapOptions={focusTrapOptions}>
-      <div className="modal-base" tabIndex={-1}>
+      <div
+        className="fixed top-0 left-0 z-[10000] h-full w-full opacity-100"
+        tabIndex={-1}
+        ref={baseRef}
+      >
         <motion.div
           {...backdropVariants}
           transition={{ duration: 0.2 }}
-          className="modal-backdrop"
+          className="absolute h-full w-full bg-gray-500 bg-opacity-75"
           onClick={handleClose}
         />
         <motion.div
@@ -57,9 +63,9 @@ const BaseModal: FC<BaseProps> = ({
           animate="visible"
           exit="exit"
           role="dialog"
-          className="modal-dialog"
+          className="relative z-10 m-2 flex h-[calc(100%-1rem)] min-h-[calc(100%-1rem)] items-center sm:mx-auto sm:my-7 sm:h-[calc(100%-3.5rem)] sm:min-h-[calc(100%-3.5rem)] sm:max-w-lg"
         >
-          <div className="modal-content">
+          <div className="z-20 flex max-h-full w-full flex-col overflow-hidden rounded-md bg-gray-800 shadow-lg">
             <div className={headerClasses}>
               {header}
               <motion.button
