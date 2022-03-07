@@ -13,7 +13,7 @@ const createModalWrapper = (wrapperId: string) => {
   return wrapperElement;
 };
 
-const Portal = ({ children, wrapperId = "modal-portal-root" }: Props) => {
+const Portal = ({ children, wrapperId = "portal-root" }: Props) => {
   const [wrapperElement, setWrapperElement] = useState<HTMLElement | null>(
     null
   );

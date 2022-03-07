@@ -1,41 +1,17 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import {
-  FC,
-  useMemo,
-  KeyboardEvent as KBE,
-  useCallback,
-  ReactNode,
-} from "react";
+import { FC, useMemo } from "react";
 import classNames from "classnames";
-import { motion, AnimatePresence } from "framer-motion";
-import Portal from "./Portal";
-import Backdrop from "./Backdrop";
+import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  backdropVariants,
+  dialogVariants,
+  BaseProps,
+  modalSpring,
+  useLockBodyModal,
+} from "./Helper";
+import FocusTrap from "focus-trap-react";
 
-type ModalProps = {
-  open?: boolean;
-  handleClose: () => void;
-  header?: ReactNode;
-  headerClassName?: string;
-  bodyClassName?: string;
-  footer?: ReactNode;
-  footerClassName?: string;
-};
-
-const dialogVariants = {
-  hidden: { opacity: 0, y: "-25vh" },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-  exit: { opacity: 0, y: "-25vh", transition: { duration: 0.3 } },
-};
-
-const spring = {
-  type: "spring",
-  stiffness: 700,
-  damping: 50,
-};
-
-const BaseModal: FC<ModalProps> = ({
-  open = false,
+const BaseModal: FC<BaseProps> = ({
   handleClose,
   children,
   header,
@@ -44,6 +20,14 @@ const BaseModal: FC<ModalProps> = ({
   bodyClassName,
   footerClassName,
 }) => {
+  const focusTrapOptions = {
+    onDeactivate: handleClose,
+    clickOutsideDeactivates: true,
+    returnFocusOnDeactivate: true,
+    initialFocus: ".modal-dialog",
+  };
+  useLockBodyModal();
+
   const headerClasses = useMemo(
     () => classNames("modal-header", headerClassName),
     [headerClassName]
@@ -57,49 +41,43 @@ const BaseModal: FC<ModalProps> = ({
     [footerClassName]
   );
 
-  const handleKeyDown = useCallback(
-    (e: KBE) => {
-      e.stopPropagation(); //? should this be a level down
-      if (e.key === "Escape") {
-        handleClose();
-      }
-    },
-    [handleClose]
-  );
-
   return (
-    <AnimatePresence>
-      {open && (
-        <Portal>
-          <div onKeyDown={handleKeyDown} className="modal-base" tabIndex={-1}>
-            <Backdrop onClick={handleClose} />
-            <motion.div
-              variants={dialogVariants}
-              transition={spring}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="modal-dialog"
-            >
-              <div className="modal-content">
-                <div className={headerClasses}>
-                  {header}
-                  <button
-                    className="absolute top-0 right-2"
-                    onClick={() => handleClose()}
-                    aria-label="Close"
-                  >
-                    &times;
-                  </button>
-                </div>
-                <div className={bodyClasses}>{children}</div>
-                {footer && <div className={footerClasses}>{footer}</div>}
-              </div>
-            </motion.div>
+    <FocusTrap focusTrapOptions={focusTrapOptions}>
+      <div className="modal-base" tabIndex={-1}>
+        <motion.div
+          {...backdropVariants}
+          transition={{ duration: 0.2 }}
+          className="modal-backdrop"
+          onClick={handleClose}
+        />
+        <motion.div
+          variants={dialogVariants}
+          transition={modalSpring}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          role="dialog"
+          className="modal-dialog"
+        >
+          <div className="modal-content">
+            <div className={headerClasses}>
+              {header}
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="absolute top-1 right-2"
+                onClick={() => handleClose()}
+                aria-label="Close"
+              >
+                <FontAwesomeIcon icon={["fas", "close"]} size="lg" />
+              </motion.button>
+            </div>
+            <div className={bodyClasses}>{children}</div>
+            {footer && <div className={footerClasses}>{footer}</div>}
           </div>
-        </Portal>
-      )}
-    </AnimatePresence>
+        </motion.div>
+      </div>
+    </FocusTrap>
   );
 };
 
