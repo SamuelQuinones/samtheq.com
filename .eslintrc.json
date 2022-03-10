@@ -36,7 +36,6 @@
       "rules": {
         // we should allow implicit any
         "@typescript-eslint/no-explicit-any": "off",
-
         // We don't need this ... for now
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/ban-ts-comment": [
@@ -46,14 +45,13 @@
             "minimumDescriptionLength": 10
           }
         ],
-
         // should probably allow this ... but we wont for now
         "@typescript-eslint/no-non-null-assertion": "off",
-
-        // turn off default unused vars
+        // warn about unused vars
         "no-unused-vars": "off",
-        // Why would you want unused vars?
-        "@typescript-eslint/no-unused-vars": ["warn"]
+        "@typescript-eslint/no-unused-vars": ["warn"],
+        "no-empty-function": "off",
+        "@typescript-eslint/no-empty-function": ["warn"]
       }
     }
   ]
