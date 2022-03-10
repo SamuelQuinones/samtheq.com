@@ -20,7 +20,7 @@ body {
 }
 
 #__next {
-  @apply !flex !flex-col !min-h-full
+  @apply !flex !min-h-full !flex-col;
 }
 
 * {

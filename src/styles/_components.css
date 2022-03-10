@@ -69,5 +69,5 @@
   @apply relative p-3;
 }
 .modal-body {
-  @apply flex-1 p-3 overflow-auto;
+  @apply flex-1 overflow-auto p-3;
 }

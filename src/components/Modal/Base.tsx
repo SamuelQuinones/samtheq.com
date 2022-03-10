@@ -27,15 +27,14 @@ const BaseModal: FC<BaseProps> = ({
     returnFocusOnDeactivate: true,
     // initialFocus: baseRef?.current as HTMLDivElement,
   };
-  console.log(focusTrapOptions);
   useLockBodyModal();
 
   const headerClasses = useMemo(
-    () => classNames("relative p-3", headerClassName),
+    () => classNames("modal-header", headerClassName),
     [headerClassName]
   );
   const bodyClasses = useMemo(
-    () => classNames("flex-1 p-3 overflow-auto", bodyClassName),
+    () => classNames("modal-body", bodyClassName),
     [bodyClassName]
   );
   const footerClasses = useMemo(
