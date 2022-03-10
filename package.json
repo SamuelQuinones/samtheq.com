@@ -15,7 +15,9 @@
     "start:static": "serve out -p 6006",
     "eslint": "eslint --ext js,ts,tsx",
     "lint": "npm run eslint src && prettier --check 'src/styles/**/*'",
-    "format": "npm run eslint -- --fix src && prettier --write 'src/styles/**/*'"
+    "format": "npm run eslint -- --fix src && prettier --write 'src/styles/**/*'",
+    "generate": "cross-env TS_NODE_PROJECT=\"./.scripts/ts-node.tsconfig.json\" plop --plopfile .scripts/generators/plopfile.ts",
+    "generate:hook": "npm run generate -- hook"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "1.3.0",
@@ -42,12 +44,15 @@
     "eslint-config-next": "12.1.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.0.0",
+    "node-plop": "0.26.2",
+    "plop": "2.7.6",
     "postcss": "8.4.8",
     "postcss-import": "14.0.2",
     "prettier": "2.5.1",
     "prettier-plugin-tailwindcss": "0.1.8",
     "serve": "13.0.2",
     "tailwindcss": "3.0.23",
+    "ts-node": "10.7.0",
     "typescript": "4.6.2"
   }
 }
