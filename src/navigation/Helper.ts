@@ -2,10 +2,7 @@ import classNames from "classnames";
 import type { LinkProps } from "next/link";
 import { useRouter } from "next/router";
 
-export type NavLinkProps = Omit<LinkProps, "passHref"> & {
-  className?: string;
-  activeClassName?: string;
-};
+export type NavLinkProps = Omit<LinkProps, "passHref">;
 
 /** h-8 = 2rem, py-3 is .75 rem on both sides, should total 3.5rem or 56px */
 export const NAVBAR_BASE_HEIGHT = 2 + 2 * 0.75;

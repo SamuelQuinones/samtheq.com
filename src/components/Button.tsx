@@ -112,7 +112,7 @@ type ButtonProps = ComponentPropsWithoutRef<"button"> & {
   shape?: "pill" | "square" | "default";
 };
 
-const SQButton = forwardRef<HTMLElement, ButtonProps>(
+const Button = forwardRef<HTMLElement, ButtonProps>(
   (
     { disabled, className, variant = "primary", shape = "default", ...props },
     ref
@@ -140,6 +140,6 @@ const SQButton = forwardRef<HTMLElement, ButtonProps>(
   }
 );
 
-SQButton.displayName = "Button";
+Button.displayName = "Button";
 
-export default SQButton;
+export default Button;
