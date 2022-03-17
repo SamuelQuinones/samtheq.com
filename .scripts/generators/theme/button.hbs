@@ -1,0 +1,13 @@
+.btn-{{ lowerCase themeColor }} {
+  @apply border-{{ lowerCase themeColor }}-{{ buttonBaseNumber }} bg-{{ lowerCase themeColor }}-{{ buttonBaseNumber }} {{ buttonTextClass }};
+  @apply hover:border-{{ lowerCase themeColor }}-{{ buttonActiveNumber }} hover:bg-{{ lowerCase themeColor }}-{{ buttonActiveNumber }};
+  @apply focus:border-{{ lowerCase themeColor }}-{{ buttonActiveNumber }} focus:bg-{{ lowerCase themeColor }}-{{ buttonActiveNumber }} focus:outline-none focus:ring focus:ring-{{ lowerCase themeColor }}-{{ buttonFocusRingNumber }} focus:ring-opacity-50;
+  @apply disabled:border-{{ lowerCase themeColor }}-{{ buttonBaseNumber }} disabled:bg-{{ lowerCase themeColor }}-{{ buttonBaseNumber }};
+}
+
+.btn-outline-{{ lowerCase themeColor }} {
+  @apply border-{{ lowerCase themeColor }}-{{ buttonBaseNumber }} bg-transparent text-{{ lowerCase themeColor }}-{{ buttonBaseNumber }};
+  @apply hover:border-{{ lowerCase themeColor }}-{{ buttonActiveNumber }} hover:bg-{{ lowerCase themeColor }}-{{ buttonActiveNumber }} hover:{{ buttonTextClass }};
+  @apply focus:border-{{ lowerCase themeColor }}-{{ buttonActiveNumber }} focus:outline-none focus:ring focus:ring-{{ lowerCase themeColor }}-{{ buttonFocusRingNumber }} focus:ring-opacity-50;
+  @apply disabled:border-{{ lowerCase themeColor }}-{{ buttonBaseNumber }} disabled:bg-transparent disabled:text-{{ lowerCase themeColor }}-{{ buttonBaseNumber }};
+}

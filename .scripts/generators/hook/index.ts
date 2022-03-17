@@ -42,7 +42,7 @@ export const HookGenerator: PlopGeneratorConfig = {
     actions.push({
       type: "lintify",
       data: {
-        path: "src/hooks",
+        path: path.join(process.cwd(), "src/hooks"),
       },
     });
     return actions;
