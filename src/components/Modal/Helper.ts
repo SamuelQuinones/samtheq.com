@@ -56,6 +56,7 @@ const removeModalStyles = () => {
   resetElementStyles(PaddingRightSelector, "paddingRight");
 };
 
+//? Switch to useLayoutEffect
 export const useLockBodyModal = () => {
   useEffect(() => {
     const modalAlreadyOpen = Boolean(

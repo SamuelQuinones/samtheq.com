@@ -1,3 +1,5 @@
+//TODO: Fix clicking outside modal
+
 import { FC, useMemo, useRef } from "react";
 import classNames from "classnames";
 import { motion } from "framer-motion";
@@ -10,6 +12,7 @@ import {
   useLockBodyModal,
 } from "./Helper";
 import FocusTrap from "focus-trap-react";
+import type { Options } from "focus-trap";
 
 const BaseModal: FC<BaseProps> = ({
   handleClose,
@@ -21,11 +24,12 @@ const BaseModal: FC<BaseProps> = ({
   footerClassName,
 }) => {
   const baseRef = useRef<HTMLDivElement>(null);
-  const focusTrapOptions = {
+
+  const focusTrapOptions: Options = {
     onDeactivate: handleClose,
     clickOutsideDeactivates: true,
     returnFocusOnDeactivate: true,
-    // initialFocus: baseRef?.current as HTMLDivElement,
+    initialFocus: ".modal-base",
   };
   useLockBodyModal();
 
@@ -45,14 +49,16 @@ const BaseModal: FC<BaseProps> = ({
   return (
     <FocusTrap focusTrapOptions={focusTrapOptions}>
       <div
-        className="fixed top-0 left-0 z-[10000] h-full w-full opacity-100"
+        className="modal-base"
         tabIndex={-1}
         ref={baseRef}
+        role="dialog"
+        aria-modal="true"
       >
         <motion.div
           {...backdropVariants}
           transition={{ duration: 0.2 }}
-          className="absolute h-full w-full bg-gray-500 bg-opacity-75"
+          className="modal-backdrop"
           onClick={handleClose}
         />
         <motion.div
@@ -61,10 +67,9 @@ const BaseModal: FC<BaseProps> = ({
           initial="hidden"
           animate="visible"
           exit="exit"
-          role="dialog"
-          className="relative z-10 m-2 flex h-[calc(100%-1rem)] min-h-[calc(100%-1rem)] items-center sm:mx-auto sm:my-7 sm:h-[calc(100%-3.5rem)] sm:min-h-[calc(100%-3.5rem)] sm:max-w-lg"
+          className="modal-dialog"
         >
-          <div className="z-20 flex max-h-full w-full flex-col overflow-hidden rounded-md bg-gray-800 shadow-lg">
+          <div className="modal-content">
             <div className={headerClasses}>
               {header}
               <motion.button
@@ -74,7 +79,7 @@ const BaseModal: FC<BaseProps> = ({
                 onClick={() => handleClose()}
                 aria-label="Close"
               >
-                <FontAwesomeIcon icon={["fas", "close"]} size="lg" />
+                <FontAwesomeIcon icon={["fas", "close"]} size="2x" />
               </motion.button>
             </div>
             <div className={bodyClasses}>{children}</div>

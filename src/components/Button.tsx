@@ -7,7 +7,7 @@ import {
   ElementType,
   EventHandler,
 } from "react";
-import { ThemeConfig, ThemeVariants } from "../theme/main";
+import { ThemeVariants } from "../util/Theme";
 
 type ButtonType = "button" | "reset" | "submit";
 
@@ -109,26 +109,30 @@ type ButtonProps = ComponentPropsWithoutRef<"button"> & {
   target?: string;
   rel?: string;
   variant?: ThemeVariants;
+  outline?: boolean;
   shape?: "pill" | "square" | "default";
 };
 
 const Button = forwardRef<HTMLElement, ButtonProps>(
   (
-    { disabled, className, variant = "primary", shape = "default", ...props },
+    {
+      disabled,
+      className,
+      variant = "primary",
+      outline = false,
+      shape = "default",
+      ...props
+    },
     ref
   ) => {
     const [buttonProps, { tagName: Component }] = useButtonProps({
       disabled,
       ...props,
     });
-    const { base, focus, hover } =
-      ThemeConfig[variant].button ?? ThemeConfig.primary.button;
 
     const classes = classNames(
       "btn",
-      base,
-      hover,
-      focus,
+      { [`btn-${variant}`]: !outline, [`btn-outline-${variant}`]: outline },
       shape === "pill" && "rounded-full",
       shape === "square" && "rounded-none",
       className
