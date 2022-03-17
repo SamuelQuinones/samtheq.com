@@ -1,8 +1,11 @@
 import classNames from "classnames";
+import type { ComponentPropsWithoutRef } from "react";
 import type { LinkProps } from "next/link";
 import { useRouter } from "next/router";
 
-export type NavLinkProps = Omit<LinkProps, "passHref">;
+export type NavLinkProps = LinkProps & {
+  matchNestedPaths?: boolean;
+} & Omit<ComponentPropsWithoutRef<"a">, keyof LinkProps>;
 
 /** h-8 = 2rem, py-3 is .75 rem on both sides, should total 3.5rem or 56px */
 export const NAVBAR_BASE_HEIGHT = 2 + 2 * 0.75;
@@ -13,7 +16,7 @@ export const NAVBAR_BASE_HEIGHT = 2 + 2 * 0.75;
  *
  * @returns the router's `asPath` variable, having been formatted
  */
-export function useRegexAsPath() {
+export function useRegexAsPath(matchNestedPaths = false) {
   const { asPath } = useRouter();
   // Queries and hashes
   const asPathTwo = /(#.*|\?.+=.*)/g.test(asPath)
@@ -21,10 +24,13 @@ export function useRegexAsPath() {
     : asPath;
 
   // Nested Paths
-  const asPathThree = asPathTwo.replace(
-    /^(\/[A-Za-z\-0-9]+)(?:\/[A-Za-z\-0-9]+)+/i,
-    "$1"
-  );
+  let asPathThree = asPathTwo;
+  if (matchNestedPaths) {
+    asPathThree = asPathTwo.replace(
+      /^(\/[A-Za-z\-0-9]+)(?:\/[A-Za-z\-0-9]+)+/i,
+      "$1"
+    );
+  }
 
   return asPathThree;
 }
@@ -55,3 +61,15 @@ export const burgerLine = classNames(
   "relative",
   "bg-white"
 );
+
+//* helper to make motion less jarring for nav dropdowns
+export const smallTransitionConfig = {
+  open: {
+    opacity: 1,
+    display: "block",
+  },
+  closed: {
+    opacity: 0,
+    transitionEnd: { display: "none" },
+  },
+};
