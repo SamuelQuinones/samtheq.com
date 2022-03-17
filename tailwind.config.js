@@ -5,6 +5,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // APPEND HERE
+        info: colors.cyan,
         primary: colors.rose,
         secondary: colors.slate,
       },
