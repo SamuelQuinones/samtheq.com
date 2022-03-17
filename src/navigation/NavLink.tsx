@@ -14,7 +14,7 @@ const NavLink: FC<NavLinkProps> = ({ children, ...props }) => {
     "p-2",
     "my-1",
     "sm:my-0",
-    "sm:mx-1",
+    "sm:mx-0.5",
     "text-white",
     "transition-colors",
     "focus-within:text-opacity-100",

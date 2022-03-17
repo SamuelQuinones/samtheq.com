@@ -64,6 +64,7 @@ const SiteLayout: FC = ({ children }) => {
     <>
       <Navbar>
         <NavLink href="/">Home</NavLink>
+        <NavLink href="/experience">Experience</NavLink>
       </Navbar>
       {children}
       <Footer />
