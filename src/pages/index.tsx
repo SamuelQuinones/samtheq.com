@@ -34,7 +34,7 @@ const Home: NextPage = () => {
       >
         <HomeUpdate
           checkItOutLink="/404"
-          previewText="Lorem ipsum dolor sit amet consectetur adipisicing "
+          previewText="Lorem ipsum dolor sit amet consectetur adipisicing"
           message="Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus optio eligendi fuga aliquam? Repellendus, consectetur impedit neque itaque reiciendis tenetur voluptatum totam qui corrupti aspernatur, minima temporibus possimus, soluta pariatur?"
         />
         <HomeUpdate

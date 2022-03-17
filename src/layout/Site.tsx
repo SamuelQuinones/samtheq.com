@@ -50,7 +50,7 @@ const ScrollToTop = memo(() => {
             shape="pill"
             className="flex shadow-lg"
           >
-            <FontAwesomeIcon icon={["fas", "angle-up"]} size="2x" />
+            <FontAwesomeIcon icon={["fas", "chevron-up"]} size="2x" />
           </Button>
         </motion.div>
       )}
