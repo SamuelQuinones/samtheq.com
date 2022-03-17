@@ -7,7 +7,8 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import {
-  faAngleUp as faAngleUpSolid,
+  faChevronUp,
+  faChevronDown,
   faClose as faCloseSolid,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -18,7 +19,8 @@ export const initializeFontAwesome = () => {
     faGithub,
     faTwitter,
     faYoutube,
-    faAngleUpSolid,
+    faChevronUp,
+    faChevronDown,
     faCloseSolid
   );
 };

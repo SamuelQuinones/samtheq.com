@@ -10,8 +10,12 @@ type Placement = `${"top" | "bottom" | "left" | "right"}${
 export type BaseProps = {
   children?: ReactNode;
   dropMenuLabel: ReactNode;
+  arrowDownIcon?: ReactNode;
+  arrowLast?: boolean;
   menuRef?: ForwardedRef<HTMLDivElement>;
   menuPosition?: Placement;
+  menuClassList?: string;
+  smallScreenTransition?: Variants;
 };
 
 export type DropMenuProps<C extends ElementType> =
@@ -25,17 +29,11 @@ export const transitionConfig: Variants = {
   open: {
     scale: 1,
     opacity: 1,
-    // transition: {
-    //   duration: 0.2,
-    // },
     display: "block",
   },
   closed: {
     scale: 0.9,
     opacity: 0,
-    // transition: {
-    //   duration: 0.2,
-    // },
     transitionEnd: { display: "none" },
   },
 };
