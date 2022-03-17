@@ -2,7 +2,7 @@ import {
   Children,
   cloneElement,
   FC,
-  ReactElement,
+  isValidElement,
   useEffect,
   useRef,
   useState,
@@ -46,8 +46,9 @@ const Tooltip: FC<TooltipProps> = ({
     "absolute w-2 h-2 bg-inherit invisible",
     "before:absolute before:w-2 before:h-2 before:bg-inherit before:visible before:rotate-45 before:content-['']"
   );
-  const child = Children.only(children) as ReactElement;
+  const child = Children.only(children);
 
+  //? should this be useLayoutEffect
   useEffect(() => {
     if (refEl === null) return;
     const handleVis = () => setVisible(true);
@@ -83,13 +84,19 @@ const Tooltip: FC<TooltipProps> = ({
     };
   }, [popperEl, refEl, trigger]);
 
+  const triggerEl = isValidElement(child) ? (
+    cloneElement(child, {
+      ...child.props,
+      //@ts-ignore this should exist
+      ref: mergeRefs([child.ref, setRefEl]),
+    })
+  ) : (
+    <div ref={setRefEl}>{child}</div>
+  );
+
   return (
     <>
-      {cloneElement(child, {
-        ...child.props,
-        //@ts-ignore this should exist
-        ref: mergeRefs([child.ref, setRefEl]),
-      })}
+      {triggerEl}
       <AnimatePresence>
         {visible && (
           <motion.div
