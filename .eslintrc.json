@@ -23,7 +23,10 @@
     "jsx-a11y/anchor-is-valid": "off",
 
     // Includes .prettierrc rules
-    "prettier/prettier": ["warn", {}, { "usePrettierrc": true }]
+    "prettier/prettier": ["warn", {}, { "usePrettierrc": true }],
+
+    // no displayname
+    "react/display-name": ["off"]
   },
   "overrides": [
     // This configuration will apply only to TypeScript files
