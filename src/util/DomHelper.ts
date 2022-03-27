@@ -42,7 +42,7 @@ export function resetElementStyles<T extends keyof CSSStyleDeclaration>(
   const Elements = document.querySelectorAll<HTMLElement>(selector);
   if (!Elements) return;
   Elements.forEach((e) => {
-    const dataEl = e.getAttribute(`data-pw-${styleProp}`);
+    const dataEl = e.getAttribute(`data-stq-${styleProp}`);
     if (dataEl === null) {
       e.style[styleProp] = "" as CSSStyleDeclaration[T];
     } else {

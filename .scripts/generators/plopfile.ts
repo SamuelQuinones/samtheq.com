@@ -14,7 +14,7 @@ export default function plop(plop: NodePlopAPI) {
 
   plop.setActionType("prettify", (answers, config) => {
     const data = config.data as Record<string, any>;
-    execSync(`prettier --write ${data.path}`);
+    execSync(`prettier --write "${data.path}"`);
     return "";
   });
   plop.setActionType("lintify", (answers, config) => {
