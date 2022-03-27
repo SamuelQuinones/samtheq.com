@@ -1,5 +1,4 @@
 import { RefObject, useEffect, useRef } from "react";
-
 import useIsomorphicLayoutEffect from "./use-isomorphic-layout-effect";
 
 function useEventListener<K extends keyof WindowEventMap>(
@@ -18,7 +17,7 @@ function useEventListener<
   K extends keyof HTMLElementEventMap,
   T extends HTMLElement = HTMLDivElement
 >(
-  element: RefObject<T>,
+  element: T | RefObject<T>,
   eventName: K,
   handler: (event: HTMLElementEventMap[K]) => void,
   options?: boolean | AddEventListenerOptions
@@ -30,7 +29,7 @@ function useEventListener<
   KD extends keyof DocumentEventMap,
   T extends HTMLElement
 >(
-  element: "window" | "document" | RefObject<T>,
+  element: "window" | "document" | T | RefObject<T>,
   eventName: KW | KH | KD,
   handler: (
     event:
@@ -50,19 +49,14 @@ function useEventListener<
 
   useEffect(() => {
     // Define the listening target
-    let targetElement: T | Document | Window;
-    switch (element) {
-      case "document":
-        targetElement = document;
-        break;
-      case "window":
-        targetElement = window;
-        break;
-      default:
-        targetElement = element?.current || window;
-        break;
-    }
-    if (!(targetElement && targetElement.addEventListener)) {
+    let tarEl: T | Document | Window;
+    if (element === "document") tarEl = document;
+    else if (element === "window") tarEl = window;
+    else if (element && "current" in element) tarEl = element.current || window;
+    else if (element?.nodeType) tarEl = element;
+    else tarEl = window;
+
+    if (!(tarEl && tarEl.addEventListener)) {
       return;
     }
 
@@ -70,11 +64,11 @@ function useEventListener<
     const eventListener: typeof handler = (event) =>
       savedHandler.current(event);
 
-    targetElement.addEventListener(eventName, eventListener, options);
+    tarEl.addEventListener(eventName, eventListener, options);
 
     // Remove event listener on cleanup
     return () => {
-      targetElement.removeEventListener(eventName, eventListener, options);
+      tarEl.removeEventListener(eventName, eventListener, options);
     };
   }, [eventName, element, options]);
 }
