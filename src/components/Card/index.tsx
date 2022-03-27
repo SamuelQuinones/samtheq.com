@@ -1,17 +1,20 @@
+import { ElementType, HTMLAttributes, forwardRef } from "react";
+import type { DynamicRefForwardingComponent } from "@restart/ui/types";
 import classNames from "classnames";
-import { ComponentPropsWithoutRef, forwardRef } from "react";
+interface CardProps extends HTMLAttributes<HTMLElement> {
+  as?: ElementType;
+}
 
-type CardProps = ComponentPropsWithoutRef<"div">;
-
-const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ children, className, ...rest }, ref) => {
-    const classList = classNames("card", className);
-    return (
-      <div ref={ref} className={classList} {...rest}>
-        {children}
-      </div>
-    );
-  }
-);
+const Card: DynamicRefForwardingComponent<"div", CardProps> = forwardRef<
+  HTMLElement,
+  CardProps
+>(({ children, className, as: Component = "div", ...rest }, ref) => {
+  const classList = classNames("card", className);
+  return (
+    <Component ref={ref} className={classList} {...rest}>
+      {children}
+    </Component>
+  );
+});
 Card.displayName = "Card";
 export default Card;

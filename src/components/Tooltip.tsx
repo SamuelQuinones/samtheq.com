@@ -1,119 +1,168 @@
 import {
   Children,
   cloneElement,
-  FC,
   isValidElement,
-  useEffect,
+  MouseEvent as ME,
+  ReactNode,
+  useCallback,
   useRef,
   useState,
 } from "react";
 import classNames from "classnames";
-import { usePopper } from "react-popper";
-import mergeRefs from "@util/MergeReactRefs";
 import { AnimatePresence, motion } from "framer-motion";
+import usePopper, { Placement } from "@restart/ui/usePopper";
+import mergeOptionsWithPopperConfig from "@restart/ui/mergeOptionsWithPopperConfig";
+import useRootClose from "@restart/ui/useRootClose";
+import mergeRefs from "@util/MergeReactRefs";
 
-type TooltipProps = {
+type TooltipTrigger = "hover" | "click" | "focus";
+
+type Props = {
+  children: ReactNode;
   tooltipText: string;
-  trigger?: "hover" | "click";
-  placement?: "top" | "bottom" | "left" | "right";
+  placement?: Placement;
+  trigger?: TooltipTrigger | TooltipTrigger[];
+  flip?: boolean;
 };
 
-const Tooltip: FC<TooltipProps> = ({
+// Simple implementation of mouseEnter and mouseLeave.
+// React's built version is broken: https://github.com/facebook/react/issues/4251
+// for cases when the trigger is disabled and mouseOut/Over can cause flicker
+// moving from one child element to another.
+function handleMouseOverOut(
+  handler: (...args: [ME, ...any[]]) => any,
+  args: [ME, ...any[]],
+  relatedNative: "fromElement" | "toElement"
+) {
+  const [e] = args;
+  const target = e.currentTarget;
+  //@ts-ignore this property does exist
+  const related = e.relatedTarget || e.nativeEvent[relatedNative];
+
+  if ((!related || related !== target) && !target.contains(related)) {
+    handler(...args);
+  }
+}
+
+const Tooltip = ({
   children,
+  placement = "top",
+  flip,
+  trigger = ["hover", "focus"],
   tooltipText,
-  trigger = "hover",
-  placement = "bottom",
-}) => {
-  const [visible, setVisible] = useState(false);
-  const [refEl, setRefEl] = useState<HTMLDivElement | null>(null);
-  const [popperEl, setPopperEl] = useState<HTMLDivElement | null>(null);
-  const arrowElement = useRef<HTMLDivElement>(null);
-  const { styles, attributes } = usePopper(refEl, popperEl, {
-    strategy: "fixed",
-    placement,
-    modifiers: [
-      { name: "offset", options: { offset: [0, 8] } },
-      { name: "arrow", options: { element: arrowElement.current } },
-    ],
-  });
-  const arrowClasses = classNames(
-    {
-      "-top-1": placement === "bottom",
-      "-bottom-1": placement === "top",
-      "-right-1": placement === "left",
-      "-left-1": placement === "right",
-    },
-    "absolute w-2 h-2 bg-inherit invisible",
-    "before:absolute before:w-2 before:h-2 before:bg-inherit before:visible before:rotate-45 before:content-['']"
-  );
+}: Props) => {
+  const [show, setShow] = useState(false);
+
+  const [rootElement, attachRef] = useState<HTMLDivElement | null>(null);
+  const [arrowElement, attachArrowRef] = useState<Element | null>(null);
+
+  useRootClose(rootElement, () => setShow(false));
+
+  const triggerNodeRef = useRef<HTMLElement>(null);
   const child = Children.only(children);
+  const { onFocus, onBlur, onClick } = isValidElement(child)
+    ? child.props
+    : ({} as any);
+  const mergedTriggerRef = mergeRefs([triggerNodeRef, (child as any).ref]);
 
-  //? should this be useLayoutEffect
-  useEffect(() => {
-    if (refEl === null) return;
-    const handleVis = () => setVisible(true);
-    const handleHide = () => setVisible(false);
-    const toggle = () => setVisible((curr) => !curr);
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        !popperEl ||
-        popperEl.contains(e.target as Node) ||
-        refEl.contains(e.target as HTMLElement) ||
-        e.target === refEl
-      ) {
-        return;
-      }
-      handleHide();
-    };
-    if (trigger === "hover") {
-      refEl.addEventListener("mouseenter", handleVis);
-      refEl.addEventListener("mouseleave", handleHide);
-    } else {
-      refEl.addEventListener("click", toggle);
-      window.addEventListener("mousedown", handleClickOutside);
-    }
+  const handleFocus = useCallback(
+    (...args: any[]) => {
+      setShow(true);
+      onFocus?.(...args);
+    },
+    [onFocus]
+  );
+  const handleBlur = useCallback(
+    (...args: any[]) => {
+      setShow(false);
+      onBlur?.(...args);
+    },
+    [onBlur]
+  );
+  const handleClick = useCallback(
+    (...args: any[]) => {
+      setShow((s) => !s);
+      onClick?.(...args);
+    },
+    [onClick]
+  );
 
-    return () => {
-      if (trigger === "hover") {
-        refEl.removeEventListener("mouseenter", handleVis);
-        refEl.removeEventListener("mouseleave", handleHide);
-      } else {
-        refEl.removeEventListener("click", toggle);
-        window.removeEventListener("mousedown", handleClickOutside);
-      }
-    };
-  }, [popperEl, refEl, trigger]);
+  const handleMouseOver = useCallback(
+    (...args: [React.MouseEvent, ...any[]]) => {
+      handleMouseOverOut(() => setShow(true), args, "fromElement");
+    },
+    []
+  );
+  const handleMouseOut = useCallback(
+    (...args: [React.MouseEvent, ...any[]]) => {
+      handleMouseOverOut(() => setShow(false), args, "toElement");
+    },
+    []
+  );
 
-  const triggerEl = isValidElement(child) ? (
-    cloneElement(child, {
-      ...child.props,
-      //@ts-ignore this should exist
-      ref: mergeRefs([child.ref, setRefEl]),
+  const triggers: string[] = trigger == null ? [] : [].concat(trigger as any);
+  const triggerProps: any = {
+    ref: mergedTriggerRef,
+  };
+
+  if (triggers.indexOf("click") !== -1) {
+    triggerProps.onClick = handleClick;
+  }
+  if (triggers.indexOf("focus") !== -1) {
+    triggerProps.onFocus = handleFocus;
+    triggerProps.onBlur = handleBlur;
+  }
+  if (triggers.indexOf("hover") !== -1) {
+    triggerProps.onMouseOver = handleMouseOver;
+    triggerProps.onMouseOut = handleMouseOut;
+  }
+
+  const { attributes, styles } = usePopper(
+    triggerNodeRef.current,
+    rootElement,
+    mergeOptionsWithPopperConfig({
+      placement,
+      enableEvents: show,
+      containerPadding: 5,
+      flip,
+      offset: [0, 10],
+      arrowElement,
     })
-  ) : (
-    <div ref={setRefEl}>{child}</div>
+  );
+
+  const arrowClasses = classNames(
+    "invisible absolute z-[-1] h-3 w-3 bg-inherit",
+    "before:visible before:absolute before:top-0 before:left-0 before:h-3 before:w-3 before:rotate-45 before:bg-inherit",
+    {
+      "-top-1": placement.includes("bottom"),
+      "-bottom-1": placement.includes("top"),
+      "-right-1": placement.includes("left"),
+      "-left-1": placement.includes("right"),
+    }
   );
 
   return (
     <>
-      {triggerEl}
+      {/* @ts-ignore not sure why this wants to error out */}
+      {cloneElement(child, triggerProps)}
       <AnimatePresence>
-        {visible && (
+        {show && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="rounded bg-gray-300 px-3 py-2 text-sm font-bold text-black shadow-md"
-            ref={setPopperEl}
-            style={styles.popper}
+            ref={attachRef}
+            className="absolute rounded bg-gray-300 px-2 py-1 text-sm text-black shadow-md"
+            style={styles.popper as any}
             {...attributes.popper}
           >
             {tooltipText}
             <div
+              ref={attachArrowRef}
+              style={styles.arrow as any}
               className={arrowClasses}
-              ref={arrowElement}
-              style={styles.arrow}
+              {...attributes.arrow}
             />
           </motion.div>
         )}
