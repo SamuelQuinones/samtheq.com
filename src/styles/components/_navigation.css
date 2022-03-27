@@ -1,29 +1,14 @@
-.nav-menu,
 .nav-link {
   @apply my-1 flex rounded p-2 text-white text-opacity-80 transition-colors focus-within:text-opacity-100 hover:bg-gray-800 hover:text-opacity-100 focus:text-opacity-100 active:text-opacity-100 sm:my-0 sm:mx-0.5;
 }
 
-.nav-menu.active,
 .nav-link.active {
   @apply font-bold text-opacity-100;
 }
 
-.nav-menu ~ .drop-menu-popper .nav-link {
-  @apply m-0 rounded-none hover:bg-gray-700 focus:bg-gray-700 active:bg-info-700 md:justify-center;
+.nav-link.drop-toggle + .popper-nav-menu .nav-link {
+  @apply m-0 rounded-none py-1 hover:bg-gray-600 focus:bg-gray-600 active:bg-info-700 md:justify-center;
 }
-.nav-menu ~ .drop-menu-popper .nav-link.active {
+.nav-link.drop-toggle + .popper-nav-menu .nav-link.active {
   @apply bg-info-700;
-}
-/* .nav-menu[aria-expanded="false"] + .drop-menu-popper {
-  display: none;
-}
-.nav-menu[aria-expanded="true"] + .drop-menu-popper {
-  display: block;
-} */
-
-
-@screen max-sm {
-  .nav-menu ~ .drop-menu-popper {
-    @apply !static !translate-y-0;
-  }
 }

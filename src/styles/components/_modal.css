@@ -1,6 +1,6 @@
 .modal-base {
   z-index: 10000;
-  @apply block fixed top-0 left-0 h-full w-full overflow-x-hidden overflow-y-hidden opacity-100;
+  @apply fixed top-0 left-0 block h-full w-full overflow-x-hidden overflow-y-hidden opacity-100;
 }
 .modal-backdrop {
   @apply absolute h-full w-full bg-gray-500 bg-opacity-75;
