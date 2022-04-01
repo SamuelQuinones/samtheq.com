@@ -10,13 +10,19 @@ interface Props extends DropdownItemProps, HTMLAttributes<HTMLElement> {
 const DropmenuItem: DynamicRefForwardingComponent<"button", Props> = forwardRef<
   HTMLElement,
   Props
->(({ as: asProp, eventKey, ...props }, ref) => {
-  const [itemProps] = useDropdownItem({
+>(({ as: asProp, eventKey, onClick: nativeOnClick, ...props }, ref) => {
+  const [{ onClick, ...itemProps }] = useDropdownItem({
     key: eventKey,
     ...props,
   });
+  const handleClick = (e: any) => {
+    onClick(e);
+    nativeOnClick?.(e);
+  };
   const Component = asProp ?? "button";
-  return <Component {...props} {...itemProps} ref={ref} />;
+  return (
+    <Component {...props} {...itemProps} onClick={handleClick} ref={ref} />
+  );
 });
 
 export default DropmenuItem;

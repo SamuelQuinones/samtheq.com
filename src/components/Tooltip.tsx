@@ -87,18 +87,12 @@ const Tooltip = ({
     [onClick]
   );
 
-  const handleMouseOver = useCallback(
-    (...args: [React.MouseEvent, ...any[]]) => {
-      handleMouseOverOut(() => setShow(true), args, "fromElement");
-    },
-    []
-  );
-  const handleMouseOut = useCallback(
-    (...args: [React.MouseEvent, ...any[]]) => {
-      handleMouseOverOut(() => setShow(false), args, "toElement");
-    },
-    []
-  );
+  const handleMouseOver = useCallback((...args: [ME, ...any[]]) => {
+    handleMouseOverOut(() => setShow(true), args, "fromElement");
+  }, []);
+  const handleMouseOut = useCallback((...args: [ME, ...any[]]) => {
+    handleMouseOverOut(() => setShow(false), args, "toElement");
+  }, []);
 
   const triggers: string[] = trigger == null ? [] : [].concat(trigger as any);
   const triggerProps: any = {
