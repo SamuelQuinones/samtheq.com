@@ -1,3 +1,25 @@
+import { RefObject } from "react";
+
+/**
+ * utility qrapper for `{ELEMENT}.querySelector()`
+ */
+export function qs<T extends HTMLElement>(
+  element: T | Document,
+  selectors: string
+) {
+  return element.querySelector<HTMLElement>(selectors);
+}
+
+/**
+ * utility wraooer for `{ELEMENT}.querySelectorAll()`
+ */
+export function qsa<T extends HTMLElement>(
+  element: T | Document,
+  selectors: string
+): HTMLElement[] {
+  return Array.from(element.querySelectorAll(selectors));
+}
+
 export const getBodyScrollbarWidth = () => {
   const myWindow = document.defaultView;
   if (!myWindow) return 0;
@@ -24,7 +46,8 @@ export function setElementStyles<T extends keyof CSSStyleDeclaration>(
   styleProp: T,
   callback: (v: CSSStyleDeclaration[T]) => CSSStyleDeclaration[T]
 ) {
-  const Elements = document.querySelectorAll<HTMLElement>(selector);
+  // const Elements = document.querySelectorAll<HTMLElement>(selector);
+  const Elements = qsa(document, selector);
   if (!Elements) return;
   Elements.forEach((e) => {
     const actualValue = e.style[styleProp];
@@ -39,7 +62,8 @@ export function resetElementStyles<T extends keyof CSSStyleDeclaration>(
   selector: string,
   styleProp: T
 ) {
-  const Elements = document.querySelectorAll<HTMLElement>(selector);
+  // const Elements = document.querySelectorAll<HTMLElement>(selector);
+  const Elements = qsa(document, selector);
   if (!Elements) return;
   Elements.forEach((e) => {
     const dataEl = e.getAttribute(`data-stq-${styleProp}`);
@@ -50,4 +74,17 @@ export function resetElementStyles<T extends keyof CSSStyleDeclaration>(
       e.style[styleProp] = dataEl as CSSStyleDeclaration[T];
     }
   });
+}
+
+/**
+ * Helper function that will resolve the input arguement to a HTML element if possible
+ *
+ * @param target either a HTML ekement or a ref object pointing to a HTML element
+ */
+export function resolveElement<T extends HTMLElement>(
+  target: T | RefObject<T>
+) {
+  if (target && "current" in target) return target.current;
+  if (target?.nodeType) return target;
+  return null;
 }

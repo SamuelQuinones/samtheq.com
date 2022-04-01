@@ -8,6 +8,7 @@ import DropmenuMenu from "@components/DropMenu/Menu";
 import { transitionConfig } from "@components/DropMenu/Helper";
 import { smallTransitionConfig } from "../Helper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { qs, resolveElement } from "@util/DomHelper";
 
 type Props = {
   label: string;
@@ -33,12 +34,14 @@ const DropLink: FC<Props> = ({ children, label, id }) => {
   const [show, setShow] = useState(false);
   const [display, setDisplay] = useState("hidden");
   useEffect(() => {
-    if (!menuRef.current || !triggerRef.current) return;
-    const containsActiveLink = menuRef.current.querySelector(".active");
+    const menuEl = resolveElement(menuRef);
+    const triggerEl = resolveElement(triggerRef);
+    if (!menuEl || !triggerEl) return;
+    const containsActiveLink = qs(menuEl, ".active");
     if (!containsActiveLink) {
-      triggerRef.current.classList.remove("active");
+      triggerEl.classList.remove("active");
     } else {
-      triggerRef.current.classList.add("active");
+      triggerEl.classList.add("active");
     }
   }, [asPath]);
 
@@ -69,6 +72,7 @@ const DropLink: FC<Props> = ({ children, label, id }) => {
           as="a"
           role="button"
           href="#"
+          onClick={(e) => e.preventDefault()}
           className="nav-link drop-toggle flex items-center gap-1"
           id={id}
         >

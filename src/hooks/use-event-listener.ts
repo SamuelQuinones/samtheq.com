@@ -1,3 +1,4 @@
+import { resolveElement } from "@util/DomHelper";
 import { RefObject, useEffect, useRef } from "react";
 import useIsomorphicLayoutEffect from "./use-isomorphic-layout-effect";
 
@@ -52,9 +53,7 @@ function useEventListener<
     let tarEl: T | Document | Window;
     if (element === "document") tarEl = document;
     else if (element === "window") tarEl = window;
-    else if (element && "current" in element) tarEl = element.current || window;
-    else if (element?.nodeType) tarEl = element;
-    else tarEl = window;
+    else tarEl = resolveElement<T>(element) ?? window;
 
     if (!(tarEl && tarEl.addEventListener)) {
       return;
