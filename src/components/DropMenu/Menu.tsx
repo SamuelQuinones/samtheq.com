@@ -42,6 +42,7 @@ const DropmenuMenu: DynamicRefForwardingComponent<"div", Props> = forwardRef<
     });
     useIsomorphicLayoutEffect(() => {
       if (show) popper?.update();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [show]);
     // const Component = asProp ?? "div";
     const newRef = mergeRefs([dmRef, ref]);
