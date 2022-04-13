@@ -10,6 +10,9 @@ import {
   faChevronUp,
   faChevronDown,
   faClose as faCloseSolid,
+  faGraduationCap,
+  faBriefcase,
+  faSliders,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const initializeFontAwesome = () => {
@@ -21,6 +24,9 @@ export const initializeFontAwesome = () => {
     faYoutube,
     faChevronUp,
     faChevronDown,
-    faCloseSolid
+    faCloseSolid,
+    faGraduationCap,
+    faBriefcase,
+    faSliders
   );
 };
