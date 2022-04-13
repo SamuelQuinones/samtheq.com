@@ -20,6 +20,13 @@ export function qsa<T extends HTMLElement>(
   return Array.from(element.querySelectorAll(selectors));
 }
 
+export function contains(context: Element, node: Element) {
+  if (context.contains) return context.contains(node);
+  if (context.compareDocumentPosition) {
+    return context === node || !!(context.compareDocumentPosition(node) & 16);
+  }
+}
+
 export const getBodyScrollbarWidth = () => {
   const myWindow = document.defaultView;
   if (!myWindow) return 0;

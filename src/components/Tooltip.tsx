@@ -14,6 +14,7 @@ import usePopper, { Placement } from "@restart/ui/usePopper";
 import mergeOptionsWithPopperConfig from "@restart/ui/mergeOptionsWithPopperConfig";
 import useRootClose from "@restart/ui/useRootClose";
 import mergeRefs from "@util/MergeReactRefs";
+import { contains } from "@util/DomHelper";
 
 type TooltipTrigger = "hover" | "click" | "focus";
 
@@ -39,7 +40,7 @@ function handleMouseOverOut(
   //@ts-ignore this property does exist
   const related = e.relatedTarget || e.nativeEvent[relatedNative];
 
-  if ((!related || related !== target) && !target.contains(related)) {
+  if ((!related || related !== target) && !contains(target, related)) {
     handler(...args);
   }
 }

@@ -1,4 +1,4 @@
-import { resolveElement } from "@util/DomHelper";
+import { contains, resolveElement } from "@util/DomHelper";
 import { RefObject } from "react";
 import useEventListener from "./use-event-listener";
 
@@ -10,7 +10,7 @@ function useOutsideClick<T extends HTMLElement = HTMLElement>(
   useEventListener("window", mouseEvent, (event) => {
     const el = resolveElement<T>(ref);
     // Do nothing if clicking ref's element or descendent elements
-    if (!el || el.contains(event.target as Node)) {
+    if (!el || contains(el, event.target as Element)) {
       return;
     }
     handler(event);
