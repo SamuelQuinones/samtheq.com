@@ -1,4 +1,4 @@
-import { FC, memo, MouseEventHandler, useState } from "react";
+import { FC, memo, MouseEventHandler, useCallback, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEventListener } from "@hooks";
@@ -19,13 +19,13 @@ const ScrollToTop = memo(() => {
     e.currentTarget.blur();
   };
 
-  const toggleVisibility = () => {
+  const toggleVisibility = useCallback(() => {
     if (window.pageYOffset > 300) {
       setIsVisible(true);
     } else {
       setIsVisible(false);
     }
-  };
+  }, []);
 
   useEventListener("window", "scroll", toggleVisibility);
 
