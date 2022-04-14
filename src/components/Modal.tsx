@@ -1,20 +1,44 @@
-//TODO: Fix clicking outside modal
-
-import { FC, useMemo, useRef } from "react";
-import classNames from "classnames";
-import { motion } from "framer-motion";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  backdropVariants,
-  dialogVariants,
-  BaseProps,
-  modalSpring,
-  useLockBodyModal,
-} from "./Helper";
+import { FC, ReactNode, useMemo } from "react";
 import FocusTrap from "focus-trap-react";
 import type { Options } from "focus-trap";
+import classNames from "classnames";
+import { AnimatePresence, motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Portal from "@components/Portal";
+import { useLockBody } from "@hooks";
 
-const BaseModal: FC<BaseProps> = ({
+type BaseProps = {
+  handleClose: () => void;
+  header?: ReactNode;
+  headerClassName?: string;
+  bodyClassName?: string;
+  footer?: ReactNode;
+  footerClassName?: string;
+};
+
+type ModalProps = BaseProps & {
+  open?: boolean;
+};
+
+const backdropVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+};
+
+const dialogVariants = {
+  hidden: { opacity: 0, y: "-25vh" },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+  exit: { opacity: 0, y: "-25vh", transition: { duration: 0.3 } },
+};
+
+const modalSpring = {
+  type: "spring",
+  stiffness: 700,
+  damping: 50,
+};
+
+export const BaseModal: FC<BaseProps> = ({
   handleClose,
   children,
   header,
@@ -23,15 +47,13 @@ const BaseModal: FC<BaseProps> = ({
   bodyClassName,
   footerClassName,
 }) => {
-  const baseRef = useRef<HTMLDivElement>(null);
-
   const focusTrapOptions: Options = {
     onDeactivate: handleClose,
     clickOutsideDeactivates: true,
     returnFocusOnDeactivate: true,
     initialFocus: ".modal-base",
   };
-  useLockBodyModal();
+  useLockBody("modal-open");
 
   const headerClasses = useMemo(
     () => classNames("modal-header", headerClassName),
@@ -48,13 +70,7 @@ const BaseModal: FC<BaseProps> = ({
 
   return (
     <FocusTrap focusTrapOptions={focusTrapOptions}>
-      <div
-        className="modal-base"
-        tabIndex={-1}
-        ref={baseRef}
-        role="dialog"
-        aria-modal="true"
-      >
+      <div className="modal-base" tabIndex={-1} role="dialog" aria-modal="true">
         <motion.div
           {...backdropVariants}
           transition={{ duration: 0.2 }}
@@ -91,4 +107,14 @@ const BaseModal: FC<BaseProps> = ({
   );
 };
 
-export default BaseModal;
+const Modal: FC<ModalProps> = ({ open = false, ...rest }) => (
+  <AnimatePresence>
+    {open && (
+      <Portal wrapperId="modal-portal-root">
+        <BaseModal {...rest} />
+      </Portal>
+    )}
+  </AnimatePresence>
+);
+
+export default Modal;

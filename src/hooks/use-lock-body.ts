@@ -3,34 +3,7 @@ import {
   resetElementStyles,
   setElementStyles,
 } from "@util/DomHelper";
-import { ReactNode, useEffect } from "react";
-
-export type BaseProps = {
-  handleClose: () => void;
-  header?: ReactNode;
-  headerClassName?: string;
-  bodyClassName?: string;
-  footer?: ReactNode;
-  footerClassName?: string;
-};
-
-export const backdropVariants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  exit: { opacity: 0 },
-};
-
-export const dialogVariants = {
-  hidden: { opacity: 0, y: "-25vh" },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-  exit: { opacity: 0, y: "-25vh", transition: { duration: 0.3 } },
-};
-
-export const modalSpring = {
-  type: "spring",
-  stiffness: 700,
-  damping: 50,
-};
+import useIsomorphicLayoutEffect from "./use-isomorphic-layout-effect";
 
 const PaddingRightSelector = "[class*='right-'].fixed, .navbar.fixed";
 
@@ -49,29 +22,29 @@ const addModalStyles = (scrollBarDif: number) => {
     );
   }
 };
-
 const removeModalStyles = () => {
   resetElementStyles("body", "overflow");
   resetElementStyles("body", "paddingRight");
   resetElementStyles(PaddingRightSelector, "paddingRight");
 };
 
-//? Switch to useLayoutEffect
-export const useLockBodyModal = () => {
-  useEffect(() => {
+function useLockBody(attributeName = "body-locked") {
+  useIsomorphicLayoutEffect(() => {
     const modalAlreadyOpen = Boolean(
-      document.documentElement.getAttribute("modal-open")
+      document.documentElement.getAttribute(attributeName)
     );
-    document.documentElement.setAttribute("modal-open", "true");
+    document.documentElement.setAttribute(attributeName, "true");
     if (!modalAlreadyOpen) {
       const SBW = getBodyScrollbarWidth();
       addModalStyles(SBW);
     }
     return () => {
       if (!modalAlreadyOpen) {
-        document.documentElement.removeAttribute("modal-open");
+        document.documentElement.removeAttribute(attributeName);
         removeModalStyles();
       }
     };
-  }, []);
-};
+  }, [attributeName]);
+}
+
+export default useLockBody;
