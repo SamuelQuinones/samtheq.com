@@ -14,7 +14,7 @@
     "start": "next start -p 6006",
     "start:static": "serve out -p 6006",
     "eslint": "eslint --ext js,ts,tsx",
-    "lint:next": "next lint --ext js,ts,tsx --dir src",
+    "lint:next": "next lint --dir src",
     "lint": "npm run eslint src && prettier --check \"src/styles/**/*\"",
     "format": "npm run eslint -- --fix src && prettier --write \"src/styles/**/*\"",
     "generate": "cross-env TS_NODE_PROJECT=\"./.scripts/ts-node.tsconfig.json\" plop --plopfile .scripts/generators/plopfile.ts",
