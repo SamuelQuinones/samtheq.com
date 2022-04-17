@@ -2,7 +2,7 @@ import { Actions, PlopGeneratorConfig } from "node-plop";
 import * as path from "path";
 
 const hooksDirectory = path.join(process.cwd(), "src/hooks");
-const templateDir = path.join(process.cwd(), ".scripts/generators/hook");
+const templateDir = path.join(process.cwd(), "internals/generators/hook");
 
 export enum HookPromptConfig {
   hookName = "hookName",
@@ -20,6 +20,7 @@ export const HookGenerator: PlopGeneratorConfig = {
     },
   ],
   actions: (data) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const answers = data as Answers;
     const actions: Actions = [];
 

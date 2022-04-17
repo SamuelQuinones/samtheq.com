@@ -2,7 +2,7 @@ import { Actions, PlopGeneratorConfig } from "node-plop";
 import * as path from "path";
 import colors from "tailwindcss/colors";
 
-const themeDir = path.join(process.cwd(), ".scripts/generators/theme");
+const themeDir = path.join(process.cwd(), "internals/generators/theme");
 const stylesDirectory = path.join(process.cwd(), "src/styles");
 const tailwindConfig = path.join(process.cwd(), "tailwind.config.js");
 
@@ -130,7 +130,7 @@ export const ThemeGenerator: PlopGeneratorConfig = {
     actions.push({
       type: "modify",
       path: path.join(process.cwd(), "src/util/Theme.ts"),
-      transform: (data) => {
+      transform: (data: any) => {
         let newData = data;
         //* type
         const typeReg = new RegExp(

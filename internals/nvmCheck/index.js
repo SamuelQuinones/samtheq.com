@@ -36,7 +36,7 @@ switch (ACTUAL_OS) {
     break;
 
   default:
-    const unix = spawn("./.scripts/nvmCheck/unix.sh");
+    const unix = spawn("./internals/nvmCheck/unix.sh");
     unix.stdout.on("data", outputHelper("green"));
     unix.stderr.on("data", outputHelper("yellow"));
     unix.on("error", errorHelper);
