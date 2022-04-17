@@ -17,7 +17,7 @@
     "lint:next": "next lint --dir src",
     "lint": "npm run eslint src && prettier --check \"src/styles/**/*\"",
     "format": "npm run eslint -- --fix src && prettier --write \"src/styles/**/*\"",
-    "generate": "plop --plopfile .scripts/generators/plopfile.ts",
+    "generate": "plop --plopfile internals/generators/plopfile.ts",
     "generate:hook": "npm run generate -- hook",
     "generate:theme": "npm run generate -- theme"
   },
