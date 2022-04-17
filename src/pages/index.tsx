@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import PageLayout from "src/layout/Page";
+import PageLayout from "layout/Page";
 import { motion } from "framer-motion";
 import HomeUpdate from "@components/Card/HomeUpdate";
 

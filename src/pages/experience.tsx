@@ -4,7 +4,7 @@ import {
   WorkTimelineItem,
 } from "@components/Timeline/Item";
 import type { NextPage } from "next";
-import PageLayout from "src/layout/Page";
+import PageLayout from "layout/Page";
 const Experience: NextPage = () => {
   return (
     <PageLayout metaTitle="Experience | SamTheQ" metaUrl="experience">

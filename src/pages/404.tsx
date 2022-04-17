@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Button from "@components/Button";
 import { NextPage } from "next";
-import PageLayout from "src/layout/Page";
+import PageLayout from "layout/Page";
 
 const Custom404: NextPage = () => {
   const router = useRouter();

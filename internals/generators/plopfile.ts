@@ -1,13 +1,13 @@
 // plopfile.ts
 import { execSync } from "child_process";
-import autoComp from 'inquirer-autocomplete-prompt';
+import autoComp from "inquirer-autocomplete-prompt";
 import { NodePlopAPI } from "node-plop";
 import { HookGenerator } from "./hook";
 import { ThemeGenerator } from "./theme";
 
 export default function plop(plop: NodePlopAPI) {
   //@ts-ignore this works just fine
-  plop.setPrompt("autocomplete", autoComp)
+  plop.setPrompt("autocomplete", autoComp);
 
   plop.setGenerator("hook", HookGenerator);
   plop.setGenerator("theme", ThemeGenerator);

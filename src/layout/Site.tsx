@@ -2,8 +2,8 @@ import { FC, memo, MouseEventHandler, useCallback, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEventListener } from "@hooks";
-import Navbar from "src/navigation/NavBar";
-import NavLink from "src/navigation/NavLink";
+import Navbar from "navigation/NavBar";
+import NavLink from "navigation/NavLink";
 import Footer from "./Footer";
 import Button from "@components/Button";
 
