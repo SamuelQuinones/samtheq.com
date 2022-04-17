@@ -13,12 +13,12 @@ export default function plop(plop: NodePlopAPI) {
   plop.setGenerator("theme", ThemeGenerator);
 
   plop.setActionType("prettify", (answers, config) => {
-    const data = config.data as Record<string, any>;
+    const data = config?.data as Record<string, any>;
     execSync(`prettier --write "${data.path}"`);
     return "";
   });
   plop.setActionType("lintify", (answers, config) => {
-    const data = config.data as Record<string, any>;
+    const data = config?.data as Record<string, any>;
     execSync(`eslint --ext js,ts,tsx --fix "${data.path}"`);
     return "";
   });
