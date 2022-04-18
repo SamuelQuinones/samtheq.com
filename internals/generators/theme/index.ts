@@ -2,9 +2,9 @@ import { Actions, PlopGeneratorConfig } from "node-plop";
 import * as path from "path";
 import colors from "tailwindcss/colors";
 
-const themeDir = path.join(process.cwd(), "internals/generators/theme");
-const stylesDirectory = path.join(process.cwd(), "src/styles");
-const tailwindConfig = path.join(process.cwd(), "tailwind.config.js");
+const themeDir = __dirname;
+const stylesDirectory = path.join(__dirname, "../../../src/styles");
+const tailwindConfig = path.join(__dirname, "../../../tailwind.config.js");
 
 const numberChoices = [
   "50",
@@ -116,7 +116,7 @@ export const ThemeGenerator: PlopGeneratorConfig = {
       actions.push({
         type: "lintify",
         data: {
-          path: path.join(process.cwd(), "tailwind.config.js"),
+          path: tailwindConfig,
         },
       });
     }
@@ -129,7 +129,7 @@ export const ThemeGenerator: PlopGeneratorConfig = {
     });
     actions.push({
       type: "modify",
-      path: path.join(process.cwd(), "src/util/Theme.ts"),
+      path: path.join(__dirname, "../../../src/util/Theme.ts"),
       transform: (data: any) => {
         let newData = data;
         //* type
@@ -149,7 +149,7 @@ export const ThemeGenerator: PlopGeneratorConfig = {
     actions.push({
       type: "lintify",
       data: {
-        path: path.join(process.cwd(), "src/util"),
+        path: path.join(__dirname, "../../../src/util"),
       },
     });
     actions.push({
