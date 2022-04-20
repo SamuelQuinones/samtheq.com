@@ -9,7 +9,8 @@ const Custom404: NextPage = () => {
   return (
     <PageLayout
       containerClasses="flex flex-col justify-center items-center"
-      metaTitle="404: This page could not be found"
+      title="404: Not Found"
+      titleTemplate="%s"
     >
       <h1 className="text-center text-6xl">404</h1>
       <p className="mt-5 text-center">

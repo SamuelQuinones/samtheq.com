@@ -17,7 +17,7 @@ const Home: NextPage = () => {
   return (
     <PageLayout
       containerClasses="flex items-center flex-col justify-center"
-      metaTitle="SamTheQ | Home"
+      title="Home"
     >
       <h1 className="text-center text-3xl sm:text-4xl md:text-6xl">
         Samuel Quinones

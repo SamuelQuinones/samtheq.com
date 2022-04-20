@@ -1,20 +1,22 @@
 import type { FC } from "react";
-import NextHead from "next/head";
 import classNames from "classnames";
+import { NextSeo } from "next-seo";
 
 type LayoutProps = {
   containerClasses?: string;
-  metaDescription?: string;
-  metaTitle: string;
-  metaUrl?: string;
+  title: string;
+  titleTemplate?: string;
+  openGraphUrl?: string;
+  canonical?: string;
 };
 
 const PageLayout: FC<LayoutProps> = ({
   children,
   containerClasses,
-  metaDescription = "A personal website for Samuel Quinones, to show off projects and a personal portfolio",
-  metaTitle,
-  metaUrl = "",
+  title,
+  titleTemplate,
+  openGraphUrl,
+  canonical,
 }) => {
   const cn = classNames(
     "pt-16",
@@ -22,38 +24,19 @@ const PageLayout: FC<LayoutProps> = ({
     "flex-grow",
     containerClasses
   );
+  const OG_URL = openGraphUrl
+    ? /http(s?):\/\/samtheq.com/gm.test(openGraphUrl)
+      ? openGraphUrl
+      : `https://samtheq.com${openGraphUrl}`
+    : undefined;
   return (
     <>
-      <NextHead>
-        <title>{metaTitle}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="description" content={metaDescription} />
-        <meta name="author" content="Samuel Quinones" />
-        <meta property="og:title" content={metaTitle} />
-        <meta property="og:description" content={metaDescription} />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="SamTheQ" />
-        <meta
-          property="og:image"
-          content={`${process.env.NEXT_PUBLIC_BASE_URL}/favicon.png`}
-        />
-        <meta
-          property="og:url"
-          content={`${
-            process.env.NEXT_PUBLIC_BASE_URL
-          }/${metaUrl.toLowerCase()}`}
-        />
-        <meta property="twitter:card" content="summary" />
-        <meta property="twitter:creator" content="@SamuelQuinones1" />
-        <meta property="twitter:site" content="@SamuelQuinones1" />
-        <meta property="twitter:title" content={metaTitle} />
-        <meta property="twitter:description" content={metaDescription} />
-        <meta
-          property="twitter:image"
-          content={`${process.env.NEXT_PUBLIC_BASE_URL}/favicon.ico`}
-        />
-      </NextHead>
+      <NextSeo
+        titleTemplate={titleTemplate}
+        title={title}
+        openGraph={{ url: OG_URL }}
+        canonical={canonical}
+      />
       <main id="stq-page-content" className={cn}>
         {children}
       </main>
