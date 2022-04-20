@@ -55,11 +55,7 @@ const HomeUpdate = ({
       <Modal
         open={showModal}
         handleClose={() => setShowModal(false)}
-        footer={
-          <>
-            <Button onClick={() => setShowModal(false)}>Close</Button>
-          </>
-        }
+        footer={<Button onClick={() => setShowModal(false)}>Close</Button>}
         footerClassName="p-2 text-right"
       >
         {message}

@@ -59,7 +59,7 @@ const TimelineContainer: FC = ({ children }) => {
         <Button
           variant="secondary"
           shape="pill"
-          className="px-1.5 py-0.5 text-sm"
+          className="mx-3 px-1.5 py-0.5 text-sm"
         >
           Filter <FontAwesomeIcon icon={["fas", "sliders"]} />
         </Button>

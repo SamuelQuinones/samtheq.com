@@ -94,7 +94,7 @@ export const EducationTimelineItem = ({
       arrowClassName="group-even:border-r-info-700 group-odd:md:border-l-info-700 group-odd:max-md:border-r-info-700"
       icon="graduation-cap"
     >
-      <h3>{title}</h3>
+      <h3 className="mb-2 text-xl font-bold">{title}</h3>
       {description}
       {additionalInfo.length > 0 && (
         <section className="mt-3 text-right">
@@ -124,7 +124,7 @@ export const WorkTimelineItem = ({
       arrowClassName="group-even:border-r-primary-600 group-odd:md:border-l-primary-600 group-odd:max-md:border-r-primary-600"
       icon="briefcase"
     >
-      <h3>{title}</h3>
+      <h3 className="mb-2 text-xl font-bold">{title}</h3>
       {description}
       {additionalInfo.length > 0 && (
         <section className="mt-3 text-right">

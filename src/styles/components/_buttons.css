@@ -1,5 +1,5 @@
 .btn {
-  @apply inline-block rounded-md border px-3 py-2 transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-70;
+  @apply inline-block rounded-md border px-3 py-1.5 transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-70;
 }
 
 /* APPEND HERE */

@@ -18,12 +18,21 @@ import { contains } from "@util/DomHelper";
 
 type TooltipTrigger = "hover" | "click" | "focus";
 
+type MouseEvents = {
+  [K in keyof GlobalEventHandlersEventMap]: GlobalEventHandlersEventMap[K] extends MouseEvent
+    ? K
+    : never;
+}[keyof GlobalEventHandlersEventMap];
+
 type Props = {
   children: ReactNode;
   tooltipText: string;
   placement?: Placement;
   trigger?: TooltipTrigger | TooltipTrigger[];
   flip?: boolean;
+  rootClose?: boolean;
+  rootCloseDisabled?: boolean;
+  rootCloseEvent?: MouseEvents;
 };
 
 // Simple implementation of mouseEnter and mouseLeave.
@@ -51,13 +60,19 @@ const Tooltip = ({
   flip,
   trigger = ["hover", "focus"],
   tooltipText,
+  rootClose,
+  rootCloseDisabled,
+  rootCloseEvent,
 }: Props) => {
   const [show, setShow] = useState(false);
 
   const [rootElement, attachRef] = useState<HTMLDivElement | null>(null);
   const [arrowElement, attachArrowRef] = useState<Element | null>(null);
 
-  useRootClose(rootElement, () => setShow(false));
+  useRootClose(rootElement, () => setShow(false), {
+    disabled: !rootClose || rootCloseDisabled,
+    clickTrigger: rootCloseEvent,
+  });
 
   const triggerNodeRef = useRef<HTMLElement>(null);
   const child = Children.only(children);
