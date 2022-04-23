@@ -5,23 +5,28 @@ import { motion } from "framer-motion";
 import { useTimelineItem } from "./context";
 import Button from "@components/Button";
 import type { IconName } from "@fortawesome/fontawesome-svg-core";
+import dayjs from "dayjs";
 
 type Props = {
   title: string;
   description: string;
   additionalInfo?: string[];
+  startDate: string | Date;
+  endDate?: string | Date;
 };
 
 type BaseProps = {
   contentClassName: string;
   arrowClassName: string;
   icon: IconName;
+  sideText?: string;
 };
 
 const TimelineItem: FC<BaseProps> = ({
   contentClassName,
   arrowClassName,
   icon,
+  sideText,
   children,
 }) => {
   const contentClasses = useMemo(
@@ -48,6 +53,17 @@ const TimelineItem: FC<BaseProps> = ({
 
   return (
     <li className="group relative even:text-right odd:max-md:text-right">
+      {sideText && (
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.2, type: "tween" }}
+          className=" absolute top-2 hidden w-1/2 font-bold group-odd:right-0 group-odd:pl-9 group-even:left-0 group-even:pr-9 md:block"
+        >
+          {sideText}
+        </motion.p>
+      )}
       <span className="absolute bottom-0 top-0 left-[calc(1.25rem-.125rem)] w-1 bg-white group-last:top-[unset] md:left-[calc(50%-0.125rem)]" />
       <motion.span
         initial={{ scale: 0 }}
@@ -77,7 +93,10 @@ export const EducationTimelineItem = ({
   description,
   title,
   additionalInfo = [],
-}: Props) => {
+  degree,
+  startDate,
+  endDate,
+}: Props & { degree?: string }) => {
   const { prepareModal, registerCategory } = useTimelineItem();
   useEffect(() => {
     registerCategory("education");
@@ -87,15 +106,25 @@ export const EducationTimelineItem = ({
     () => prepareModal({ title, additionalInfo }),
     [additionalInfo, prepareModal, title]
   );
+  const sideText = useMemo(
+    () =>
+      `${dayjs(startDate).format("MMMM YYYY")} - ${
+        endDate ? dayjs(endDate).format("MMMM YYYY") : "Present"
+      }`,
+    [endDate, startDate]
+  );
 
   return (
     <TimelineItem
       contentClassName="bg-info-700"
       arrowClassName="group-even:border-r-info-700 group-odd:md:border-l-info-700 group-odd:max-md:border-r-info-700"
       icon="graduation-cap"
+      sideText={sideText}
     >
-      <h3 className="mb-2 text-xl font-bold">{title}</h3>
-      {description}
+      <h3 className="text-xl font-bold">{title}</h3>
+      {degree && <h4 className="mb-2 text-lg italic">{degree}</h4>}
+      <p>{description}</p>
+      <p className="mt-2 block font-bold italic md:hidden">{sideText}</p>
       {additionalInfo.length > 0 && (
         <section className="mt-3 text-right">
           <Button onClick={handlePrepare}>Read More</Button>
@@ -108,7 +137,10 @@ export const WorkTimelineItem = ({
   description,
   title,
   additionalInfo = [],
-}: Props) => {
+  company,
+  startDate,
+  endDate,
+}: Props & { company?: string }) => {
   const { prepareModal, registerCategory } = useTimelineItem();
   useEffect(() => {
     registerCategory("work");
@@ -118,14 +150,25 @@ export const WorkTimelineItem = ({
     () => prepareModal({ title, additionalInfo }),
     [additionalInfo, prepareModal, title]
   );
+  const sideText = useMemo(
+    () =>
+      `${dayjs(startDate).format("MMMM YYYY")} - ${
+        endDate ? dayjs(endDate).format("MMMM YYYY") : "Present"
+      }`,
+    [endDate, startDate]
+  );
+
   return (
     <TimelineItem
       contentClassName="bg-primary-600"
       arrowClassName="group-even:border-r-primary-600 group-odd:md:border-l-primary-600 group-odd:max-md:border-r-primary-600"
       icon="briefcase"
+      sideText={sideText}
     >
-      <h3 className="mb-2 text-xl font-bold">{title}</h3>
-      {description}
+      <h3 className="text-xl font-bold">{title}</h3>
+      {company && <h4 className="mb-2 text-lg italic">{company}</h4>}
+      <p>{description}</p>
+      <p className="mt-2 block font-bold italic md:hidden">{sideText}</p>
       {additionalInfo.length > 0 && (
         <section className="mt-3 text-right">
           <Button onClick={handlePrepare}>Read More</Button>

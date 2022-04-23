@@ -55,11 +55,11 @@ const TimelineContainer: FC = ({ children }) => {
           </p>
         ))}
       </Modal>
-      <Tooltip tooltipText="Filter Timeline items">
+      <Tooltip tooltipText="Filter Timeline items" flip>
         <Button
           variant="secondary"
           shape="pill"
-          className="mx-3 px-1.5 py-0.5 text-sm"
+          className="mx-3 px-2 py-1 text-sm"
         >
           Filter <FontAwesomeIcon icon={["fas", "sliders"]} />
         </Button>
