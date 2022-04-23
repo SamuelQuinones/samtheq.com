@@ -5,6 +5,7 @@ import {
   faGithub,
   faTwitter,
   faYoutube,
+  faLinkedinIn,
 } from "@fortawesome/free-brands-svg-icons";
 import {
   faChevronUp,
@@ -27,6 +28,7 @@ export const initializeFontAwesome = () => {
     faCloseSolid,
     faGraduationCap,
     faBriefcase,
-    faSliders
+    faSliders,
+    faLinkedinIn
   );
 };

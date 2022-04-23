@@ -27,6 +27,12 @@ const Footer = memo(() => {
             name="github"
             url="https://github.com/SamuelQuinones"
           />
+          <FooterIcon
+            prefix="fab"
+            name="linkedin-in"
+            url="https://www.linkedin.com/in/samuelq/"
+            title="linkedin"
+          />
         </section>
       </div>
     </footer>

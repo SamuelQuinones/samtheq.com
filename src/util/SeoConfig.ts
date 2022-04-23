@@ -1,7 +1,7 @@
 import type { DefaultSeoProps } from "next-seo";
 
 const SEO: DefaultSeoProps = {
-  canonical: "https://samtheq.com",
+  canonical: process.env.NEXT_PUBLIC_BASE_URL,
   description:
     "A personal website for Samuel Quinones, to show off projects and a personal portfolio",
   titleTemplate: "%s | SamTheQ",
@@ -12,11 +12,11 @@ const SEO: DefaultSeoProps = {
   },
   openGraph: {
     type: "website",
-    url: "https://samtheq.com",
+    url: process.env.NEXT_PUBLIC_BASE_URL,
     site_name: "SamTheQ",
     images: [
       {
-        url: "https://samtheq.com/favicon.png",
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/favicon.png`,
         alt: "SamTheQ logo",
       },
     ],

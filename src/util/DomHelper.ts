@@ -1,7 +1,7 @@
 import type { RefObject } from "react";
 
 /**
- * utility qrapper for `{ELEMENT}.querySelector()`
+ * utility wrapper for `{ELEMENT}.querySelector()`
  */
 export function qs<T extends HTMLElement>(
   element: T | Document,
@@ -11,7 +11,7 @@ export function qs<T extends HTMLElement>(
 }
 
 /**
- * utility wraooer for `{ELEMENT}.querySelectorAll()`
+ * utility wrapper for `{ELEMENT}.querySelectorAll()`
  */
 export function qsa<T extends HTMLElement>(
   element: T | Document,
