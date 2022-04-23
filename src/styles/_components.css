@@ -6,3 +6,16 @@
 .card {
   @apply rounded-md border border-black border-opacity-5 bg-white p-4 text-black shadow-md;
 }
+
+div[data-popper-placement^="top"] > .tooltip-arrow {
+  @apply -bottom-1;
+}
+div[data-popper-placement^="bottom"] > .tooltip-arrow {
+  @apply -top-1;
+}
+div[data-popper-placement^="left"] > .tooltip-arrow {
+  @apply -right-1;
+}
+div[data-popper-placement^="right"] > .tooltip-arrow {
+  @apply -left-1;
+}

@@ -32,12 +32,6 @@ const dialogVariants = {
   exit: { opacity: 0, y: "-25vh", transition: { duration: 0.3 } },
 };
 
-const modalSpring = {
-  type: "spring",
-  stiffness: 700,
-  damping: 50,
-};
-
 export const BaseModal: FC<BaseProps> = ({
   handleClose,
   children,
@@ -79,7 +73,6 @@ export const BaseModal: FC<BaseProps> = ({
         />
         <motion.div
           variants={dialogVariants}
-          transition={modalSpring}
           initial="hidden"
           animate="visible"
           exit="exit"

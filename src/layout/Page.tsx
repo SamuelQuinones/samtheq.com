@@ -10,6 +10,24 @@ type LayoutProps = {
   canonical?: string;
 };
 
+const testOpenGraphUr = (ogurl?: string) => {
+  if (!ogurl) return;
+  if (!process.env.NEXT_PUBLIC_BASE_URL) {
+    console.assert(
+      process.env.NODE_ENV === "development",
+      "NEXT_PUBLIC_BASE_URL is not defined, please make sure it is defined in production"
+    );
+    return;
+  }
+  if (ogurl.includes(process.env.NEXT_PUBLIC_BASE_URL)) {
+    return ogurl;
+  }
+  if (ogurl.includes("/", 0)) {
+    return `${process.env.NEXT_PUBLIC_BASE_URL}${ogurl}`;
+  }
+  return `${process.env.NEXT_PUBLIC_BASE_URL}/${ogurl}`;
+};
+
 const PageLayout: FC<LayoutProps> = ({
   children,
   containerClasses,
@@ -24,11 +42,7 @@ const PageLayout: FC<LayoutProps> = ({
     "flex-grow",
     containerClasses
   );
-  const OG_URL = openGraphUrl
-    ? /http(s?):\/\/samtheq.com/gm.test(openGraphUrl)
-      ? openGraphUrl
-      : `https://samtheq.com${openGraphUrl}`
-    : undefined;
+  const OG_URL = testOpenGraphUr(openGraphUrl);
   return (
     <>
       <NextSeo

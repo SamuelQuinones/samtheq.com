@@ -141,14 +141,8 @@ const Tooltip = ({
   );
 
   const arrowClasses = classNames(
-    "invisible absolute z-[-1] h-3 w-3 bg-inherit",
-    "before:visible before:absolute before:top-0 before:left-0 before:h-3 before:w-3 before:rotate-45 before:bg-inherit",
-    {
-      "-top-1": placement.includes("bottom"),
-      "-bottom-1": placement.includes("top"),
-      "-right-1": placement.includes("left"),
-      "-left-1": placement.includes("right"),
-    }
+    "tooltip-arrow invisible absolute z-[-1] h-3 w-3 bg-inherit",
+    "before:visible before:absolute before:top-0 before:left-0 before:h-3 before:w-3 before:rotate-45 before:bg-inherit"
   );
 
   return (
