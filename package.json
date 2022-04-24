@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev -p 5555",
-    "dev:debug": "cross-env NODE_OPTIONS='--inspect' next dev",
+    "dev:debug": "dotenv -v NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "export": "next export",
     "build:full": "npm run build && npm run export",
@@ -20,7 +20,8 @@
     "generate": "plop --plopfile internals/generators/plopfile.ts",
     "generate:hook": "npm run generate -- hook",
     "generate:theme": "npm run generate -- theme",
-    "please": "prisma migrate dev --name initial-migration --create-only"
+    "prisma:pull": "dotenv -c development prisma db pull",
+    "prisma:migrate": "dotenv -c development prisma migrate"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "6.1.1",
@@ -48,7 +49,7 @@
     "@typescript-eslint/eslint-plugin": "5.20.0",
     "@typescript-eslint/parser": "5.20.0",
     "autoprefixer": "10.4.4",
-    "cross-env": "7.0.3",
+    "dotenv-cli": "5.1.0",
     "eslint": "8.13.0",
     "eslint-config-next": "12.1.5",
     "eslint-config-prettier": "8.5.0",
