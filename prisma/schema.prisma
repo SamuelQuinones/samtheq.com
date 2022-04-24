@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model EducationHistory {
+  ID                 Int       @id @default(autoincrement())
+  institution        String    @db.VarChar(255)
+  degree             String    @db.VarChar(255)
+  start_date         DateTime  @db.Date
+  end_date           DateTime? @db.Date
+  description        String    @db.VarChar(255)
+  additional_info_1  String?   @db.VarChar(255)
+  additional_info_2  String?   @db.VarChar(255)
+  additional_info_3  String?   @db.VarChar(255)
+  modified_timestamp DateTime  @default(now()) @db.Timestamp(0)
+}
+
+model JobHistory {
+  ID                 Int       @id @default(autoincrement())
+  company            String    @db.VarChar(255)
+  title              String    @db.VarChar(255)
+  start_date         DateTime  @db.Date
+  end_date           DateTime? @db.Date
+  description        String    @db.VarChar(255)
+  additional_info_1  String?   @db.VarChar(255)
+  additional_info_2  String?   @db.VarChar(255)
+  additional_info_3  String?   @db.VarChar(255)
+  modified_timestamp DateTime  @default(now()) @db.Timestamp(0)
+}
+
+model RecentGoingsOn {
+  GoingsOnID      Int      @id @default(autoincrement())
+  GoingsOnTitle   String   @db.VarChar(50)
+  GoingsOnContent String   @db.LongText
+  GoingsOnDate    DateTime @db.Date
+  CheckButton     String   @default("\"No Link\"") @db.VarChar(50)
+  PictureUrl      String   @db.VarChar(50)
+}
+
+model blogPosts {
+  PostID      Int      @id @default(autoincrement())
+  PostTitle   String   @db.VarChar(50)
+  PostContent String   @db.LongText
+  PostDate    DateTime @db.Date
+  postMonth   String   @db.VarChar(50)
+}

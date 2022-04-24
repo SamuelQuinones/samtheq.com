@@ -5,14 +5,13 @@ import { motion } from "framer-motion";
 import { useTimelineItem } from "./context";
 import Button from "@components/Button";
 import type { IconName } from "@fortawesome/fontawesome-svg-core";
-import dayjs from "dayjs";
 
 type Props = {
   title: string;
   description: string;
   additionalInfo?: string[];
-  startDate: string | Date;
-  endDate?: string | Date;
+  startDate: string;
+  endDate: string | null;
 };
 
 type BaseProps = {
@@ -107,10 +106,7 @@ export const EducationTimelineItem = ({
     [additionalInfo, prepareModal, title]
   );
   const sideText = useMemo(
-    () =>
-      `${dayjs(startDate).format("MMMM YYYY")} - ${
-        endDate ? dayjs(endDate).format("MMMM YYYY") : "Present"
-      }`,
+    () => `${startDate} - ${endDate || "Present"}`,
     [endDate, startDate]
   );
 
@@ -127,7 +123,9 @@ export const EducationTimelineItem = ({
       <p className="mt-2 block font-bold italic md:hidden">{sideText}</p>
       {additionalInfo.length > 0 && (
         <section className="mt-3 text-right">
-          <Button onClick={handlePrepare}>Read More</Button>
+          <Button variant="secondary" onClick={handlePrepare}>
+            Read More
+          </Button>
         </section>
       )}
     </TimelineItem>
@@ -151,10 +149,7 @@ export const WorkTimelineItem = ({
     [additionalInfo, prepareModal, title]
   );
   const sideText = useMemo(
-    () =>
-      `${dayjs(startDate).format("MMMM YYYY")} - ${
-        endDate ? dayjs(endDate).format("MMMM YYYY") : "Present"
-      }`,
+    () => `${startDate} - ${endDate || "Present"}`,
     [endDate, startDate]
   );
 
@@ -171,7 +166,9 @@ export const WorkTimelineItem = ({
       <p className="mt-2 block font-bold italic md:hidden">{sideText}</p>
       {additionalInfo.length > 0 && (
         <section className="mt-3 text-right">
-          <Button onClick={handlePrepare}>Read More</Button>
+          <Button variant="secondary" onClick={handlePrepare}>
+            Read More
+          </Button>
         </section>
       )}
     </TimelineItem>

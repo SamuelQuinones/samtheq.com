@@ -1,32 +1,62 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
+import prisma from "@util/Prisma";
+import { formatExperience, type TResume } from "@util/Prisma/ExperienceHistory";
 import PageLayout from "layout/Page";
-import dayjs from "dayjs";
-import advanvcedFormat from "dayjs/plugin/advancedFormat";
 import TimelineContainer from "@components/Timeline/Container";
 import {
   EducationTimelineItem,
   WorkTimelineItem,
 } from "@components/Timeline/Item";
-import { TResumeAPI } from "@util/Types";
-dayjs.extend(advanvcedFormat);
+import dayjs from "dayjs";
 
-export const getStaticProps: GetStaticProps<TResumeAPI> = async () => {
-  const rawResume = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/resume`
-  );
-  if (!rawResume.ok) {
-    return {
-      props: {
-        lastUpdated: "",
-        experienceItems: [],
+export const getStaticProps: GetStaticProps<TResume> = async () => {
+  const WORK = await prisma.jobHistory
+    .findMany({
+      orderBy: { start_date: "desc" },
+      select: {
+        title: true,
+        company: true,
+        description: true,
+        start_date: true,
+        end_date: true,
+        additional_info_1: true,
+        additional_info_2: true,
+        additional_info_3: true,
       },
-      revalidate: 10,
-    };
-  }
-  const resume: TResumeAPI = await rawResume.json();
-  resume.lastUpdated = dayjs(resume.lastUpdated).format("MMMM Do, YYYY");
+    })
+    .then((response) => response.map((job) => formatExperience(job, "work")));
+  const EDUCATION = await prisma.educationHistory
+    .findMany({
+      orderBy: { start_date: "desc" },
+      select: {
+        degree: true,
+        institution: true,
+        description: true,
+        start_date: true,
+        end_date: true,
+        additional_info_1: true,
+        additional_info_2: true,
+        additional_info_3: true,
+      },
+    })
+    .then((response) =>
+      response.map((school) => formatExperience(school, "education"))
+    );
+  const resume: TResume["experienceItems"] = [...WORK, ...EDUCATION].sort(
+    (itemA, itemB) => {
+      if (dayjs(itemA.start_date).isBefore(itemB.start_date)) {
+        return 1;
+      }
+      return -1;
+    }
+  );
+
   return {
-    props: resume,
+    props: {
+      lastUpdated: "2022-04-23",
+      experienceItems: resume,
+    },
+    revalidate: 10,
   };
 };
 
@@ -66,11 +96,11 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             return (
               <EducationTimelineItem
                 description={item.description}
-                title={item.title}
+                title={item.institution}
                 additionalInfo={item.additionalInfo}
                 degree={item.degree}
-                startDate={item.startDate}
-                endDate={item.endDate}
+                startDate={item.start_date}
+                endDate={item.end_date}
                 key={`education${index}`}
               />
             );
@@ -81,8 +111,8 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               title={item.title}
               additionalInfo={item.additionalInfo}
               company={item.company}
-              startDate={item.startDate}
-              endDate={item.endDate}
+              startDate={item.start_date}
+              endDate={item.end_date}
               key={`work${index}`}
             />
           );

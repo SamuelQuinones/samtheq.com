@@ -50,7 +50,7 @@ const TimelineContainer: FC = ({ children }) => {
         header={<h1 className="text-center text-2xl">{title}</h1>}
       >
         {paragraphs.map((text, index) => (
-          <p className="mb-1" key={index}>
+          <p className="mb-3" key={index}>
             {text}
           </p>
         ))}
