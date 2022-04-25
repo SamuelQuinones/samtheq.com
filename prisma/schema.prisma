@@ -1,10 +1,12 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
 model EducationHistory {
@@ -17,7 +19,7 @@ model EducationHistory {
   additional_info_1  String?   @db.VarChar(255)
   additional_info_2  String?   @db.VarChar(255)
   additional_info_3  String?   @db.VarChar(255)
-  modified_timestamp DateTime  @default(now()) @db.Timestamp(0)
+  modified_timestamp DateTime  @default(now()) @updatedAt @db.Timestamp(0)
 }
 
 model JobHistory {
@@ -30,7 +32,17 @@ model JobHistory {
   additional_info_1  String?   @db.VarChar(255)
   additional_info_2  String?   @db.VarChar(255)
   additional_info_3  String?   @db.VarChar(255)
-  modified_timestamp DateTime  @default(now()) @db.Timestamp(0)
+  modified_timestamp DateTime  @default(now()) @updatedAt @db.Timestamp(0)
+}
+
+model HomeUpdate {
+  ID                 Int      @id @default(autoincrement())
+  title              String   @db.VarChar(255)
+  message            String   @db.VarChar(255)
+  preview_text       String?  @db.VarChar(100)
+  check_it_out_link  String?  @db.VarChar(255)
+  update_card_time   DateTime @default(now()) @db.Timestamp(0)
+  modified_timestamp DateTime @default(now()) @updatedAt @db.Timestamp(0)
 }
 
 model RecentGoingsOn {
