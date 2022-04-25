@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import CompCard from "@components/Card";
 import Button from "@components/Button";
-import { useMemo, useState } from "react";
-import Modal from "@components/Modal";
+import { useMemo } from "react";
 import Link from "next/link";
+import { useUpdateCard } from "./context";
 
 const Card = motion(CompCard);
 const externalLinkRegex =
@@ -39,7 +39,7 @@ const CheckItBtn = ({ href = "" }) => {
   );
 };
 
-const HomeUpdate = ({
+const HomeUpdateItem = ({
   message,
   previewText,
   checkItOutLink,
@@ -48,32 +48,27 @@ const HomeUpdate = ({
     () => (previewText ? previewText : message.substring(0, 100)),
     [message, previewText]
   );
-  const [showModal, setShowModal] = useState(false);
+
+  const { prepareMessage } = useUpdateCard();
 
   return (
-    <>
-      <Modal
-        open={showModal}
-        handleClose={() => setShowModal(false)}
-        footer={<Button onClick={() => setShowModal(false)}>Close</Button>}
-        footerClassName="p-2 text-right"
-      >
-        {message}
-      </Modal>
-      <Card
-        variants={variants}
-        className="flex flex-col justify-between bg-gray-900 text-white"
-      >
-        <p>{truncatedMessage}...</p>
-        <div className="-m-4 mt-4 rounded-b-md py-2 px-4 text-right">
-          <Button onClick={() => setShowModal(true)} className="mx-2">
-            Read More
-          </Button>
-          {checkItOutLink && <CheckItBtn href={checkItOutLink} />}
-        </div>
-      </Card>
-    </>
+    <Card
+      variants={variants}
+      className="flex flex-col justify-between bg-gray-900 text-white"
+    >
+      <p>
+        {truncatedMessage}
+        {truncatedMessage.length >= 100 && "..."}
+      </p>
+      <div className="-m-4 mt-4 rounded-b-md py-2 px-4 text-right">
+        <Button onClick={() => prepareMessage(message)} className="mx-2">
+          Read More
+        </Button>
+        {checkItOutLink && <CheckItBtn href={checkItOutLink} />}
+      </div>
+      <p className=" -m-2 mt-4">April 2022</p>
+    </Card>
   );
 };
 
-export default HomeUpdate;
+export default HomeUpdateItem;
