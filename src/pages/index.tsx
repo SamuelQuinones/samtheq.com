@@ -1,24 +1,42 @@
 import type { NextPage } from "next";
 import PageLayout from "layout/Page";
-import { motion } from "framer-motion";
-import HomeUpdate from "@components/Card/HomeUpdate";
+import Card from "@components/Card";
+import { useFetchHomeUpdate } from "@util/Prisma/HomeUpdate";
+import { AnimatePresence, motion } from "framer-motion";
+import UpdateContainer from "@components/HomeUpdate/Container";
+import HomeUpdateItem from "@components/HomeUpdate/Item";
 
-const container = {
+const MotionCard = motion(Card);
+
+const variants = {
   hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.5,
-    },
-  },
+  show: { opacity: 1 },
 };
 
+const DummyToast = ({ shouldShow = false }) => (
+  <AnimatePresence>
+    {shouldShow && (
+      <MotionCard
+        variants={variants}
+        initial="hidden"
+        animate="show"
+        exit="hidden"
+        className="fixed right-1 top-16 z-[999999] bg-yellow-600 p-3 text-black shadow-md"
+      >
+        Unable to fetch new data for updates
+      </MotionCard>
+    )}
+  </AnimatePresence>
+);
+
 const Home: NextPage = () => {
+  const { isError, isLoading, updates } = useFetchHomeUpdate();
   return (
     <PageLayout
       containerClasses="flex items-center flex-col justify-center"
       title="Home"
     >
+      <DummyToast shouldShow={!!(isError && updates)} />
       <h1 className="text-center text-3xl sm:text-4xl md:text-6xl">
         Samuel Quinones
       </h1>
@@ -26,24 +44,46 @@ const Home: NextPage = () => {
       <p className="text-center text-base sm:text-lg md:text-xl">
         Developer | Video Editor | Internet Funny Man
       </p>
-      <motion.div
-        className="mt-24 mb-3 grid grid-cols-1 gap-5 md:grid-cols-3"
-        variants={container}
-        initial="hidden"
-        animate="show"
-      >
-        <HomeUpdate
-          checkItOutLink="/404"
-          previewText="Lorem ipsum dolor sit amet consectetur adipisicing"
-          message="Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus optio eligendi fuga aliquam? Repellendus, consectetur impedit neque itaque reiciendis tenetur voluptatum totam qui corrupti aspernatur, minima temporibus possimus, soluta pariatur?"
-        />
-        <HomeUpdate
-          checkItOutLink="https://twitter.com"
-          previewText="Lorem ipsum dolor sit amet consectetur"
-          message="Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus optio eligendi fuga aliquam? Repellendus, consectetur impedit neque itaque reiciendis tenetur voluptatum totam qui corrupti aspernatur, minima temporibus possimus, soluta pariatur?"
-        />
-        <HomeUpdate message="Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus optio eligendi fuga aliquam? Repellendus, consectetur impedit neque itaque reiciendis tenetur voluptatum totam qui corrupti aspernatur, minima temporibus possimus, soluta pariatur?" />
-      </motion.div>
+      <AnimatePresence exitBeforeEnter initial={false}>
+        {isError && !updates && (
+          <MotionCard
+            key="error"
+            variants={variants}
+            initial="hidden"
+            animate="show"
+            exit="hidden"
+            className="mt-24 mb-3 w-full max-w-xl bg-yellow-600 text-black"
+          >
+            <h3 className="mb-3 text-2xl font-bold">Unable to fetch data</h3>
+            <p>Unable to fetch data to populates update cards</p>
+            <p>{isError.message}</p>
+          </MotionCard>
+        )}
+        {isLoading && (
+          <motion.p
+            key="loading"
+            variants={variants}
+            initial="hidden"
+            animate="show"
+            exit="hidden"
+            className="mt-24 mb-3"
+          >
+            Loading...
+          </motion.p>
+        )}
+        {updates && (
+          <UpdateContainer>
+            {updates.map((update, index) => (
+              <HomeUpdateItem
+                key={`${index}-${update.ID}`}
+                checkItOutLink={update.check_it_out_link}
+                message={update.message}
+                previewText={update.preview_text}
+              />
+            ))}
+          </UpdateContainer>
+        )}
+      </AnimatePresence>
     </PageLayout>
   );
 };
