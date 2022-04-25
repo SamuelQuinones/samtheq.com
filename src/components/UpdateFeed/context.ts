@@ -11,7 +11,7 @@ export const useUpdateCard = () => {
 
   if (!context && process.env.NODE_ENV === "development") {
     throw Error(
-      "Please make sure this component is contained within the Update Card Container"
+      "Please make sure this component is contained within the Update Feed Container"
     );
   } else {
     return context as IUpdateContext;

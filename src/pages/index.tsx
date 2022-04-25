@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
 import PageLayout from "layout/Page";
 import Card from "@components/Card";
-import { useFetchHomeUpdate } from "@util/Prisma/HomeUpdate";
+import { useFetchUpdateFeed } from "@util/Prisma/UpdateFeed";
 import { AnimatePresence, motion } from "framer-motion";
-import UpdateContainer from "@components/HomeUpdate/Container";
-import HomeUpdateItem from "@components/HomeUpdate/Item";
+import UpdateContainer from "@components/UpdateFeed/Container";
+import UpdateFeedItem from "@components/UpdateFeed/Item";
 
 const MotionCard = motion(Card);
 
@@ -30,7 +30,7 @@ const DummyToast = ({ shouldShow = false }) => (
 );
 
 const Home: NextPage = () => {
-  const { isError, isLoading, updates } = useFetchHomeUpdate();
+  const { isError, isLoading, updates } = useFetchUpdateFeed();
   return (
     <PageLayout
       containerClasses="flex items-center flex-col justify-center"
@@ -74,11 +74,12 @@ const Home: NextPage = () => {
         {updates && (
           <UpdateContainer>
             {updates.map((update, index) => (
-              <HomeUpdateItem
+              <UpdateFeedItem
                 key={`${index}-${update.ID}`}
                 checkItOutLink={update.check_it_out_link}
                 message={update.message}
                 previewText={update.preview_text}
+                feedDate={update.update_card_time}
               />
             ))}
           </UpdateContainer>

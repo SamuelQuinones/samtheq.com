@@ -1,7 +1,7 @@
-import type { HomeUpdate } from "@prisma/client";
+import type { UpdateFeed } from "@prisma/client";
 import useSWR from "swr";
 
-type ModifyProperties<C extends HomeUpdate> = Omit<
+type ModifyProperties<C extends UpdateFeed> = Omit<
   C,
   "preview_text" | "check_it_out_link"
 > & {
@@ -9,13 +9,13 @@ type ModifyProperties<C extends HomeUpdate> = Omit<
   check_it_out_link?: string;
 };
 
-export interface IHomeUpdateResponse {
+export interface IUpdateFeedResponse {
   count: number;
   total: number;
-  updates: ModifyProperties<HomeUpdate>[];
+  updates: ModifyProperties<UpdateFeed>[];
 }
 
-export function responseHelper<T extends HomeUpdate>(data: T) {
+export function responseHelper<T extends UpdateFeed>(data: T) {
   const { check_it_out_link, preview_text, ...rest } = data;
   return {
     ...rest,
@@ -45,9 +45,9 @@ const fetcher = async (url: string) => {
 
   return res.json();
 };
-export function useFetchHomeUpdate<E = { message: string }>() {
-  const { data, error } = useSWR<IHomeUpdateResponse, E>(
-    "/api/home-updates",
+export function useFetchUpdateFeed<E = { message: string }>() {
+  const { data, error } = useSWR<IUpdateFeedResponse, E>(
+    "/api/update-feed",
     fetcher
   );
 

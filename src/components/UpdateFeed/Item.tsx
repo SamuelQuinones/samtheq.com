@@ -4,6 +4,7 @@ import Button from "@components/Button";
 import { useMemo } from "react";
 import Link from "next/link";
 import { useUpdateCard } from "./context";
+import { formatUTC } from "@util/DateHelper";
 
 const Card = motion(CompCard);
 const externalLinkRegex =
@@ -13,10 +14,11 @@ const variants = {
   show: { opacity: 1, y: 0 },
 };
 
-type HomeUpdateProps = {
+type UpdateFeedProps = {
   previewText?: string;
   message: string;
   checkItOutLink?: string;
+  feedDate: string | Date;
 };
 
 const CheckItBtn = ({ href = "" }) => {
@@ -39,11 +41,12 @@ const CheckItBtn = ({ href = "" }) => {
   );
 };
 
-const HomeUpdateItem = ({
+const UpdateFeedItem = ({
   message,
   previewText,
   checkItOutLink,
-}: HomeUpdateProps) => {
+  feedDate,
+}: UpdateFeedProps) => {
   const truncatedMessage = useMemo(
     () => (previewText ? previewText : message.substring(0, 100)),
     [message, previewText]
@@ -66,9 +69,9 @@ const HomeUpdateItem = ({
         </Button>
         {checkItOutLink && <CheckItBtn href={checkItOutLink} />}
       </div>
-      <p className=" -m-2 mt-4">April 2022</p>
+      <p className="-m-2 mt-4">{formatUTC(feedDate, "MMMM YYYY")}</p>
     </Card>
   );
 };
 
-export default HomeUpdateItem;
+export default UpdateFeedItem;

@@ -1,21 +1,21 @@
 import {
-  IHomeUpdateResponse,
+  IUpdateFeedResponse,
   queryParser,
   responseHelper,
-} from "@util/Prisma/HomeUpdate";
+} from "@util/Prisma/UpdateFeed";
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@util/Prisma";
 import catchPrismaErrors from "@util/Prisma/Error";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<IHomeUpdateResponse>
+  res: NextApiResponse<IUpdateFeedResponse>
 ) {
   const limit = queryParser(req.query);
   res.setHeader("Content-Type", "application/json");
   try {
-    const total = await prisma.homeUpdate.count();
-    const updates = await prisma.homeUpdate
+    const total = await prisma.updateFeed.count();
+    const updates = await prisma.updateFeed
       .findMany({
         orderBy: {
           ID: "desc",
