@@ -44,7 +44,7 @@ const Home: NextPage = () => {
       <p className="text-center text-base sm:text-lg md:text-xl">
         Developer | Video Editor | Internet Funny Man
       </p>
-      <AnimatePresence exitBeforeEnter initial={false}>
+      <AnimatePresence exitBeforeEnter /* initial={false} */>
         {isError && !updates && (
           <MotionCard
             key="error"
@@ -63,7 +63,7 @@ const Home: NextPage = () => {
           <motion.p
             key="loading"
             variants={variants}
-            initial="hidden"
+            initial={false}
             animate="show"
             exit="hidden"
             className="mt-24 mb-3"
