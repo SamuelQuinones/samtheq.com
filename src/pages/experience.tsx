@@ -1,5 +1,6 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import prisma from "@util/Prisma";
+import { format, nextDayJs } from "@util/DateHelper";
 import { formatExperience, type TResume } from "@util/Prisma/ExperienceHistory";
 import PageLayout from "layout/Page";
 import TimelineContainer from "@components/Timeline/Container";
@@ -7,7 +8,6 @@ import {
   EducationTimelineItem,
   WorkTimelineItem,
 } from "@components/Timeline/Item";
-import dayjs from "dayjs";
 
 export const getStaticProps: GetStaticProps<TResume> = async () => {
   const WORK = await prisma.jobHistory
@@ -44,7 +44,7 @@ export const getStaticProps: GetStaticProps<TResume> = async () => {
     );
   const resume: TResume["experienceItems"] = [...WORK, ...EDUCATION].sort(
     (itemA, itemB) => {
-      if (dayjs(itemA.start_date).isBefore(itemB.start_date)) {
+      if (nextDayJs(itemA.start_date).isBefore(itemB.start_date)) {
         return 1;
       }
       return -1;
@@ -53,7 +53,7 @@ export const getStaticProps: GetStaticProps<TResume> = async () => {
 
   return {
     props: {
-      lastUpdated: "2022-04-23",
+      lastUpdated: format("2022-04-24", "MMMM Do, YYYY"),
       experienceItems: resume,
     },
     revalidate: 10,

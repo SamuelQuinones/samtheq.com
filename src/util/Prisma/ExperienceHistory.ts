@@ -1,5 +1,5 @@
 import type { EducationHistory, JobHistory } from "@prisma/client";
-import dayjs from "dayjs";
+import { formatUTC } from "@util/DateHelper";
 
 type ExperienceHistory = EducationHistory | JobHistory;
 
@@ -49,8 +49,8 @@ export function formatExperience<
   if (additional_info_2) additionalInfo.push(additional_info_2);
   if (additional_info_3) additionalInfo.push(additional_info_3);
 
-  const startDate = dayjs(start_date).format("MMMM YYYY");
-  const endDate = end_date ? dayjs(end_date).format("MMMM YYYY") : null;
+  const startDate = formatUTC(start_date, "MMMM YYYY");
+  const endDate = end_date ? formatUTC(end_date, "MMMM YYYY") : null;
 
   return {
     ...experienceItem,
