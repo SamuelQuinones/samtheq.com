@@ -1,6 +1,6 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import prisma from "@util/Prisma";
-import { format, nextDayJs } from "@util/DateHelper";
+import { format, isBefore } from "@util/DateHelper";
 import { formatExperience, type TResume } from "@util/Prisma/ExperienceHistory";
 import PageLayout from "layout/Page";
 import TimelineContainer from "@components/Timeline/Container";
@@ -44,7 +44,7 @@ export const getStaticProps: GetStaticProps<TResume> = async () => {
     );
   const resume: TResume["experienceItems"] = [...WORK, ...EDUCATION].sort(
     (itemA, itemB) => {
-      if (nextDayJs(itemA.start_date).isBefore(itemB.start_date)) {
+      if (isBefore(itemB.start_date, itemA.start_date)) {
         return 1;
       }
       return -1;
