@@ -4,6 +4,7 @@ import autoComp from "inquirer-autocomplete-prompt";
 import { NodePlopAPI } from "node-plop";
 import { HookGenerator } from "./hook";
 import { ThemeGenerator } from "./theme";
+import { PageGenerator } from "./page";
 
 export default function plop(plop: NodePlopAPI) {
   //@ts-ignore this works just fine
@@ -11,6 +12,7 @@ export default function plop(plop: NodePlopAPI) {
 
   plop.setGenerator("hook", HookGenerator);
   plop.setGenerator("theme", ThemeGenerator);
+  plop.setGenerator("page", PageGenerator);
 
   plop.setActionType("prettify", (answers, config) => {
     const data = config?.data as Record<string, any>;
