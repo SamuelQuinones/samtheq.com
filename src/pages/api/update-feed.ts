@@ -31,8 +31,8 @@ export default async function handler(
     });
   } catch (error: any) {
     //TODO: better error handling
-    const { code, ...response } = catchPrismaErrors(error);
+    const { statusCode, ...response } = catchPrismaErrors(error);
     //@ts-expect-error need to have an error message type
-    return res.status(code).json(response);
+    return res.status(statusCode).json(response);
   }
 }
