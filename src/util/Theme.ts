@@ -1,2 +1,2 @@
-export type ThemeVariants = "primary" | "secondary" | "info";
+export type ThemeVariants = "primary" | "secondary" | "info" | "blue";
 // THEME TYPE END

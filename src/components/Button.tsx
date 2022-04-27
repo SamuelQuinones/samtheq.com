@@ -29,6 +29,7 @@ const Button = forwardRef<HTMLElement, Props>(
 
     const classes = classNames(
       "btn",
+      { disabled: disabled },
       { [`btn-${variant}`]: !outline, [`btn-outline-${variant}`]: outline },
       shape === "pill" && "rounded-full",
       shape === "square" && "rounded-none",
