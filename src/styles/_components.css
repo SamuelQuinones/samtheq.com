@@ -19,3 +19,7 @@ div[data-popper-placement^="left"] > .tooltip-arrow {
 div[data-popper-placement^="right"] > .tooltip-arrow {
   @apply -left-1;
 }
+
+.text-placeholder {
+  @apply inline-block min-h-[1em] cursor-wait bg-current align-middle opacity-50;
+}
