@@ -14,6 +14,7 @@ import {
   faGraduationCap,
   faBriefcase,
   faSliders,
+  faDownload,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const initializeFontAwesome = () => {
@@ -29,6 +30,7 @@ export const initializeFontAwesome = () => {
     faGraduationCap,
     faBriefcase,
     faSliders,
-    faLinkedinIn
+    faLinkedinIn,
+    faDownload
   );
 };

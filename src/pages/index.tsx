@@ -1,10 +1,14 @@
+//TODO: Add toast component for warning of error but data is present
+
 import type { NextPage } from "next";
+import Image from "next/image";
 import PageLayout from "layout/Page";
 import Card from "@components/Card";
 import { useFetchUpdateFeed } from "@util/Prisma/UpdateFeed";
 import { AnimatePresence, motion } from "framer-motion";
 import UpdateContainer from "@components/UpdateFeed/Container";
 import UpdateFeedItem from "@components/UpdateFeed/Item";
+import UpdateItemSkeleton from "@components/UpdateFeed/Skeleton";
 
 const MotionCard = motion(Card);
 
@@ -13,22 +17,6 @@ const variants = {
   show: { opacity: 1 },
 };
 
-const DummyToast = ({ shouldShow = false }) => (
-  <AnimatePresence>
-    {shouldShow && (
-      <MotionCard
-        variants={variants}
-        initial="hidden"
-        animate="show"
-        exit="hidden"
-        className="fixed right-1 top-16 z-[999999] bg-yellow-600 p-3 text-black shadow-md"
-      >
-        Unable to fetch new data for updates
-      </MotionCard>
-    )}
-  </AnimatePresence>
-);
-
 const Home: NextPage = () => {
   const { isError, isLoading, updates } = useFetchUpdateFeed();
   return (
@@ -36,11 +24,19 @@ const Home: NextPage = () => {
       containerClasses="flex items-center flex-col justify-center"
       title="Home"
     >
-      <DummyToast shouldShow={!!(isError && updates)} />
       <h1 className="text-center text-3xl sm:text-4xl md:text-6xl">
         Samuel Quinones
       </h1>
-      <div className="my-12 inline-block h-52 w-52 rounded-full bg-white" />
+      <div className="relative my-12 inline-block h-56 w-56 rounded-full border-2">
+        <Image
+          src="/SamuelQuinonesHeadShot.jpeg"
+          alt="Samuel Quinones Headshot"
+          height={220}
+          width={220}
+          className="rounded-full"
+          priority
+        />
+      </div>
       <p className="text-center text-base sm:text-lg md:text-xl">
         Developer | Video Editor | Internet Funny Man
       </p>
@@ -60,16 +56,18 @@ const Home: NextPage = () => {
           </MotionCard>
         )}
         {isLoading && (
-          <motion.p
+          <motion.div
             key="loading"
             variants={variants}
             initial={false}
             animate="show"
             exit="hidden"
-            className="mt-24 mb-3"
+            className="mt-24 mb-3 grid w-full grid-cols-1 gap-5 md:grid-cols-3"
           >
-            Loading...
-          </motion.p>
+            <UpdateItemSkeleton />
+            <UpdateItemSkeleton />
+            <UpdateItemSkeleton />
+          </motion.div>
         )}
         {updates && (
           <UpdateContainer>

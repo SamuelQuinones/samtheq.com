@@ -1,4 +1,5 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
+import { motion } from "framer-motion";
 import prisma from "@util/Prisma";
 import { format, isBefore } from "@util/DateHelper";
 import { formatExperience, type TResume } from "@util/Prisma/ExperienceHistory";
@@ -8,6 +9,10 @@ import {
   EducationTimelineItem,
   WorkTimelineItem,
 } from "@components/Timeline/Item";
+import BaseButton from "@components/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const Button = motion(BaseButton);
 
 export const getStaticProps: GetStaticProps<TResume> = async () => {
   const WORK = await prisma.jobHistory
@@ -72,7 +77,10 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             My Experience
           </h1>
           <p className="text-center">
-            <em>Last updated: {lastUpdated}</em>
+            <em className="block">Last updated: {lastUpdated}</em>
+            <em className="block">
+              Full resume available for download at the bottom of this page
+            </em>
           </p>
         </section>
         <section className="text-center md:text-left">
@@ -118,6 +126,41 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           );
         })}
       </TimelineContainer>
+      <section className="grid grid-cols-2 gap-6 p-3">
+        <Button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.98 }}
+          whileFocus={{ scale: 1.05 }}
+          shape="square"
+          variant="blue"
+          className="flex justify-center gap-x-1 py-3 text-xl"
+          href="/SamuelQuinonesResume.pdf"
+          target="_blank"
+          //@ts-expect-error component doesn't allow this but it does exist
+          download
+        >
+          <span>
+            <FontAwesomeIcon
+              icon={["fas", "download"]}
+              width="1em"
+              height="1em"
+            />
+          </span>
+          <span>Download My Resume</span>
+        </Button>
+        <Button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.98 }}
+          whileFocus={{ scale: 1.05 }}
+          shape="square"
+          variant="secondary"
+          className="flex justify-center gap-x-1 py-3 text-xl"
+          href="/SamuelQuinonesResume.pdf"
+          target="_blank"
+        >
+          View My Resume
+        </Button>
+      </section>
     </PageLayout>
   );
 };
