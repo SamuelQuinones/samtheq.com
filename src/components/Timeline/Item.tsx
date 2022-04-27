@@ -71,7 +71,7 @@ const TimelineItem: FC<BaseProps> = ({
         transition={{ type: "spring", bounce: 0.5, stiffness: 125 }}
         className={iconWrapperClasses}
       >
-        <FontAwesomeIcon icon={["fas", icon]} className="h-6 w-6" />
+        <FontAwesomeIcon icon={["fas", icon]} height="24" className="h-6 w-6" />
       </motion.span>
       <motion.div
         initial={{ opacity: 0, scale: 0.7 }}

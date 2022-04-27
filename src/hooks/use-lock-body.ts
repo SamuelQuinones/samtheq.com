@@ -30,17 +30,15 @@ const removeModalStyles = () => {
 
 function useLockBody(attributeName = "body-locked") {
   useIsomorphicLayoutEffect(() => {
-    const modalAlreadyOpen = Boolean(
-      document.documentElement.getAttribute(attributeName)
-    );
-    document.documentElement.setAttribute(attributeName, "true");
+    const modalAlreadyOpen = Boolean(document.body.getAttribute(attributeName));
+    document.body.setAttribute(attributeName, "true");
     if (!modalAlreadyOpen) {
       const SBW = getBodyScrollbarWidth();
       addModalStyles(SBW);
     }
     return () => {
       if (!modalAlreadyOpen) {
-        document.documentElement.removeAttribute(attributeName);
+        document.body.removeAttribute(attributeName);
         removeModalStyles();
       }
     };
