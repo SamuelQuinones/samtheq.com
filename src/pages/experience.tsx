@@ -1,5 +1,5 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import prisma from "@util/Prisma";
 import { format, isBefore } from "@util/DateHelper";
 import { formatExperience, type TResume } from "@util/Prisma/ExperienceHistory";
@@ -12,7 +12,7 @@ import {
 import BaseButton from "@components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Button = motion(BaseButton);
+const Button = m(BaseButton);
 
 export const getStaticProps: GetStaticProps<TResume> = async () => {
   const WORK = await prisma.jobHistory
@@ -61,7 +61,8 @@ export const getStaticProps: GetStaticProps<TResume> = async () => {
       lastUpdated: format("2022-04-24", "MMMM Do, YYYY"),
       experienceItems: resume,
     },
-    revalidate: 10,
+    //* Five Minutes
+    revalidate: 300,
   };
 };
 

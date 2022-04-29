@@ -2,7 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import { FC, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useOutsideClick, useOnRouterEvent } from "@hooks";
 import {
   burgerBottom,
@@ -21,7 +21,7 @@ const Navbar: FC = ({ children }) => {
   useOutsideClick(NAV_REF, hideNavbar);
 
   return (
-    <motion.header
+    <m.header
       role="navigation"
       animate={open ? "open" : "closed"}
       initial={false}
@@ -41,8 +41,8 @@ const Navbar: FC = ({ children }) => {
               className="flex h-8 w-8 flex-col items-center justify-around rounded-sm transition-shadow focus:outline-none focus:ring focus:ring-opacity-60"
               onClick={() => setOpen(!open)}
             >
-              <motion.span className={burgerLine} variants={burgerTop} />
-              <motion.span
+              <m.span className={burgerLine} variants={burgerTop} />
+              <m.span
                 className={burgerLine}
                 variants={{
                   open: {
@@ -54,14 +54,14 @@ const Navbar: FC = ({ children }) => {
                 }}
                 transition={{ duration: 0.1 }}
               />
-              <motion.span className={burgerLine} variants={burgerBottom} />
+              <m.span className={burgerLine} variants={burgerBottom} />
             </button>
           </section>
         </div>
         {/* Content */}
         <div className={`block py-2 sm:flex sm:p-0`}>{children}</div>
       </nav>
-    </motion.header>
+    </m.header>
   );
 };
 

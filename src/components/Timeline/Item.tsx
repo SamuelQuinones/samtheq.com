@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
 import { FC, useCallback, useEffect, useMemo } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTimelineItem } from "./context";
 import Button from "@components/Button";
 import type { IconName } from "@fortawesome/fontawesome-svg-core";
 
-type Props = {
+export type ItemProps<T extends string> = { [key in T]?: string } & {
   title: string;
   description: string;
   additionalInfo?: string[];
@@ -53,7 +53,7 @@ const TimelineItem: FC<BaseProps> = ({
   return (
     <li className="group relative even:text-right odd:max-md:text-right">
       {sideText && (
-        <motion.p
+        <m.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -61,10 +61,10 @@ const TimelineItem: FC<BaseProps> = ({
           className=" absolute top-2 hidden w-1/2 font-bold group-odd:right-0 group-odd:pl-9 group-even:left-0 group-even:pr-9 md:block"
         >
           {sideText}
-        </motion.p>
+        </m.p>
       )}
       <span className="absolute bottom-0 top-0 left-[calc(1.25rem-.125rem)] w-1 bg-white group-last:top-[unset] md:left-[calc(50%-0.125rem)]" />
-      <motion.span
+      <m.span
         initial={{ scale: 0 }}
         whileInView={{ scale: 1 }}
         viewport={{ once: true }}
@@ -72,8 +72,8 @@ const TimelineItem: FC<BaseProps> = ({
         className={iconWrapperClasses}
       >
         <FontAwesomeIcon icon={["fas", icon]} height="24" className="h-6 w-6" />
-      </motion.span>
-      <motion.div
+      </m.span>
+      <m.div
         initial={{ opacity: 0, scale: 0.7 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, amount: 0.2 }}
@@ -82,7 +82,7 @@ const TimelineItem: FC<BaseProps> = ({
       >
         <span className={arrowClasses} />
         <div className={contentClasses}>{children}</div>
-      </motion.div>
+      </m.div>
     </li>
   );
 };
@@ -95,7 +95,7 @@ export const EducationTimelineItem = ({
   degree,
   startDate,
   endDate,
-}: Props & { degree?: string }) => {
+}: ItemProps<"degree">) => {
   const { prepareModal, registerCategory } = useTimelineItem();
   useEffect(() => {
     registerCategory("education");
@@ -138,7 +138,7 @@ export const WorkTimelineItem = ({
   company,
   startDate,
   endDate,
-}: Props & { company?: string }) => {
+}: ItemProps<"company">) => {
   const { prepareModal, registerCategory } = useTimelineItem();
   useEffect(() => {
     registerCategory("work");

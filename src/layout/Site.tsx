@@ -1,7 +1,7 @@
 import { FC, memo, MouseEventHandler, useCallback, useState } from "react";
 import { DefaultSeo } from "next-seo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { useEventListener } from "@hooks";
 import Navbar from "navigation/NavBar";
 import NavLink from "navigation/NavLink";
@@ -34,7 +34,7 @@ const ScrollToTop = memo(() => {
   return (
     <AnimatePresence initial={false} exitBeforeEnter={true}>
       {isVisible && (
-        <motion.div
+        <m.div
           className="fixed bottom-4 right-4"
           initial={{
             opacity: 0,
@@ -54,7 +54,7 @@ const ScrollToTop = memo(() => {
           >
             <FontAwesomeIcon icon={["fas", "chevron-up"]} size="2x" />
           </Button>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

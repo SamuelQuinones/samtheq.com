@@ -5,12 +5,12 @@ import Image from "next/image";
 import PageLayout from "layout/Page";
 import Card from "@components/Card";
 import { useFetchUpdateFeed } from "@util/Prisma/UpdateFeed";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import UpdateContainer from "@components/UpdateFeed/Container";
 import UpdateFeedItem from "@components/UpdateFeed/Item";
 import UpdateItemSkeleton from "@components/UpdateFeed/Skeleton";
 
-const MotionCard = motion(Card);
+const MotionCard = m(Card);
 
 const variants = {
   hidden: { opacity: 0 },
@@ -56,7 +56,7 @@ const Home: NextPage = () => {
           </MotionCard>
         )}
         {isLoading && (
-          <motion.div
+          <m.div
             key="loading"
             variants={variants}
             initial={false}
@@ -67,7 +67,7 @@ const Home: NextPage = () => {
             <UpdateItemSkeleton />
             <UpdateItemSkeleton />
             <UpdateItemSkeleton />
-          </motion.div>
+          </m.div>
         )}
         {updates && (
           <UpdateContainer>

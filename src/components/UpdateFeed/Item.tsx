@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import CompCard from "@components/Card";
 import Button from "@components/Button";
 import { useMemo } from "react";
@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useUpdateCard } from "./context";
 import { formatUTC } from "@util/DateHelper";
 
-const Card = motion(CompCard);
+const Card = m(CompCard);
 const externalLinkRegex =
   /(((http|https|ftp|ftps|sftp):\/\/)?[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,3}(\/\S*)?)/i;
 const variants = {

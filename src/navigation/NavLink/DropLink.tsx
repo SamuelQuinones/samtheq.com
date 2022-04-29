@@ -1,5 +1,5 @@
 import { FC, useRef, useEffect, useState, useMemo } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useRouter } from "next/router";
 import { Dropdown } from "@restart/ui";
 import { useWindowSize } from "@hooks";
@@ -84,7 +84,7 @@ const DropLink: FC<Props> = ({ children, label, id }) => {
           className={`${display} popper-nav-menu top-[100%] right-0 mt-1 rounded-md md:absolute`}
           usePopper={false}
         >
-          <motion.div
+          <m.div
             variants={responsiveVariants}
             initial="closed"
             className="min-w-[10rem] origin-top-right rounded-md bg-gray-700 py-1 shadow-md"
@@ -94,7 +94,7 @@ const DropLink: FC<Props> = ({ children, label, id }) => {
             transition={responsiveTransitionConfig}
           >
             {children}
-          </motion.div>
+          </m.div>
         </DropmenuMenu>
       </Dropdown>
     </div>

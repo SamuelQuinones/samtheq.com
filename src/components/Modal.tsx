@@ -2,7 +2,7 @@ import { FC, ReactNode, useMemo } from "react";
 import FocusTrap from "focus-trap-react";
 import type { Options } from "focus-trap";
 import classNames from "classnames";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Portal from "@components/Portal";
 import { useLockBody } from "@hooks";
@@ -27,9 +27,9 @@ const backdropVariants = {
 };
 
 const dialogVariants = {
-  hidden: { opacity: 0, y: "-25vh" },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-  exit: { opacity: 0, y: "-25vh", transition: { duration: 0.3 } },
+  hidden: { opacity: 0, y: "-10vh" },
+  visible: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: "-10vh" },
 };
 
 export const BaseModal: FC<BaseProps> = ({
@@ -65,14 +65,15 @@ export const BaseModal: FC<BaseProps> = ({
   return (
     <FocusTrap focusTrapOptions={focusTrapOptions}>
       <div className="modal-base" tabIndex={-1} role="dialog" aria-modal="true">
-        <motion.div
+        <m.div
           {...backdropVariants}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.4 }}
           className="modal-backdrop"
           onClick={handleClose}
         />
-        <motion.div
+        <m.div
           variants={dialogVariants}
+          transition={{ type: "tween" }}
           initial="hidden"
           animate="visible"
           exit="exit"
@@ -81,7 +82,7 @@ export const BaseModal: FC<BaseProps> = ({
           <div className="modal-content">
             <div className={headerClasses}>
               {header}
-              <motion.button
+              <m.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 className="absolute top-1 right-2"
@@ -89,12 +90,12 @@ export const BaseModal: FC<BaseProps> = ({
                 aria-label="Close"
               >
                 <FontAwesomeIcon icon={["fas", "close"]} size="2x" />
-              </motion.button>
+              </m.button>
             </div>
             <div className={bodyClasses}>{children}</div>
             {footer && <div className={footerClasses}>{footer}</div>}
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </FocusTrap>
   );

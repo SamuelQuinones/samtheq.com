@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import classNames from "classnames";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import usePopper, { Placement } from "@restart/ui/usePopper";
 import mergeOptionsWithPopperConfig from "@restart/ui/mergeOptionsWithPopperConfig";
 import useRootClose from "@restart/ui/useRootClose";
@@ -151,7 +151,7 @@ const Tooltip = ({
       {cloneElement(child, triggerProps)}
       <AnimatePresence>
         {show && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -168,7 +168,7 @@ const Tooltip = ({
               className={arrowClasses}
               {...attributes.arrow}
             />
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

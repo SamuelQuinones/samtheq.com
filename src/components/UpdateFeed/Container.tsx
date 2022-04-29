@@ -1,6 +1,6 @@
 import Button from "@components/Button";
 import Modal from "@components/Modal";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { FC, ReactNode, useCallback, useMemo, useState } from "react";
 import { UpdateContext } from "./context";
 
@@ -38,14 +38,14 @@ const UpdateContainer: FC<Props> = ({ children }) => {
       >
         {message}
       </Modal>
-      <motion.div
+      <m.div
         className="mt-24 mb-3 grid grid-cols-1 gap-5 md:grid-cols-3"
         variants={container}
         initial="hidden"
         animate="show"
       >
         {children}
-      </motion.div>
+      </m.div>
     </UpdateContext.Provider>
   );
 };
