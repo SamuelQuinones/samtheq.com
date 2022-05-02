@@ -29,7 +29,7 @@ export const revokeTwitchToken = async (token?: string) => {
     { method: "POST" }
   );
   if (res.ok) {
-    return { status: 200, messge: "Token revoked" };
+    return { status: 200, message: "Token revoked" };
   }
   const error = await res.json();
   return {
