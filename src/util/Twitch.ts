@@ -17,6 +17,27 @@ export const fetchTwitchToken = async () => {
   return response.access_token as string;
 };
 
+export const revokeTwitchToken = async (token?: string) => {
+  if (!token) {
+    return {
+      status: 400,
+      message: "Nothing to revoke",
+    };
+  }
+  const res = await fetch(
+    `https://id.twitch.tv/oauth2/revoke?client_id=${process.env.TWITCH_CLIENT_ID}&token=${token}`,
+    { method: "POST" }
+  );
+  if (res.ok) {
+    return { status: 200, messge: "Token revoked" };
+  }
+  const error = await res.json();
+  return {
+    status: error?.status as number | undefined,
+    message: error?.message as string | undefined,
+  };
+};
+
 export const getTwitchToken = async (fetchNew?: boolean) => {
   if (!global.twitch_token && process.env.TWITCH_STARTING_TOKEN && !fetchNew) {
     global.twitch_token = process.env.TWITCH_STARTING_TOKEN;
@@ -37,7 +58,7 @@ export async function getStreamInfo(
 ): Promise<Record<string, any> | undefined> {
   const token = await getTwitchToken(newToken);
   const res = await fetch(
-    "https://api.twitch.tv/helix/streams?user_login=halo",
+    "https://api.twitch.tv/helix/streams?user_login=corporalsaturn",
     {
       headers: {
         "Client-ID": process.env.TWITCH_CLIENT_ID || "",
@@ -49,6 +70,8 @@ export async function getStreamInfo(
     return res.json();
   }
   if (retries > 0) {
+    const revokeResonse = await revokeTwitchToken(token);
+    console.assert(process.env.NODE_ENV === "development", revokeResonse);
     return getStreamInfo(retries - 1, true);
   }
   const error = await res.json();
