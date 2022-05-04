@@ -51,6 +51,14 @@ const UpdateFeedItem = ({
     () => (previewText ? previewText : message.substring(0, 100)),
     [message, previewText]
   );
+  const shouldShowButton = useMemo(() => {
+    if (previewText) {
+      if (previewText === message) return false;
+      return true;
+    }
+    if (message.length <= 100) return false;
+    return true;
+  }, [message, previewText]);
 
   const { prepareMessage } = useUpdateCard();
 
@@ -61,12 +69,12 @@ const UpdateFeedItem = ({
     >
       <p>
         {truncatedMessage}
-        {truncatedMessage.length >= 100 && "..."}
+        {truncatedMessage.length > 100 && "..."}
       </p>
-      <div className="-m-4 mt-4 rounded-b-md py-2 px-4 text-right">
-        <Button onClick={() => prepareMessage(message)} className="mx-2">
-          Read More
-        </Button>
+      <div className="-m-4 mt-4 flex justify-end gap-2 rounded-b-md py-2 px-4">
+        {shouldShowButton && (
+          <Button onClick={() => prepareMessage(message)}>Read More</Button>
+        )}
         {checkItOutLink && <CheckItBtn href={checkItOutLink} />}
       </div>
       <p className="-m-2 mt-4">{formatUTC(feedDate, "MMMM YYYY")}</p>
