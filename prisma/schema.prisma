@@ -36,13 +36,15 @@ model JobHistory {
 }
 
 model UpdateFeed {
-  ID                 Int      @id @default(autoincrement())
-  title              String   @db.VarChar(255)
-  message            String   @db.VarChar(255)
-  preview_text       String?  @db.VarChar(100)
-  check_it_out_link  String?  @db.VarChar(255)
-  update_card_time   DateTime @default(now()) @db.Timestamp(0)
-  modified_timestamp DateTime @default(now()) @updatedAt @db.Timestamp(0)
+  ID                 Int       @id @default(autoincrement())
+  title              String    @db.VarChar(255)
+  message            String    @db.VarChar(255)
+  preview_text       String?   @db.VarChar(100)
+  check_it_out_link  String?   @db.VarChar(255)
+  active             Boolean   @default(true)
+  update_card_time   DateTime  @default(now()) @db.Timestamp(0)
+  modified_timestamp DateTime  @default(now()) @updatedAt @db.Timestamp(0)
+  inactive_timestamp DateTime? @db.Timestamp(0)
 }
 
 model RecentGoingsOn {

@@ -20,6 +20,9 @@ export default async function handler(
         orderBy: {
           ID: "desc",
         },
+        where: {
+          active: true,
+        },
         take: limit,
       })
       .then((response) => response.map(responseHelper));
