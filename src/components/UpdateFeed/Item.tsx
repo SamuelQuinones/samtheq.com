@@ -4,7 +4,7 @@ import Button from "@components/Button";
 import { useMemo } from "react";
 import Link from "next/link";
 import { useUpdateCard } from "./context";
-import { formatUTC } from "@util/DateHelper";
+import { format } from "@util/DateHelper";
 
 const Card = m(CompCard);
 const externalLinkRegex =
@@ -15,6 +15,7 @@ const variants = {
 };
 
 type UpdateFeedProps = {
+  title?: string;
   previewText?: string;
   message: string;
   checkItOutLink?: string;
@@ -42,6 +43,7 @@ const CheckItBtn = ({ href = "" }) => {
 };
 
 const UpdateFeedItem = ({
+  title,
   message,
   previewText,
   checkItOutLink,
@@ -67,9 +69,10 @@ const UpdateFeedItem = ({
       variants={variants}
       className="flex flex-col justify-between bg-gray-900 text-white"
     >
+      {title && <h4 className="mb-2 text-xl italic">{title}</h4>}
       <p>
-        {truncatedMessage}
-        {truncatedMessage.length > 100 && "..."}
+        {truncatedMessage.trim()}
+        {truncatedMessage.length >= 100 && "..."}
       </p>
       <div className="-m-4 mt-4 flex justify-end gap-2 rounded-b-md py-2 px-4">
         {shouldShowButton && (
@@ -77,7 +80,7 @@ const UpdateFeedItem = ({
         )}
         {checkItOutLink && <CheckItBtn href={checkItOutLink} />}
       </div>
-      <p className="-m-2 mt-4">{formatUTC(feedDate, "MMMM YYYY")}</p>
+      <p className="-m-2 mt-4">{format(feedDate, "MMMM DD, YYYY")}</p>
     </Card>
   );
 };

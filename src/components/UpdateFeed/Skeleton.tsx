@@ -5,12 +5,15 @@ const UpdateItemSkeleton = () => {
   return (
     <Card className="bg-gray-900 text-white">
       <div className="flex animate-pulse flex-col justify-between">
-        <p className="mb-1">
+        <h4 className="mb-2">
+          <span className="text-placeholder w-1/2" />
+        </h4>
+        <p>
           <span className="text-placeholder w-7/12" />{" "}
           <span className="text-placeholder w-1/3" />{" "}
-          <span className="text-placeholder w-1/3" />{" "}
-          <span className="text-placeholder w-1/2" />{" "}
-          <span className="text-placeholder w-2/3" />
+          <span className="text-placeholder w-1/4" />{" "}
+          <span className="text-placeholder w-1/4" />{" "}
+          <span className="text-placeholder w-1/3" />
         </p>
         <div className="-m-4 mt-4 flex justify-end rounded-b-md py-2 px-4">
           <Button

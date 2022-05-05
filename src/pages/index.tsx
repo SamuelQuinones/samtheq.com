@@ -74,6 +74,7 @@ const Home: NextPage = () => {
             {updates.map((update, index) => (
               <UpdateFeedItem
                 key={`${index}-${update.ID}`}
+                title={update.title}
                 checkItOutLink={update.check_it_out_link}
                 message={update.message}
                 previewText={update.preview_text}
