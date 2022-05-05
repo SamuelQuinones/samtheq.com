@@ -129,12 +129,12 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       </TimelineContainer>
       <section className="grid grid-cols-2 gap-6 p-3">
         <Button
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
-          whileFocus={{ scale: 1.05 }}
+          whileFocus={{ scale: 1.03 }}
           shape="square"
           variant="blue"
-          className="flex justify-center gap-x-1 py-3 text-xl"
+          className="flex justify-center gap-x-1 py-3 text-center text-xl"
           href="/SamuelQuinonesResume.pdf"
           target="_blank"
           //@ts-expect-error component doesn't allow this but it does exist
@@ -150,12 +150,12 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           <span>Download My Resume</span>
         </Button>
         <Button
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
-          whileFocus={{ scale: 1.05 }}
+          whileFocus={{ scale: 1.03 }}
           shape="square"
           variant="secondary"
-          className="flex justify-center gap-x-1 py-3 text-xl"
+          className="flex justify-center gap-x-1 py-3 text-center text-xl"
           href="/SamuelQuinonesResume.pdf"
           target="_blank"
         >

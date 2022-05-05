@@ -8,7 +8,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "@components/Button";
 import Tooltip from "@components/Tooltip";
 
-const TimelineContainer: FC = ({ children }) => {
+const TimelineContainer: FC<{ showFilterButton?: boolean }> = ({
+  children,
+  showFilterButton = false,
+}) => {
   const [categories, setCategories] = useState<string>("");
   const [paragraphs, setParagraphs] = useState<string[]>([]);
   const [title, setTitle] = useState("");
@@ -55,15 +58,17 @@ const TimelineContainer: FC = ({ children }) => {
           </p>
         ))}
       </Modal>
-      <Tooltip tooltipText="Filter Timeline items" flip>
-        <Button
-          variant="secondary"
-          shape="pill"
-          className="mx-3 px-2 py-1 text-sm"
-        >
-          Filter <FontAwesomeIcon icon={["fas", "sliders"]} />
-        </Button>
-      </Tooltip>
+      {showFilterButton && (
+        <Tooltip tooltipText="Filter Timeline items" flip>
+          <Button
+            variant="secondary"
+            shape="pill"
+            className="mx-3 px-2 py-1 text-sm"
+          >
+            Filter <FontAwesomeIcon icon={["fas", "sliders"]} />
+          </Button>
+        </Tooltip>
+      )}
       <div className="timeline-container overflow-x-hidden">
         <ul className="timeline-list overflow-visible p-3">{children}</ul>
       </div>
