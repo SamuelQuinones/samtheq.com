@@ -45,7 +45,7 @@ export const BaseModal: FC<BaseProps> = ({
     onDeactivate: handleClose,
     clickOutsideDeactivates: true,
     returnFocusOnDeactivate: true,
-    // initialFocus: ".modal-base",
+    // initialFocus: ".modal-base", //TODO: Fix this
   };
   useLockBody("modal-open");
 
