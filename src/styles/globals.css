@@ -23,6 +23,10 @@ body {
   @apply !flex !min-h-full !flex-col;
 }
 
+.custom-outline {
+  box-shadow: 0 0 0 2pt white;
+}
+
 * {
   box-sizing: border-box;
 }

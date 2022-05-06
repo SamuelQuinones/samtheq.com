@@ -45,7 +45,7 @@ const TimelineItem: FC<BaseProps> = ({
       classNames(
         "absolute flex h-10 w-10 items-center justify-center rounded-full",
         contentClassName,
-        "outline outline-2 md:left-[calc(50%-1.25rem)]"
+        "custom-outline md:left-[calc(50%-1.25rem)]"
       ),
     [contentClassName]
   );
