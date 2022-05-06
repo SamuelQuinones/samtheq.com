@@ -81,7 +81,7 @@ const DropLink: FC<Props> = ({ children, label, id }) => {
         </DropmenuToggle>
         <DropmenuMenu
           ref={menuRef}
-          className={`${display} popper-nav-menu top-[100%] right-0 mt-1 rounded md:absolute`}
+          className={`${display} popper-nav-menu top-[100%] right-0 mt-1 rounded sm:absolute`}
           usePopper={false}
         >
           <m.div
