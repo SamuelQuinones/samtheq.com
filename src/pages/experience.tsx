@@ -58,7 +58,7 @@ export const getStaticProps: GetStaticProps<TResume> = async () => {
 
   return {
     props: {
-      lastUpdated: format("2022-04-24", "MMMM Do, YYYY"),
+      lastUpdated: format("2022-05-05", "MMMM Do, YYYY"),
       experienceItems: resume,
     },
     //* Five Minutes

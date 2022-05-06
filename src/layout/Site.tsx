@@ -8,6 +8,8 @@ import NavLink from "navigation/NavLink";
 import Footer from "./Footer";
 import Button from "@components/Button";
 import SEO from "@util/SeoConfig";
+import DropLink from "navigation/NavLink/DropLink";
+import DropmenuItem from "@components/DropMenu/Item";
 
 /** A Button element that appears when the vertical offest exceeds 300px.*/
 const ScrollToTop = memo(() => {
@@ -68,6 +70,14 @@ const SiteLayout: FC = ({ children }) => {
       <Navbar>
         <NavLink href="/">Home</NavLink>
         <NavLink href="/experience">Experience</NavLink>
+        <NavLink href="/blog" matchNestedPaths>
+          Blog
+        </NavLink>
+        <DropLink id="content-drop-down" label="Projects">
+          <DropmenuItem className="nav-link w-full hocus:!bg-transparent hocus:!text-opacity-80">
+            Coming Soon...
+          </DropmenuItem>
+        </DropLink>
       </Navbar>
       {children}
       <Footer />
