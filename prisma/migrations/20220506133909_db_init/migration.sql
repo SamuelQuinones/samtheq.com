@@ -37,31 +37,21 @@ CREATE TABLE `UpdateFeed` (
     `message` VARCHAR(255) NOT NULL,
     `preview_text` VARCHAR(100) NULL,
     `check_it_out_link` VARCHAR(255) NULL,
+    `active` BOOLEAN NOT NULL DEFAULT true,
     `update_card_time` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     `modified_timestamp` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP,
+    `inactive_timestamp` TIMESTAMP(0) NULL,
 
     PRIMARY KEY (`ID`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- CreateTable
-CREATE TABLE `RecentGoingsOn` (
-    `GoingsOnID` INTEGER NOT NULL AUTO_INCREMENT,
-    `GoingsOnTitle` VARCHAR(50) NOT NULL,
-    `GoingsOnContent` LONGTEXT NOT NULL,
-    `GoingsOnDate` DATE NOT NULL,
-    `CheckButton` VARCHAR(50) NOT NULL DEFAULT '"No Link"',
-    `PictureUrl` VARCHAR(50) NOT NULL,
+-- Triggers `UpdateFeed`
+CREATE TRIGGER `set_inactive_timestamp` BEFORE UPDATE ON `UpdateFeed` FOR EACH ROW
+BEGIN
+    IF NEW.active = 0 AND OLD.active = 1 THEN 
+        SET NEW.inactive_timestamp = CURRENT_TIMESTAMP;
+    ELSEIF NEW.active = 1 AND OLD.active = 0 THEN 
+        SET NEW.inactive_timestamp = NULL;
+    END IF;
+END;
 
-    PRIMARY KEY (`GoingsOnID`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `blogPosts` (
-    `PostID` INTEGER NOT NULL AUTO_INCREMENT,
-    `PostTitle` VARCHAR(50) NOT NULL,
-    `PostContent` LONGTEXT NOT NULL,
-    `PostDate` DATE NOT NULL,
-    `postMonth` VARCHAR(50) NOT NULL,
-
-    PRIMARY KEY (`PostID`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
