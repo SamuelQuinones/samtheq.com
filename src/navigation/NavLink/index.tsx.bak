@@ -1,0 +1,74 @@
+//TODO: Update to match new logic of example: https://github.com/vercel/next.js/blob/canary/examples/active-class-name/components/ActiveLink.js
+
+import { forwardRef, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { NavLinkProps } from "../Helper";
+import classNames from "classnames";
+import { useRouter } from "next/router";
+
+const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
+  ({ children, matchNestedPaths = false, className, ...props }, ref) => {
+    const { asPath, isReady } = useRouter();
+    const [isActiveLink, setIsActiveLink] = useState(false);
+
+    const {
+      href,
+      as,
+      replace,
+      scroll,
+      shallow,
+      passHref,
+      prefetch,
+      locale,
+      ...rest
+    } = props;
+    const linkCompProps = {
+      href,
+      as,
+      replace,
+      scroll,
+      shallow,
+      passHref,
+      prefetch,
+      locale,
+    };
+
+    useEffect(() => {
+      if (isReady) {
+        // Dynamic route will be matched via props.as
+        // Static route will be matched via props.href
+        //@ts-expect-error following exactly what the active link example does
+        const linkPathname = new URL(props.as || props.href, location.href)
+          .pathname;
+
+        // Using URL().pathname to get rid of query and hash
+        const activePathname = new URL(asPath, location.href).pathname;
+
+        // IF want to match based on the root path
+        let activePathnameTwo = activePathname;
+        if (matchNestedPaths) {
+          activePathnameTwo = activePathname.replace(
+            /^(\/[A-Za-z\-0-9]+)(?:\/[A-Za-z\-0-9]+)+/i,
+            "$1"
+          );
+        }
+
+        setIsActiveLink(linkPathname === activePathnameTwo);
+      }
+    }, [asPath, isReady, matchNestedPaths, props.as, props.href]);
+
+    const classList = useMemo(
+      () => classNames("nav-link", { active: isActiveLink }, className),
+      [className, isActiveLink]
+    );
+    return (
+      <Link {...linkCompProps}>
+        <a ref={ref} className={classList} {...rest}>
+          {children}
+        </a>
+      </Link>
+    );
+  }
+);
+
+export default NavLink;

@@ -56,7 +56,7 @@ const DropLink: FC<Props> = ({ children, label, id }) => {
     () =>
       isSmall
         ? { type: "tween", duration: 0 }
-        : { type: "tween", duration: 0.2 },
+        : { type: "tween", duration: 0.15 },
     [isSmall]
   );
 
@@ -81,13 +81,13 @@ const DropLink: FC<Props> = ({ children, label, id }) => {
         </DropmenuToggle>
         <DropmenuMenu
           ref={menuRef}
-          className={`${display} popper-nav-menu top-[100%] right-0 mt-1 rounded-md md:absolute`}
+          className={`${display} popper-nav-menu top-[100%] right-0 mt-1 rounded md:absolute`}
           usePopper={false}
         >
           <m.div
             variants={responsiveVariants}
             initial="closed"
-            className="min-w-[10rem] origin-top-right rounded-md bg-gray-700 py-1 shadow-md"
+            className="min-w-[8rem] origin-top-right rounded bg-gray-700 py-2 shadow-md"
             animate={show ? "open" : "closed"}
             onAnimationStart={() => show && setDisplay("block")}
             onAnimationComplete={() => !show && setDisplay("hidden")}

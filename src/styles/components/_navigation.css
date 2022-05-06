@@ -3,7 +3,7 @@
 }
 
 .nav-link.active {
-  @apply font-bold text-opacity-100;
+  @apply font-semibold text-opacity-100;
 }
 
 .nav-link.drop-toggle + .popper-nav-menu .nav-link {
