@@ -5,7 +5,7 @@ import { NextPage } from "next";
 import PageLayout from "layout/Page";
 
 const Custom404: NextPage = () => {
-  const router = useRouter();
+  const { back } = useRouter();
   return (
     <PageLayout
       containerClasses="flex flex-col justify-center items-center"
@@ -16,11 +16,19 @@ const Custom404: NextPage = () => {
       <p className="mt-5 text-center">
         The page you requested could not be found
       </p>
-      <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">
         <Link href="/" passHref>
           <Button>Go to the Home Page</Button>
         </Link>
-        <Button variant="secondary" onClick={() => router.back()}>
+        <Button
+          variant="blue"
+          href="https://github.com/SamuelQuinones/samtheq.com/issues"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Report a Problem
+        </Button>
+        <Button variant="secondary" onClick={() => back()}>
           Go Back
         </Button>
       </div>
