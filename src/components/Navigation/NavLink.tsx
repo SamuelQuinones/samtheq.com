@@ -2,7 +2,7 @@
 
 import { forwardRef } from "react";
 import Link from "next/link";
-import { NavLinkProps, useRegexAsPath } from "../Helper";
+import { NavLinkProps, useRegexAsPath } from "./Helper";
 import classNames from "classnames";
 
 const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(

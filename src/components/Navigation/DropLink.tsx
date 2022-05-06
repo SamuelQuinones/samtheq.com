@@ -6,7 +6,7 @@ import { useWindowSize } from "@hooks";
 import DropmenuToggle from "@components/DropMenu/Toggle";
 import DropmenuMenu from "@components/DropMenu/Menu";
 import { transitionConfig } from "@components/DropMenu/Helper";
-import { smallTransitionConfig } from "../Helper";
+import { smallTransitionConfig } from "./Helper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { qs, resolveElement } from "@util/DomHelper";
 

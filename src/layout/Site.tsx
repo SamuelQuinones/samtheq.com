@@ -3,12 +3,12 @@ import { DefaultSeo } from "next-seo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, m } from "framer-motion";
 import { useEventListener } from "@hooks";
-import Navbar from "navigation/NavBar";
-import NavLink from "navigation/NavLink";
+import Navbar from "@components/Navigation/NavBar";
+import NavLink from "@components/Navigation/NavLink";
 import Footer from "./Footer";
 import Button from "@components/Button";
 import SEO from "@util/SeoConfig";
-import DropLink from "navigation/NavLink/DropLink";
+import DropLink from "@components/Navigation/DropLink";
 import DropmenuItem from "@components/DropMenu/Item";
 
 /** A Button element that appears when the vertical offest exceeds 300px.*/

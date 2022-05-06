@@ -4,7 +4,7 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import PageLayout from "layout/Page";
 import Card from "@components/Card";
-import { useFetchUpdateFeed } from "@util/Prisma/UpdateFeed";
+import { useFetchUpdateFeed } from "@lib/Prisma/UpdateFeed";
 import { AnimatePresence, m } from "framer-motion";
 import UpdateContainer from "@components/UpdateFeed/Container";
 import UpdateFeedItem from "@components/UpdateFeed/Item";

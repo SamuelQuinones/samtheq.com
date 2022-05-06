@@ -1,8 +1,8 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import { m } from "framer-motion";
-import prisma from "@util/Prisma";
+import prisma from "@lib/Prisma";
 import { format, isBefore } from "@util/DateHelper";
-import { formatExperience, type TResume } from "@util/Prisma/ExperienceHistory";
+import { formatExperience, type TResume } from "@lib/Prisma/ExperienceHistory";
 import PageLayout from "layout/Page";
 import TimelineContainer from "@components/Timeline/Container";
 import {

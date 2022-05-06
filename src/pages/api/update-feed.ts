@@ -2,10 +2,10 @@ import {
   IUpdateFeedResponse,
   queryParser,
   responseHelper,
-} from "@util/Prisma/UpdateFeed";
+} from "@lib/Prisma/UpdateFeed";
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "@util/Prisma";
-import catchPrismaErrors from "@util/Prisma/Error";
+import prisma from "@lib/Prisma";
+import catchPrismaErrors from "@lib/Prisma/Error";
 
 export default async function handler(
   req: NextApiRequest,

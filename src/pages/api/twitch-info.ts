@@ -1,6 +1,6 @@
 //TODO: Either revoke or store token
 
-import { getStreamInfo } from "@util/Twitch";
+import { getStreamInfo } from "@lib/Twitch";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
