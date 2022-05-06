@@ -16,7 +16,7 @@ const SEO: DefaultSeoProps = {
     site_name: "SamTheQ",
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/favicon.png`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/Logo_866.png`,
         alt: "SamTheQ logo",
       },
     ],
