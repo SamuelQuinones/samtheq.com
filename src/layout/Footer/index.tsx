@@ -10,6 +10,17 @@ const Footer = memo(() => {
         <section className="my-1 flex flex-wrap items-center justify-center md:my-0 md:justify-start">
           <p className={P_CLASSES}>&copy; 2022 SamTheQ</p>
           <p className={P_CLASSES}>Made with Tailwind and NextJS</p>
+          <p className={P_CLASSES}>
+            Favicon &amp; Logo made by{" "}
+            <a
+              href="https://twitter.com/untamabletablez"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-secondary-300 underline hocus:text-secondary-400"
+            >
+              UntamableTablez
+            </a>
+          </p>
         </section>
         <section className="my-1 flex items-center justify-center text-base md:my-0 md:justify-end">
           <FooterIcon
