@@ -5,6 +5,9 @@
     "name": "Samuel Quiñones",
     "email": "samuelquinones@samtheq.com"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
     "dev": "next dev -p 5555",
     "dev:debug": "dotenv -v NODE_OPTIONS='--inspect' next dev",
@@ -22,6 +25,7 @@
     "generate:theme": "npm run generate -- theme",
     "generate:page": "npm run generate -- page",
     "prisma:pull": "dotenv -c development prisma db pull",
+    "prisma:seed": "dotenv -c development prisma db seed",
     "prisma:generate": "dotenv -c development prisma generate",
     "prisma:migrate:start": "dotenv -c development prisma migrate -- dev --create-only",
     "prisma:migrate:finish": "dotenv -c development prisma migrate -- dev",
