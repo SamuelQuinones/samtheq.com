@@ -22,6 +22,7 @@
     "generate:theme": "npm run generate -- theme",
     "generate:page": "npm run generate -- page",
     "prisma:pull": "dotenv -c development prisma db pull",
+    "prisma:generate": "dotenv -c development prisma generate",
     "prisma:migrate:start": "dotenv -c development prisma migrate -- dev --create-only",
     "prisma:migrate:finish": "dotenv -c development prisma migrate -- dev",
     "prisma:studio": "dotenv -c development prisma studio -- --port 9999"
