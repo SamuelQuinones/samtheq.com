@@ -12,7 +12,7 @@ import type {
   {{/if}}
   NextPage,
 } from "next";
-import { NextSeo } from "next-seo";
+import PageLayout from "layout/Page";
 
 {{#if wantGetServerSideProps}}
 type ServerProps = { foo: string };
@@ -76,10 +76,11 @@ const {{ properCase pageName }}: NextPage
   {{/if}}
 ) => {
   return (
-    <>
-      <NextSeo title="{{ properCase pageName }}" />
-      <h1 style={ {textAlign: "center"} }>{{ properCase pageName }}</h1>
-    </>
+    <PageLayout title="{{ properCase pageName }}">
+      <h1 className="mb-8 text-center text-4xl sm:text-5xl lg:text-6xl">
+        {{ properCase pageName }}
+      </h1>
+    </PageLayout>
   );
 };
 

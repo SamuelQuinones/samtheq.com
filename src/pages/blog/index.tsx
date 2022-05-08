@@ -1,5 +1,5 @@
-import PageLayout from "layout/Page";
 import type { NextPage } from "next";
+import PageLayout from "layout/Page";
 
 const Blog: NextPage = () => {
   return (

@@ -103,7 +103,7 @@ npm run prisma:studio
 
 With the dev script running, you can visit `http://localhost:5555` in the browser and see the app.
 
-IF running prisma studio, you cam visit `http://localhost:9999` in the browser.
+If running prisma studio, you can visit `http://localhost:9999` in the browser.
 
 ## Contributing
 

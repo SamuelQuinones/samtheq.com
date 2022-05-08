@@ -102,7 +102,7 @@ export const BaseModal: FC<BaseProps> = ({
 };
 
 const Modal: FC<ModalProps> = ({ open = false, ...rest }) => (
-  <AnimatePresence>
+  <AnimatePresence initial={false}>
     {open && (
       <Portal wrapperId="modal-portal-root">
         <BaseModal {...rest} />
