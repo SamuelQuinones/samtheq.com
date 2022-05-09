@@ -56,9 +56,17 @@ export const getStaticProps: GetStaticProps<TResume> = async () => {
     }
   );
 
+  /** RAW query used to figure out when the most recent modified_timestamp was for the combined dataset */
+  const lastUpdated = await prisma.$queryRaw<
+    [{ modified_timestamp: string }]
+  >`SELECT greatest(
+    (SELECT max(modified_timestamp) FROM EducationHistory),
+    (SELECT max(modified_timestamp) FROM JobHistory)
+    ) as modified_timestamp`;
+
   return {
     props: {
-      lastUpdated: format("2022-05-05", "MMMM Do, YYYY"),
+      lastUpdated: format(lastUpdated[0].modified_timestamp, "MMMM Do, YYYY"),
       experienceItems: resume,
     },
     //* Five Minutes

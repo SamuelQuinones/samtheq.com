@@ -52,11 +52,13 @@ const TimelineContainer: FC<{ showFilterButton?: boolean }> = ({
         handleClose={() => setOpen(false)}
         header={<h1 className="text-center text-2xl">{title}</h1>}
       >
-        {paragraphs.map((text, index) => (
-          <p className="mb-3" key={index}>
-            {text}
-          </p>
-        ))}
+        <ul className="list-disc pl-3">
+          {paragraphs.map((text, index) => (
+            <li className="mb-3" key={index}>
+              {text}
+            </li>
+          ))}
+        </ul>
       </Modal>
       {showFilterButton && (
         <Tooltip tooltipText="Filter Timeline items" flip>

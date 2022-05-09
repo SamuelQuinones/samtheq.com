@@ -76,7 +76,7 @@ const {{ properCase pageName }}: NextPage
   {{/if}}
 ) => {
   return (
-    <PageLayout title="{{ properCase pageName }}">
+    <PageLayout title="{{ properCase pageName }}" openGraphUrl="/{{ snakeCase pageName }}">
       <h1 className="mb-8 text-center text-4xl sm:text-5xl lg:text-6xl">
         {{ properCase pageName }}
       </h1>
