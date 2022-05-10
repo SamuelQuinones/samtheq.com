@@ -8,6 +8,8 @@ My personal website to show off projects and a personal portfolio
 
 </div>
 
+I've abstracted this project into a reusable, scalble template for NextJS projects. [Check it out](https://github.com/SamuelQuinones/nextjs-boilerplate)
+
 ## Running the Site
 
 ### Prerequisites
