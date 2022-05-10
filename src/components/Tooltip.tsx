@@ -13,8 +13,8 @@ import { AnimatePresence, m } from "framer-motion";
 import usePopper, { Placement } from "@restart/ui/usePopper";
 import mergeOptionsWithPopperConfig from "@restart/ui/mergeOptionsWithPopperConfig";
 import useRootClose from "@restart/ui/useRootClose";
-import mergeRefs from "@util/MergeReactRefs";
 import { contains } from "@util/DomHelper";
+import { useMergedRef } from "@hooks";
 
 type TooltipTrigger = "hover" | "click" | "focus";
 
@@ -79,7 +79,7 @@ const Tooltip = ({
   const { onFocus, onBlur, onClick } = isValidElement(child)
     ? child.props
     : ({} as any);
-  const mergedTriggerRef = mergeRefs([triggerNodeRef, (child as any).ref]);
+  const mergedTriggerRef = useMergedRef(triggerNodeRef, (child as any).ref);
 
   const handleFocus = useCallback(
     (...args: any[]) => {
