@@ -15,13 +15,13 @@ import DropmenuItem from "@components/DropMenu/Item";
 const ScrollToTop = memo(() => {
   const [isVisible, setIsVisible] = useState(false);
 
-  const scroll: MouseEventHandler<HTMLButtonElement> = (e) => {
+  const scroll: MouseEventHandler<HTMLButtonElement> = useCallback((e) => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
     e.currentTarget.blur();
-  };
+  }, []);
 
   const toggleVisibility = useCallback(() => {
     if (window.pageYOffset > 300) {
