@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { FC, /* useEffect, */ useMemo } from "react";
 import classNames from "classnames";
 import { NextSeo } from "next-seo";
 
@@ -42,7 +42,15 @@ const PageLayout: FC<LayoutProps> = ({
     "flex-grow",
     containerClasses
   );
-  const OG_URL = testOpenGraphUr(openGraphUrl);
+  const OG_URL = useMemo(() => testOpenGraphUr(openGraphUrl), [openGraphUrl]);
+  // TODO: Experiment with this as a focus reset solution
+  // useEffect(() => {
+  //   setTimeout(() => document.body.removeAttribute("tabIndex"));
+  //   return () => {
+  //     document.body.setAttribute("tabIndex", "-1");
+  //     document.body.focus();
+  //   };
+  // }, []);
   return (
     <>
       <NextSeo
