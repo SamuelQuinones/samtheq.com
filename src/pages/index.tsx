@@ -71,9 +71,10 @@ const Home: NextPage = () => {
         )}
         {updates && (
           <UpdateContainer>
-            {updates.map((update, index) => (
+            {updates.map((update) => (
               <UpdateFeedItem
-                key={`${index}-${update.ID}`}
+                // key={`${index}-${update.ID}`} //* all cards will slide up together on revalidate with new info
+                key={`update-${update.ID}`} //* only newest card will animate on revalidate
                 title={update.title}
                 checkItOutLink={update.check_it_out_link}
                 message={update.message}

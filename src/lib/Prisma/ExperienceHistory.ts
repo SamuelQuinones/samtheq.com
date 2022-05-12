@@ -10,7 +10,6 @@ type ModifyProperties<T extends ExperienceHistory> = Omit<
   | "additional_info_3"
   | "start_date"
   | "end_date"
-  | "ID"
   | "modified_timestamp"
 > & {
   start_date: string;
@@ -33,7 +32,7 @@ export type TResume = {
 };
 
 export function formatExperience<
-  T extends Omit<ExperienceHistory, "ID" | "modified_timestamp">,
+  T extends Omit<ExperienceHistory, "modified_timestamp">,
   C extends string
 >(data: T, category: C) {
   const {

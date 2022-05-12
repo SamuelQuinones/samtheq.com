@@ -19,6 +19,7 @@ export const getStaticProps: GetStaticProps<TResume> = async () => {
     .findMany({
       orderBy: { start_date: "desc" },
       select: {
+        ID: true,
         title: true,
         company: true,
         description: true,
@@ -34,6 +35,7 @@ export const getStaticProps: GetStaticProps<TResume> = async () => {
     .findMany({
       orderBy: { start_date: "desc" },
       select: {
+        ID: true,
         degree: true,
         institution: true,
         description: true,
@@ -108,7 +110,7 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         </section>
       </div>
       <TimelineContainer>
-        {experienceItems.map((item, index) => {
+        {experienceItems.map((item) => {
           if (item.category === "education") {
             return (
               <EducationTimelineItem
@@ -118,7 +120,7 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
                 degree={item.degree}
                 startDate={item.start_date}
                 endDate={item.end_date}
-                key={`education${index}`}
+                key={`education${item.ID}`}
               />
             );
           }
@@ -130,7 +132,7 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               company={item.company}
               startDate={item.start_date}
               endDate={item.end_date}
-              key={`work${index}`}
+              key={`work${item.ID}`}
             />
           );
         })}
