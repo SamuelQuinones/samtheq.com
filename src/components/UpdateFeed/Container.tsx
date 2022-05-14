@@ -39,6 +39,7 @@ const UpdateContainer: FC<Props> = ({ children }) => {
         {message}
       </Modal>
       <m.div
+        //TODO: Figure out way to implement update amount constant in md:grid-cols class
         className="mt-24 mb-3 grid grid-cols-1 gap-5 md:grid-cols-3"
         variants={container}
         initial="hidden"

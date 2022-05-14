@@ -28,6 +28,7 @@ const CheckItBtn = ({ href = "" }) => {
       <Button
         href={href}
         variant="secondary"
+        outline
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -37,7 +38,9 @@ const CheckItBtn = ({ href = "" }) => {
   }
   return (
     <Link passHref href={href}>
-      <Button variant="secondary">Check it out</Button>
+      <Button variant="secondary" outline>
+        Check it out
+      </Button>
     </Link>
   );
 };
