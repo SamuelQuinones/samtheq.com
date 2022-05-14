@@ -6,28 +6,38 @@ import {
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@lib/Prisma";
 import catchPrismaErrors from "@lib/Prisma/Error";
+import { UPDATE_FEED_HOME_AMOUNT } from "@util/constants";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<IUpdateFeedResponse>
 ) {
-  const limit = queryParser(req.query);
+  const { limit, cursor, initialLoadMore } = queryParser(req.query);
   res.setHeader("Content-Type", "application/json");
   try {
     const total = await prisma.updateFeed.count();
     const updates = await prisma.updateFeed
       .findMany({
+        take: limit,
         orderBy: {
           ID: "desc",
         },
+        skip: initialLoadMore
+          ? UPDATE_FEED_HOME_AMOUNT
+          : cursor === undefined
+          ? 0
+          : 1,
+        cursor: cursor !== undefined ? { ID: cursor } : undefined,
         where: {
           active: true,
         },
-        take: limit,
       })
       .then((response) => response.map(responseHelper));
 
+    const nextCursor = updates?.at(-1)?.ID;
+
     return res.status(200).json({
+      nextCursor: nextCursor !== 1 ? nextCursor : undefined,
       count: updates.length,
       total,
       updates,

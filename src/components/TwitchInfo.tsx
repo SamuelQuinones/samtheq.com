@@ -1,4 +1,5 @@
 import useSWR from "swr";
+import { fetcherGET } from "@lib/SWR";
 import Card from "./Card";
 import Tooltip from "./Tooltip";
 
@@ -12,24 +13,10 @@ interface OnlineResponse {
   viewer_count: string | number;
 }
 
-const fetcher = async (url: string) => {
-  const res = await fetch(url);
-
-  // If the status code is not in the range 200-299,
-  // we still try to parse and throw it.
-  if (!res.ok) {
-    // Attach extra info to the error object.
-    const error = await res.json();
-    throw error;
-  }
-
-  return res.json();
-};
-
 const TwitchInfo = () => {
   const { data, error } = useSWR<OfflineResponse | OnlineResponse, any>(
     "/api/twitch-info",
-    fetcher
+    fetcherGET
   );
 
   // return (
