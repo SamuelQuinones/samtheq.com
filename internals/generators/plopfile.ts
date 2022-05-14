@@ -1,14 +1,14 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // plopfile.ts
 import { execSync } from "child_process";
-import autoComp from "inquirer-autocomplete-prompt";
 import { NodePlopAPI } from "node-plop";
 import { HookGenerator } from "./hook";
 import { ThemeGenerator } from "./theme";
 import { PageGenerator } from "./page";
 
 export default function plop(plop: NodePlopAPI) {
-  //@ts-ignore this works just fine
-  plop.setPrompt("autocomplete", autoComp);
+  plop.setPrompt("autocomplete", require("inquirer-autocomplete-prompt"));
+  plop.setPrompt("directory", require("inquirer-directory"));
 
   plop.setGenerator("hook", HookGenerator);
   plop.setGenerator("theme", ThemeGenerator);
