@@ -1,23 +1,9 @@
-import useSWR from "swr";
-import { fetcherGET } from "@lib/SWR";
 import Card from "./Card";
 import Tooltip from "./Tooltip";
-
-interface OfflineResponse {
-  online: false;
-}
-interface OnlineResponse {
-  online: true;
-  game_name: string;
-  user_name: string;
-  viewer_count: string | number;
-}
+import { useFetchTwitchInfo } from "@lib/Twitch";
 
 const TwitchInfo = () => {
-  const { data, error } = useSWR<OfflineResponse | OnlineResponse, any>(
-    "/api/twitch-info",
-    fetcherGET
-  );
+  const { isError, isLoading, data } = useFetchTwitchInfo();
 
   // return (
   //   <Card className="flex w-full max-w-xs items-center gap-x-2 p-1">
@@ -43,7 +29,7 @@ const TwitchInfo = () => {
   //   </Card>
   // );
 
-  if (!error && !data) {
+  if (isLoading) {
     return (
       <Card className="w-full max-w-xs p-1">
         <div className="flex animate-pulse gap-x-2">
@@ -63,7 +49,7 @@ const TwitchInfo = () => {
     );
   }
 
-  if (error && !data) {
+  if (isError && !data) {
     return (
       <Card className="flex w-full max-w-xs gap-x-2 p-1">
         <div className="text-placeholder mr-2 w-10 rounded-full" />
@@ -124,11 +110,6 @@ const TwitchInfo = () => {
         </span>
       </div>
     </Card>
-    // <div>
-    //   <p>online</p>
-    //   <p>{data.game_name}</p>
-    //   <p>{data.viewer_count}</p>
-    // </div>
   );
 };
 

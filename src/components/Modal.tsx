@@ -1,3 +1,4 @@
+//TODO: Look into memoizing helpers
 import { FC, ReactNode, useMemo } from "react";
 import FocusTrap from "focus-trap-react";
 import type { Options } from "focus-trap";

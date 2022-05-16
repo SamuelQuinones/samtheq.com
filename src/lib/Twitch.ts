@@ -1,6 +1,24 @@
+import useSWR from "swr";
+import { fetcherGET } from "./SWR";
+
 declare global {
   // eslint-disable-next-line no-var
   var twitch_token: string | undefined;
+}
+
+export interface OfflineResponse {
+  online: false;
+}
+export interface OnlineResponse {
+  online: true;
+  game_name: string;
+  user_name: string;
+  viewer_count: string | number;
+}
+
+export interface ErrorResponse {
+  online: false;
+  message: string;
 }
 
 export const fetchTwitchToken = async () => {
@@ -77,4 +95,17 @@ export async function getStreamInfo(
   const error = await res.json();
   console.assert(process.env.NODE_ENV === "development", error);
   return;
+}
+
+export function useFetchTwitchInfo() {
+  const { data, error } = useSWR<
+    OfflineResponse | OnlineResponse,
+    ErrorResponse
+  >("/api/twitch-info", fetcherGET);
+
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error,
+  };
 }

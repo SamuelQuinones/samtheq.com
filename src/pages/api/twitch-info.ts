@@ -1,11 +1,16 @@
 //TODO: Either revoke or store token
 
-import { getStreamInfo } from "@lib/Twitch";
+import {
+  getStreamInfo,
+  type ErrorResponse,
+  type OfflineResponse,
+  type OnlineResponse,
+} from "@lib/Twitch";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<OnlineResponse | OfflineResponse | ErrorResponse>
 ) {
   res.setHeader("Content-Type", "application/json");
   const streamInfo = await getStreamInfo(1);

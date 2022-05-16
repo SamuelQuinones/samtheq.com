@@ -1,7 +1,7 @@
 //TODO: Look into switching the span tags with an svg parent and path children a-la https://codesandbox.io/s/framer-motion-side-menu-mx2rw?from-embed=&file=/src/MenuToggle.tsx
 
 /* eslint-disable @next/next/no-img-element */
-import { FC, useRef, useState } from "react";
+import { FC, useCallback, useRef, useState } from "react";
 import { m } from "framer-motion";
 import { useOutsideClick, useOnRouterEvent } from "@hooks";
 import {
@@ -15,7 +15,8 @@ const Navbar: FC = ({ children }) => {
   const [open, setOpen] = useState(false);
   const NAV_REF = useRef<HTMLElement>(null);
 
-  const hideNavbar = () => setOpen(false);
+  const hideNavbar = useCallback(() => setOpen(false), []);
+  const toggleNavbar = useCallback(() => setOpen((prev) => !prev), []);
 
   useOnRouterEvent("routeChangeStart", hideNavbar);
   useOutsideClick(NAV_REF, hideNavbar);
@@ -39,7 +40,7 @@ const Navbar: FC = ({ children }) => {
           <section className="flex sm:hidden">
             <button
               className="flex h-8 w-8 flex-col items-center justify-around rounded-sm transition-shadow focus:outline-none focus:ring focus:ring-opacity-60"
-              onClick={() => setOpen(!open)}
+              onClick={toggleNavbar}
             >
               <m.span className={burgerLine} variants={burgerTop} />
               <m.span
