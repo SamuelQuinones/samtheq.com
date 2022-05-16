@@ -6,9 +6,9 @@
 
 My personal website to show off projects and a personal portfolio
 
-</div>
-
 I've abstracted this project into a reusable, scalble template for NextJS projects. [Check it out](https://github.com/SamuelQuinones/nextjs-boilerplate)
+
+</div>
 
 ## Running the Site
 
@@ -70,7 +70,7 @@ These environment variables are necesarry to:
 - access the database via Prisma - your credentials will need proper permissions to update the database, create triggers, etc.
 - ensure SEO works
 
-Install dependencies and generate the prisma client using the terminal / npm scripts. Generating the client is needed to access the database:
+Install dependencies and generate the prisma client using the terminal / npm scripts. Generating the client is needed to access the database and generate types based on the schema:
 
 ```bash
 npm install
@@ -82,7 +82,31 @@ npm run prisma:generate
 npx dotenv prisma generate
 ```
 
-If you're working with an empty database, you should seed with with some data. Prisma supports this natively, and a seed file has been set up:
+#### Working With the Database & Prisma
+
+If you're working with an empty database, you should use the [prisma migration](https://www.prisma.io/docs/concepts/components/prisma-migrate) tool to set up the DB with the proper tables and populate:
+
+```bash
+# if your DB related variables are in .env.development.local
+npm run prisma:migrate:reset
+
+# if your DB related variables are in .env.local
+npx dotenv prisma migrate reset
+```
+
+Prisma reset is also good if you for whatever reason need to reset your development environment.
+
+To apply any new migrations on top of your existing database **in production**:
+
+```bash
+# if your DB related variables are in .env.staging.local
+npm run prisma:migrate:deploy
+
+# if your DB related variables are in .env.local
+npx dotenv prisma migrate deploy
+```
+
+To seed a database with test data:
 
 ```bash
 # if your DB related variables are in .env.development.local
@@ -94,7 +118,9 @@ npx dotenv prisma db seed
 
 With the database seeded and running, you can start the app in development.
 
-Note that the app will not launch if your database can not be connected to.
+#### Viewing The App
+
+Note that the app will normally not launch if your database can not be connected to. IF it does launch, the app will run but will display errors that it can not read data from the database.
 
 ```bash
 npm run dev
