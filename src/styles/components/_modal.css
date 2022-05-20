@@ -1,7 +1,9 @@
+.drawer-base,
 .modal-base {
   z-index: 10000;
   @apply fixed top-0 left-0 block h-full w-full overflow-x-hidden overflow-y-hidden opacity-100;
 }
+.drawer-backdrop,
 .modal-backdrop {
   @apply absolute h-full w-full bg-gray-500 bg-opacity-75;
 }
@@ -11,9 +13,18 @@
 .modal-content {
   @apply pointer-events-auto z-20 flex max-h-full w-full flex-col overflow-hidden rounded-md bg-gray-800 shadow-lg;
 }
+.drawer-header,
 .modal-header {
   @apply relative p-3;
 }
+.drawer-body,
 .modal-body {
   @apply flex-1 overflow-auto p-3;
+}
+
+.drawer-dialog {
+  @apply relative z-10 h-full w-full max-w-full items-center sm:w-96;
+}
+.drawer-content {
+  @apply z-20 flex h-full flex-col overflow-hidden bg-gray-800 shadow-lg outline-0;
 }
