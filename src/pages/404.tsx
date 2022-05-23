@@ -13,7 +13,7 @@ const Custom404: NextPage = () => {
       containerClasses="flex flex-col justify-center items-center"
       title="404: Not Found"
       titleTemplate="%s"
-      openGraphUrl="/404"
+      pageUrl="/404"
     >
       <h1 className="text-center text-6xl">404</h1>
       <p className="mt-5 text-center">

@@ -53,6 +53,7 @@ const ScrollToTop = memo(() => {
             variant="secondary"
             shape="pill"
             className="flex px-2 shadow-lg"
+            aria-label="Scroll to the Top of the Page"
           >
             <FontAwesomeIcon
               height="1em"

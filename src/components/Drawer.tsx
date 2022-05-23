@@ -92,7 +92,7 @@ export const BaseDrawer: FC<BaseProps> = ({
                 whileTap={{ scale: 0.9 }}
                 className="absolute top-1 right-2"
                 onClick={handleClose}
-                aria-label="Close"
+                aria-label="Close This Drawer"
               >
                 <FontAwesomeIcon icon={["fas", "close"]} size="2x" />
               </m.button>

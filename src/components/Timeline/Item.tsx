@@ -123,7 +123,11 @@ export const EducationTimelineItem = ({
       <p className="mt-2 block font-bold italic md:hidden">{sideText}</p>
       {additionalInfo.length > 0 && (
         <section className="mt-3 text-right">
-          <Button variant="secondary" onClick={handlePrepare}>
+          <Button
+            aria-label={`Read more about ${title}`}
+            variant="secondary"
+            onClick={handlePrepare}
+          >
             Read More
           </Button>
         </section>
@@ -166,7 +170,11 @@ export const WorkTimelineItem = ({
       <p className="mt-2 block font-bold italic md:hidden">{sideText}</p>
       {additionalInfo.length > 0 && (
         <section className="mt-3 text-right">
-          <Button variant="secondary" onClick={handlePrepare}>
+          <Button
+            aria-label={`Read more about ${title}`}
+            variant="secondary"
+            onClick={handlePrepare}
+          >
             Read More
           </Button>
         </section>

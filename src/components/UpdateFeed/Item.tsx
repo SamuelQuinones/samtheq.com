@@ -1,3 +1,5 @@
+//TODO: Better accesibility text for Check It Out Buttons
+
 import { m } from "framer-motion";
 import CompCard from "@components/Card";
 import Button from "@components/Button";

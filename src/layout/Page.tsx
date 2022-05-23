@@ -6,11 +6,13 @@ type LayoutProps = {
   containerClasses?: string;
   title: string;
   titleTemplate?: string;
+  /** If defined will override both openGraphUrl and canonical url */
+  pageUrl?: string;
   openGraphUrl?: string;
   canonical?: string;
 };
 
-const testOpenGraphUr = (ogurl?: string) => {
+const testOpenGraphUrl = (ogurl?: string) => {
   if (!ogurl) return;
   if (!process.env.NEXT_PUBLIC_BASE_URL) {
     console.assert(
@@ -33,6 +35,7 @@ const PageLayout: FC<LayoutProps> = ({
   containerClasses,
   title,
   titleTemplate,
+  pageUrl,
   openGraphUrl,
   canonical,
 }) => {
@@ -42,7 +45,19 @@ const PageLayout: FC<LayoutProps> = ({
     "flex-grow",
     containerClasses
   );
-  const OG_URL = useMemo(() => testOpenGraphUr(openGraphUrl), [openGraphUrl]);
+  const urlMeta = useMemo(() => {
+    if (pageUrl !== undefined) {
+      const finalUrl = testOpenGraphUrl(pageUrl);
+      return {
+        canonical: finalUrl,
+        openGraph: finalUrl,
+      };
+    }
+    return {
+      canonical: testOpenGraphUrl(canonical),
+      openGraph: testOpenGraphUrl(openGraphUrl),
+    };
+  }, [canonical, openGraphUrl, pageUrl]);
   // TODO: Experiment with this as a focus reset solution
   // useEffect(() => {
   //   setTimeout(() => document.body.removeAttribute("tabIndex"));
@@ -56,8 +71,8 @@ const PageLayout: FC<LayoutProps> = ({
       <NextSeo
         titleTemplate={titleTemplate}
         title={title}
-        openGraph={{ url: OG_URL }}
-        canonical={canonical}
+        openGraph={{ url: urlMeta.openGraph }}
+        canonical={urlMeta.canonical}
       />
       <main id="stq-page-content" className={cn}>
         {children}

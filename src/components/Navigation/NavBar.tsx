@@ -34,13 +34,14 @@ const Navbar: FC = ({ children }) => {
       <nav className="bs-container-xl sm:flex sm:justify-between">
         <div className="flex items-center justify-between py-3 sm:py-0">
           {/* Logo */}
-          <img src="/favicon.ico" className="h-8" alt="SamTheQ Logo" />
+          <img src="/favicon.ico" height="32" width="32" alt="SamTheQ Logo" />
           <span className="flex sm:hidden">SamTheQ</span>
           {/* Toggle Button */}
           <section className="flex sm:hidden">
             <button
               className="flex h-8 w-8 flex-col items-center justify-around rounded-sm transition-shadow focus:outline-none focus:ring focus:ring-opacity-60"
               onClick={toggleNavbar}
+              aria-label="Toggle Navbar"
             >
               <m.span className={burgerLine} variants={burgerTop} />
               <m.span

@@ -81,7 +81,7 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   lastUpdated,
 }) => {
   return (
-    <PageLayout title="Experience" openGraphUrl="/experience">
+    <PageLayout title="Experience" pageUrl="/experience">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         <section className="flex flex-col justify-center">
           <h1 className="mb-3 text-center text-4xl sm:text-5xl lg:text-6xl">

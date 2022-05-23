@@ -88,7 +88,7 @@ export const BaseModal: FC<BaseProps> = ({
                 whileTap={{ scale: 0.9 }}
                 className="absolute top-1 right-2"
                 onClick={() => handleClose()}
-                aria-label="Close"
+                aria-label="Close This Modal"
               >
                 <FontAwesomeIcon icon={["fas", "close"]} size="2x" />
               </m.button>
