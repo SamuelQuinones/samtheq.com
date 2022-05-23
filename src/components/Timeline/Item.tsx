@@ -124,7 +124,7 @@ export const EducationTimelineItem = ({
       {additionalInfo.length > 0 && (
         <section className="mt-3 text-right">
           <Button
-            aria-label={`Read more about ${title}`}
+            aria-label={`Read more about ${degree} at ${title}`}
             variant="secondary"
             onClick={handlePrepare}
           >
@@ -171,7 +171,7 @@ export const WorkTimelineItem = ({
       {additionalInfo.length > 0 && (
         <section className="mt-3 text-right">
           <Button
-            aria-label={`Read more about ${title}`}
+            aria-label={`Read more about ${title} at ${company}`}
             variant="secondary"
             onClick={handlePrepare}
           >
