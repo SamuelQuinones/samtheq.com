@@ -4,6 +4,7 @@ import { NextSeo } from "next-seo";
 
 type LayoutProps = {
   containerClasses?: string;
+  description?: string;
   title: string;
   titleTemplate?: string;
   /** If defined will override both openGraphUrl and canonical url */
@@ -32,6 +33,7 @@ const testOpenGraphUrl = (ogurl?: string) => {
 
 const PageLayout: FC<LayoutProps> = ({
   children,
+  description,
   containerClasses,
   title,
   titleTemplate,
@@ -73,6 +75,7 @@ const PageLayout: FC<LayoutProps> = ({
         title={title}
         openGraph={{ url: urlMeta.openGraph }}
         canonical={urlMeta.canonical}
+        description={description}
       />
       <main id="stq-page-content" className={cn}>
         {children}

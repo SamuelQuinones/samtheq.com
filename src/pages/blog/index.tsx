@@ -7,6 +7,7 @@ const Blog: NextPage = () => {
       title="Blog"
       containerClasses="flex items-center flex-col justify-center"
       pageUrl="/blog"
+      description="Samuel Quinones' Personal Blog"
     >
       <h1 className="mb-8 text-center text-4xl sm:text-5xl lg:text-6xl">
         My Blog
