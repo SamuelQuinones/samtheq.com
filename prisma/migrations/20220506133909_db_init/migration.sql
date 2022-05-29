@@ -46,7 +46,7 @@ CREATE TABLE `UpdateFeed` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Triggers `UpdateFeed`
-CREATE TRIGGER `set_inactive_timestamp` BEFORE UPDATE ON `UpdateFeed` FOR EACH ROW
+CREATE TRIGGER `toggle_update_active` BEFORE UPDATE ON `UpdateFeed` FOR EACH ROW
 BEGIN
     IF NEW.active = 0 AND OLD.active = 1 THEN 
         SET NEW.inactive_timestamp = CURRENT_TIMESTAMP;
