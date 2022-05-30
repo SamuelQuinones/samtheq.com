@@ -5,6 +5,7 @@ import {
   MouseEvent as ME,
   ReactNode,
   useCallback,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -30,6 +31,8 @@ type Props = {
   placement?: Placement;
   trigger?: TooltipTrigger | TooltipTrigger[];
   flip?: boolean;
+  bgClassName?: string;
+  textClassName?: string;
   rootClose?: boolean;
   rootCloseDisabled?: boolean;
   rootCloseEvent?: MouseEvents;
@@ -60,6 +63,8 @@ const Tooltip = ({
   flip,
   trigger = ["hover", "focus"],
   tooltipText,
+  bgClassName = "bg-gray-300",
+  textClassName = "text-black",
   rootClose,
   rootCloseDisabled,
   rootCloseEvent,
@@ -145,6 +150,16 @@ const Tooltip = ({
     "before:visible before:absolute before:top-0 before:left-0 before:h-3 before:w-3 before:rotate-45 before:bg-inherit"
   );
 
+  const tooltipClasses = useMemo(
+    () =>
+      classNames(
+        bgClassName,
+        textClassName,
+        "absolute rounded px-2 py-1 text-sm shadow-md"
+      ),
+    [bgClassName, textClassName]
+  );
+
   return (
     <>
       {/* @ts-ignore not sure why this wants to error out */}
@@ -157,7 +172,7 @@ const Tooltip = ({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
             ref={attachRef}
-            className="absolute rounded bg-gray-300 px-2 py-1 text-sm text-black shadow-md"
+            className={tooltipClasses}
             style={styles.popper as any}
             {...attributes.popper}
           >
