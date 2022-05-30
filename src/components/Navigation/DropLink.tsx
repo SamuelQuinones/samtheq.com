@@ -77,7 +77,12 @@ const DropLink: FC<Props> = ({ children, label, id }) => {
           id={id}
         >
           <span>{label}</span>
-          <FontAwesomeIcon icon={["fas", "chevron-down"]} size="sm" />
+          <FontAwesomeIcon
+            icon={["fas", "chevron-down"]}
+            size="sm"
+            height="1em"
+            style={{ height: "auto", width: "auto" }}
+          />
         </DropmenuToggle>
         <DropmenuMenu
           ref={menuRef}
