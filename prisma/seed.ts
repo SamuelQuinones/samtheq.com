@@ -135,6 +135,51 @@ async function main() {
     updateFeed4,
     updateFeed5,
   ]);
+
+  const link1 = await prisma.socialLink.upsert({
+    where: {
+      ID: 1,
+    },
+    update: {},
+    create: {
+      title: "YouTube Channel",
+      target: "https://youtube.com",
+      redirect: "youtube",
+      description: "This is a link to the YouTube homepage",
+      priority: 2,
+      icon_prefix: "fab",
+      icon_name: "youtube",
+    },
+  });
+  const link2 = await prisma.socialLink.upsert({
+    where: {
+      ID: 2,
+    },
+    update: {},
+    create: {
+      title: "TikTok",
+      target: "https://tiktok.com",
+      redirect: "tiktok",
+      priority: 8,
+      icon_prefix: "fab",
+      icon_name: "tiktok",
+    },
+  });
+  const link3 = await prisma.socialLink.upsert({
+    where: {
+      ID: 3,
+    },
+    update: {},
+    create: {
+      title: "Twitter",
+      target: "https://twitter.com",
+      redirect: "twitter",
+      priority: 3,
+      icon_prefix: "fab",
+      icon_name: "twitter",
+    },
+  });
+  console.table([link1, link2, link3]);
 }
 
 main()
