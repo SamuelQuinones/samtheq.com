@@ -19,18 +19,14 @@ export default async function handler(
     const updates = await prisma.updateFeed
       .findMany({
         take: limit,
-        orderBy: {
-          ID: "desc",
-        },
+        orderBy: { ID: "desc" },
         skip: initialLoadMore
           ? UPDATE_FEED_HOME_AMOUNT
           : cursor === undefined
           ? 0
           : 1,
         cursor: cursor !== undefined ? { ID: cursor } : undefined,
-        where: {
-          active: true,
-        },
+        where: { active: true },
       })
       .then((response) => response.map(responseHelper));
 
