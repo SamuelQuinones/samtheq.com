@@ -126,7 +126,9 @@ Note that the app will normally not launch if your database can not be connected
 npm run dev
 
 # opens a gui in the browser to view / edit data
-npm run prisma:studio
+npm run prisma:studio:dev
+# OR
+npm run prisma:studio:prod
 ```
 
 With the dev script running, you can visit `http://localhost:5555` in the browser and see the app.
