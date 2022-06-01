@@ -9,7 +9,7 @@ import {
 
 type ModifyProperties<C extends UpdateFeed> = Omit<
   C,
-  "preview_text" | "check_it_out_link"
+  "preview_text" | "check_it_out_link" | "inactive_timestamp" | "active"
 > & {
   preview_text?: string;
   check_it_out_link?: string;
@@ -22,7 +22,9 @@ export interface IUpdateFeedResponse {
   updates: ModifyProperties<UpdateFeed>[];
 }
 
-export function responseHelper<T extends UpdateFeed>(data: T) {
+export function responseHelper<
+  T extends Omit<UpdateFeed, "inactive_timestamp" | "active">
+>(data: T) {
   const { check_it_out_link, preview_text, ...rest } = data;
   return {
     ...rest,

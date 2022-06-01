@@ -18,6 +18,15 @@ export default async function handler(
     const total = await prisma.updateFeed.count();
     const updates = await prisma.updateFeed
       .findMany({
+        select: {
+          ID: true,
+          title: true,
+          preview_text: true,
+          message: true,
+          update_card_time: true,
+          modified_timestamp: true,
+          check_it_out_link: true,
+        },
         take: limit,
         orderBy: { ID: "desc" },
         skip: initialLoadMore
