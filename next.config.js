@@ -18,6 +18,11 @@ const nextConfig = {
         destination: "/blog/:slug*",
         permanent: true,
       },
+      {
+        source: "/l/:link*",
+        destination: "/links/:link*",
+        permanent: true,
+      },
     ];
   },
 };
