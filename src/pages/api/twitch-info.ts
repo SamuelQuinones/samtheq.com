@@ -2,6 +2,7 @@
 
 import {
   getStreamInfo,
+  parseUserNameQuery,
   type ErrorResponse,
   type OfflineResponse,
   type OnlineResponse,
@@ -13,7 +14,8 @@ export default async function handler(
   res: NextApiResponse<OnlineResponse | OfflineResponse | ErrorResponse>
 ) {
   res.setHeader("Content-Type", "application/json");
-  const streamInfo = await getStreamInfo(1);
+  const userName = parseUserNameQuery(req.query.user_name);
+  const streamInfo = await getStreamInfo(1, userName);
   if (!streamInfo) {
     return res
       .status(401)
@@ -26,5 +28,5 @@ export default async function handler(
       .status(200)
       .json({ online: true, game_name, user_name, viewer_count });
   }
-  return res.status(200).json({ online: false });
+  return res.status(200).json({ online: false, user_name: userName });
 }

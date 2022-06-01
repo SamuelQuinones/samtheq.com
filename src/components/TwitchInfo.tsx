@@ -1,6 +1,7 @@
 import Card from "./Card";
 import Tooltip from "./Tooltip";
 import { useFetchTwitchInfo } from "@lib/Twitch";
+import { DEFAULT_TWITCH_USER } from "@util/constants";
 
 const TwitchInfo = () => {
   const { isError, isLoading, data } = useFetchTwitchInfo();
@@ -55,7 +56,7 @@ const TwitchInfo = () => {
         <div className="text-placeholder mr-2 w-10 rounded-full" />
         <div className="flex-grow">
           <span className="mb-0.5 mr-3 flex justify-between sm:flex-row">
-            <p className="text-sm">CorporalSaturn</p>
+            <p className="text-sm">{DEFAULT_TWITCH_USER}</p>
             <p className="text-sm">Unkown</p>
           </span>
           <p className="mb-0.5 text-xs">Somehing went wrong</p>
@@ -70,7 +71,7 @@ const TwitchInfo = () => {
         <div className="text-placeholder mr-2 h-10 w-10 rounded-full" />
         <div className="flex-grow">
           <span className="mb-0.5 mr-2 flex justify-between sm:flex-row">
-            <p>CorporalSaturn</p>
+            <p>{data?.user_name}</p>
             <div className="flex items-center gap-x-1">
               <span className="inline-block h-3 w-3 rounded-full bg-primary-600" />
               <p>Offline</p>

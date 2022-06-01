@@ -1,5 +1,6 @@
 import useSWR from "swr";
 import { fetcherGET } from "./SWR";
+import { DEFAULT_TWITCH_USER, GETABLE_TWITCH_USERS } from "@util/constants";
 
 declare global {
   // eslint-disable-next-line no-var
@@ -8,6 +9,7 @@ declare global {
 
 export interface OfflineResponse {
   online: false;
+  user_name: string;
 }
 export interface OnlineResponse {
   online: true;
@@ -20,6 +22,17 @@ export interface ErrorResponse {
   online: false;
   message: string;
 }
+
+export const parseUserNameQuery = (userName?: string | string[]) => {
+  if (Array.isArray(userName)) return DEFAULT_TWITCH_USER;
+  if (userName === undefined || userName === null) {
+    return DEFAULT_TWITCH_USER;
+  }
+  if (GETABLE_TWITCH_USERS.includes(userName.toLowerCase())) {
+    return userName.toLowerCase();
+  }
+  return DEFAULT_TWITCH_USER;
+};
 
 export const fetchTwitchToken = async () => {
   const res = await fetch(
@@ -72,11 +85,12 @@ export const getTwitchToken = async (fetchNew?: boolean) => {
 
 export async function getStreamInfo(
   retries: number,
+  userName: string,
   newToken?: boolean
 ): Promise<Record<string, any> | undefined> {
   const token = await getTwitchToken(newToken);
   const res = await fetch(
-    "https://api.twitch.tv/helix/streams?user_login=corporalsaturn",
+    `https://api.twitch.tv/helix/streams?user_login=${userName}`,
     {
       headers: {
         "Client-ID": process.env.TWITCH_CLIENT_ID || "",
@@ -90,7 +104,7 @@ export async function getStreamInfo(
   if (retries > 0) {
     const revokeResonse = await revokeTwitchToken(token);
     console.assert(process.env.NODE_ENV === "development", revokeResonse);
-    return getStreamInfo(retries - 1, true);
+    return getStreamInfo(retries - 1, userName, true);
   }
   const error = await res.json();
   console.assert(process.env.NODE_ENV === "development", error);

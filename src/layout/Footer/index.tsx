@@ -3,12 +3,13 @@ import FooterIcon from "./Icon";
 
 const Footer = memo(() => {
   const P_CLASSES = "w-full mb-1 flex-shrink-0 text-center md:text-left";
+  const CURRENT_YEAR = new Date().getFullYear();
 
   return (
     <footer className="bs-container grow-0 border-t border-gray-700 py-3 text-sm">
       <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
         <section className="my-1 flex flex-wrap items-center justify-center md:my-0 md:justify-start">
-          <p className={P_CLASSES}>&copy; 2022 SamTheQ</p>
+          <p className={P_CLASSES}>&copy; {CURRENT_YEAR} SamTheQ</p>
           <p className={P_CLASSES}>Made with Tailwind and NextJS</p>
           <p className={P_CLASSES}>
             Favicon &amp; Logo made by{" "}
