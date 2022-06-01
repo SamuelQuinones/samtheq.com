@@ -17,7 +17,7 @@ const FooterIcon = memo<FooterIconProps>(
         <Tooltip tooltipText={title} placement="top">
           <a
             href={url}
-            className="flex text-white transition-colors duration-200 hover:text-gray-300 focus:text-gray-300 active:text-gray-300"
+            className="flex text-white transition-colors duration-200 active:text-secondary-300 hocus:text-secondary-300"
             title={title}
             target="_blank"
             rel="noopener noreferrer"
