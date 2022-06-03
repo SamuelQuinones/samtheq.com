@@ -27,7 +27,7 @@ const Footer = memo(() => {
           <FooterIcon
             prefix="fab"
             name="youtube"
-            url="http://corporalsaturn.com"
+            url="https://www.youtube.com/channel/UCcAD06PDDZbx-v6QGHUbVfg"
           />
           <FooterIcon
             prefix="fab"
