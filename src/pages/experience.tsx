@@ -29,6 +29,7 @@ export const getStaticProps: GetStaticProps<TResume> = async () => {
         additional_info_2: true,
         additional_info_3: true,
       },
+      where: { active: true },
     })
     .then((response) => response.map((job) => formatExperience(job, "work")));
   const EDUCATION = await prisma.educationHistory
@@ -45,6 +46,7 @@ export const getStaticProps: GetStaticProps<TResume> = async () => {
         additional_info_2: true,
         additional_info_3: true,
       },
+      where: { active: true },
     })
     .then((response) =>
       response.map((school) => formatExperience(school, "education"))

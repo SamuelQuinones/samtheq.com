@@ -19,6 +19,8 @@ model EducationHistory {
   additional_info_1  String?   @db.VarChar(255)
   additional_info_2  String?   @db.VarChar(255)
   additional_info_3  String?   @db.VarChar(255)
+  active             Boolean   @default(true)
+  inactive_timestamp DateTime? @db.Timestamp(0)
   modified_timestamp DateTime  @default(now()) @updatedAt @db.Timestamp(0)
 }
 
@@ -32,6 +34,8 @@ model JobHistory {
   additional_info_1  String?   @db.VarChar(255)
   additional_info_2  String?   @db.VarChar(255)
   additional_info_3  String?   @db.VarChar(255)
+  active             Boolean   @default(true)
+  inactive_timestamp DateTime? @db.Timestamp(0)
   modified_timestamp DateTime  @default(now()) @updatedAt @db.Timestamp(0)
 }
 
