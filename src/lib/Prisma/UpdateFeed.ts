@@ -52,9 +52,8 @@ function parseCursor(cursor?: string | string[]) {
 export function queryParser(query: Record<string, string | string[]>) {
   const limit = parseLimit(query.limit);
   const cursor = parseCursor(query.cursor);
-  const initialLoadMore = query.initialLoadMore === "true";
 
-  return { limit, cursor, initialLoadMore };
+  return { limit, cursor };
 }
 
 export function useFetchUpdateFeed<E = { message: string }>() {
@@ -76,8 +75,7 @@ function getKey(index: number, previousPageData: IUpdateFeedResponse | null) {
   if (previousPageData && !previousPageData.nextCursor) return null;
 
   // first page, we don't have `previousPageData`
-  if (index === 0)
-    return `/api/update-feed?limit=${UPDATE_FEED_PAGE_SIZE}&initialLoadMore=true`;
+  if (index === 0) return "/api/update-feed";
 
   // add the cursor to the API endpoint
   return `/api/update-feed?limit=${UPDATE_FEED_PAGE_SIZE}&cursor=${previousPageData?.nextCursor}`;
@@ -90,16 +88,24 @@ export function useFetchUpdateFeedInfinite<E = { message: string }>() {
   const isEmpty = data?.[0]?.updates?.length === 0;
   const isReachingEnd = isEmpty || (data && !data[data.length - 1]?.nextCursor);
   const isRefreshing = isValidating && data && data.length === size;
+  const isLoadingInitialData = !data && !error;
   return {
     size,
     setSize,
     mutate,
-    isLoadingInitialData: !data && !error,
-    isLoadingMore: size > 0 && typeof data?.[size - 1] === "undefined",
+    isLoadingInitialData,
+    isLoadingMore:
+      isLoadingInitialData ||
+      (size > 0 && data && typeof data?.[size - 1] === "undefined" && !error),
     isRefreshing,
     isEmpty,
     isReachingEnd,
-    updates: data?.map((u) => u.updates)?.flat(),
+    initialUpdates: data?.[0]?.updates,
+    additionalUpdates:
+      data
+        ?.slice(1)
+        ?.map((u) => u.updates)
+        .flat() ?? [],
     isError: error,
   };
 }
