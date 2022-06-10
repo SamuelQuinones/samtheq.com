@@ -7,6 +7,7 @@ import Button from "@components/Button";
 import UpdateItemSkeleton from "./Skeleton";
 import UpdateContainer from "./Container";
 import UpdateFeedItem from "./Item";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const MotionCard = m(Card);
 
@@ -137,8 +138,16 @@ const UpdateFeed = () => {
             className="mt-16 mb-4 flex w-full items-center justify-between px-3"
           >
             <h2 className="text-2xl">Update Feed</h2>
-            <Button variant="info" onClick={handleViewMore}>
-              View Previous
+            <Button
+              className="flex items-center gap-x-1.5"
+              variant="info"
+              onClick={handleViewMore}
+            >
+              <span>View History</span>
+              <FontAwesomeIcon
+                height={16}
+                icon={["fas", "clock-rotate-left"]}
+              />
             </Button>
           </m.section>
           <UpdateContainer>
