@@ -38,14 +38,14 @@ function setDataAttribute<T extends keyof CSSStyleDeclaration>(
   styleProp: T,
   value: string
 ) {
-  element.setAttribute(`data-stq-${styleProp}`, value);
+  element.setAttribute(`data-stq-${String(styleProp)}`, value);
 }
 
 function removeDataAttribute<T extends keyof CSSStyleDeclaration>(
   element: HTMLElement,
   styleProp: T
 ) {
-  element.removeAttribute(`data-stq-${styleProp}`);
+  element.removeAttribute(`data-stq-${String(styleProp)}`);
 }
 
 export function setElementStyles<T extends keyof CSSStyleDeclaration>(
@@ -73,7 +73,7 @@ export function resetElementStyles<T extends keyof CSSStyleDeclaration>(
   const Elements = qsa(document, selector);
   if (!Elements) return;
   Elements.forEach((e) => {
-    const dataEl = e.getAttribute(`data-stq-${styleProp}`);
+    const dataEl = e.getAttribute(`data-stq-${String(styleProp)}`);
     if (dataEl === null) {
       e.style[styleProp] = "" as CSSStyleDeclaration[T];
     } else {
