@@ -23,3 +23,13 @@ div[data-popper-placement^="right"] > .tooltip-arrow {
 .text-placeholder {
   @apply inline-block min-h-[1em] cursor-wait bg-current align-middle opacity-50;
 }
+
+[data-nav-skip-link] {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  @apply absolute -m-px h-px w-px overflow-hidden p-0 text-white hover:text-secondary-300;
+}
+[data-nav-skip-link]:focus {
+  clip: auto;
+  @apply fixed top-1 left-1 z-10 h-auto w-auto bg-gray-600 p-3;
+}

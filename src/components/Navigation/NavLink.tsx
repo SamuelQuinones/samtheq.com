@@ -38,7 +38,12 @@ const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
     );
     return (
       <Link {...linkCompProps}>
-        <a ref={ref} className={classList} {...rest}>
+        <a
+          ref={ref}
+          className={classList}
+          {...rest}
+          aria-current={isActiveLink}
+        >
           {children}
         </a>
       </Link>

@@ -32,6 +32,9 @@ const Navbar: FC = ({ children }) => {
       style={{ zIndex: 9999 }}
     >
       <nav className="bs-container-xl sm:flex sm:justify-between">
+        <a href="#stq-page-content" data-nav-skip-link="true">
+          Skip To Content
+        </a>
         <div className="flex items-center justify-between py-3 sm:py-0">
           {/* Logo */}
           <img src="/favicon.ico" height="32" width="32" alt="SamTheQ Logo" />
