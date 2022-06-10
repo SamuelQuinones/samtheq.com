@@ -1,4 +1,5 @@
 import { memo } from "react";
+import Link from "next/link";
 import FooterIcon from "./Icon";
 
 const Footer = memo(() => {
@@ -17,34 +18,43 @@ const Footer = memo(() => {
               href="https://twitter.com/untamabletablez"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-secondary-300 underline hocus:text-secondary-400"
+              className="text-secondary-300 hocus:text-secondary-400 hocus:underline"
             >
               UntamableTablez
             </a>
           </p>
         </section>
-        <section className="my-1 flex items-center justify-center text-base md:my-0 md:justify-end">
-          <FooterIcon
-            prefix="fab"
-            name="youtube"
-            url="https://www.youtube.com/channel/UCcAD06PDDZbx-v6QGHUbVfg"
-          />
-          <FooterIcon
-            prefix="fab"
-            name="twitter"
-            url="https://twitter.com/SamuelQuinones1"
-          />
-          <FooterIcon
-            prefix="fab"
-            name="github"
-            url="https://github.com/SamuelQuinones"
-          />
-          <FooterIcon
-            prefix="fab"
-            name="linkedin-in"
-            url="https://www.linkedin.com/in/samuelq/"
-            title="linkedin"
-          />
+        <section className="my-1 grid auto-cols-max justify-center text-base md:my-0 md:justify-end max-md:gap-y-2">
+          <div className="flex items-center">
+            <FooterIcon
+              prefix="fab"
+              name="youtube"
+              url="https://www.youtube.com/channel/UCcAD06PDDZbx-v6QGHUbVfg"
+            />
+            <FooterIcon
+              prefix="fab"
+              name="twitter"
+              url="https://twitter.com/SamuelQuinones1"
+            />
+            <FooterIcon
+              prefix="fab"
+              name="github"
+              url="https://github.com/SamuelQuinones"
+            />
+            <FooterIcon
+              prefix="fab"
+              name="linkedin-in"
+              url="https://www.linkedin.com/in/samuelq/"
+              title="linkedin"
+            />
+          </div>
+          <div className="flex items-center justify-center">
+            <Link href="/links">
+              <a className="text-secondary-300 hocus:text-secondary-400 hocus:underline">
+                Additional Links
+              </a>
+            </Link>
+          </div>
         </section>
       </div>
     </footer>

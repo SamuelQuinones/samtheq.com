@@ -23,6 +23,7 @@ import {
   faSliders,
   faDownload,
   faGlobe,
+  faClockRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const loadIconWithFallback = (
@@ -59,6 +60,7 @@ export const initializeFontAwesome = () => {
     faLinkedinIn,
     faDownload,
     faGlobe,
-    faTwitch
+    faTwitch,
+    faClockRotateLeft
   );
 };
