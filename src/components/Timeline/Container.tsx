@@ -67,7 +67,7 @@ const TimelineContainer: FC<{ showFilterButton?: boolean }> = ({
             shape="pill"
             className="mx-3 px-2 py-1 text-sm"
           >
-            Filter <FontAwesomeIcon icon={["fas", "sliders"]} />
+            Filter <FontAwesomeIcon icon={["fas", "sliders"]} height="1em" />
           </Button>
         </Tooltip>
       )}

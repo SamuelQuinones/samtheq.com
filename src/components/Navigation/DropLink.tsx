@@ -81,7 +81,6 @@ const DropLink: FC<Props> = ({ children, label, id }) => {
             icon={["fas", "chevron-down"]}
             size="sm"
             height="1em"
-            style={{ height: "auto", width: "auto" }}
           />
         </DropmenuToggle>
         <DropmenuMenu

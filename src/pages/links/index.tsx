@@ -76,8 +76,8 @@ const Links: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               <div className="absolute inset-0 rounded-md transition-colors group-hover:bg-secondary-500/50" />
               <div className="relative py-2">
                 <FontAwesomeIcon
-                  className="h-full"
-                  height="24"
+                  height="1em"
+                  style={{ height: "48px" }}
                   icon={[link.icon_prefix, link.icon_name]}
                 />
               </div>

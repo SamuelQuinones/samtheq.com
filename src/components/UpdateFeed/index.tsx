@@ -145,7 +145,7 @@ const UpdateFeed = () => {
             >
               <span>View History</span>
               <FontAwesomeIcon
-                height={16}
+                height="16"
                 icon={["fas", "clock-rotate-left"]}
               />
             </Button>

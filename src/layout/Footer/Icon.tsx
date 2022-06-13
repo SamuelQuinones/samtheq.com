@@ -7,41 +7,26 @@ type FooterIconProps = {
   prefix: IconPrefix;
   name: IconName;
   title?: string;
-  url?: string;
+  url: string;
 };
 
 const FooterIcon = memo<FooterIconProps>(
   ({ name, prefix, url, title = name }) => {
-    if (url) {
-      return (
-        <Tooltip tooltipText={title} placement="top">
-          <a
-            href={url}
-            className="flex text-white transition-colors duration-200 active:text-secondary-300 hocus:text-secondary-300"
-            title={title}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FontAwesomeIcon
-              style={{ height: "auto", width: "auto" }}
-              className="mx-2"
-              height="24"
-              icon={[prefix, name]}
-            />
-          </a>
-        </Tooltip>
-      );
-    }
     return (
       <Tooltip tooltipText={title} placement="top">
-        <div title={title} className="flex">
+        <a
+          href={url}
+          className="mx-2 text-white transition-colors duration-200 active:text-secondary-300 hocus:text-secondary-300"
+          title={title}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <FontAwesomeIcon
-            style={{ height: "auto", width: "auto" }}
-            className="mx-2"
-            height="24"
+            style={{ height: "24px", width: "100%" }}
             icon={[prefix, name]}
+            height="24"
           />
-        </div>
+        </a>
       </Tooltip>
     );
   }

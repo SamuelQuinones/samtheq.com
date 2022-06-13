@@ -58,7 +58,6 @@ const ScrollToTop = memo(() => {
             <FontAwesomeIcon
               height="1em"
               icon={["fas", "chevron-up"]}
-              style={{ height: "auto", width: "auto" }}
               size="2x"
             />
           </Button>
