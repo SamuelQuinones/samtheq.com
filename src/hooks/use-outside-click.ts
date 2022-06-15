@@ -5,7 +5,7 @@ import useEventListener from "./use-event-listener";
 function useOutsideClick<T extends HTMLElement = HTMLElement>(
   ref: RefObject<T> | T,
   handler: (event: MouseEvent) => void,
-  mouseEvent: "mousedown" | "mouseup" = "mousedown"
+  mouseEvent: "mousedown" | "mouseup" | "pointerdown" = "mousedown"
 ): void {
   useEventListener("window", mouseEvent, (event) => {
     const el = resolveElement<T>(ref);

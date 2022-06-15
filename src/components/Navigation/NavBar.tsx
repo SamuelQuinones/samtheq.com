@@ -33,7 +33,7 @@ const Navbar: FC = ({ children }) => {
   const toggleNavbar = useCallback(() => setOpen((prev) => !prev), []);
 
   useOnRouterEvent("routeChangeStart", hideNavbar);
-  useOutsideClick(HEADER_REF, hideNavbar);
+  useOutsideClick(HEADER_REF, hideNavbar, "pointerdown");
   // TODO: Block focus when closed on lower breakpoints
   // useEventListener(HEADER_REF, "focusin", (e) => {
   //   if (!CHILDREN_REF.current || !TOGGLE_REF.current) return;

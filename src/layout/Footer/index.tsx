@@ -50,7 +50,10 @@ const Footer = memo(() => {
           </div>
           <div className="flex items-center justify-center">
             <Link href="/links">
-              <a className="text-secondary-300 hocus:text-secondary-400 hocus:underline">
+              <a
+                onPointerUp={(e) => (e.target as HTMLElement).blur()}
+                className="text-secondary-300 hocus:text-secondary-400 hocus:underline"
+              >
                 Additional Links
               </a>
             </Link>
