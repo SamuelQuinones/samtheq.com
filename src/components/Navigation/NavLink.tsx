@@ -1,4 +1,4 @@
-//TODO: Update to match new logic of example: https://github.com/vercel/next.js/blob/canary/examples/active-class-name/components/ActiveLink.js
+//TODO: Update to match new logic of example: https://github.com/vercel/next.js/blob/canary/examples/active-class-name/components/ActiveLink.tsx
 
 import { forwardRef } from "react";
 import Link from "next/link";

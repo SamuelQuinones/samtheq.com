@@ -9,7 +9,6 @@ export type NavLinkProps = LinkProps & {
 
 /** h-8 = 2rem, py-3 is .75 rem on both sides, should total 3.5rem or 56px */
 export const NAVBAR_BASE_HEIGHT = 2 + 2 * 0.75;
-// export const NAVBAR_BASE_HEIGHT = 1 + 2 * 0.5 + 2 * 0.5;
 
 /**
  * To be written

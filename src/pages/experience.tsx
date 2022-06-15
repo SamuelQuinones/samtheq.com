@@ -62,7 +62,7 @@ export const getStaticProps: GetStaticProps<TResume> = async () => {
 
   /** RAW query used to figure out when the most recent modified_timestamp was for the combined dataset */
   const lastUpdated = await prisma.$queryRaw<
-    [{ modified_timestamp: string }]
+    [{ modified_timestamp: Date }]
   >`SELECT greatest(
     (SELECT max(modified_timestamp) FROM EducationHistory),
     (SELECT max(modified_timestamp) FROM JobHistory)
