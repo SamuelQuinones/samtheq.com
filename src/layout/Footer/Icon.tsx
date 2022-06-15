@@ -22,9 +22,9 @@ const FooterIcon = memo<FooterIconProps>(
           rel="noopener noreferrer"
         >
           <FontAwesomeIcon
-            style={{ height: "24px", width: "100%" }}
+            style={{ height: "24px" }}
             icon={[prefix, name]}
-            height="24"
+            height="1em"
           />
         </a>
       </Tooltip>
