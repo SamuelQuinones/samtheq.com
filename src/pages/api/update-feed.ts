@@ -14,9 +14,14 @@ export default async function handler(
   const { limit, cursor } = queryParser(req.query);
   res.setHeader("Content-Type", "application/json");
   try {
-    const total = await prisma.updateFeed.count();
-    const updates = await prisma.updateFeed
-      .findMany({
+    const [total, oldestActive, updates] = await Promise.all([
+      prisma.updateFeed.count(),
+      prisma.updateFeed.findFirst({
+        orderBy: { ID: "asc" },
+        select: { ID: true },
+        where: { active: true },
+      }),
+      prisma.updateFeed.findMany({
         select: {
           ID: true,
           title: true,
@@ -31,16 +36,17 @@ export default async function handler(
         skip: cursor === undefined ? 0 : 1,
         cursor: cursor !== undefined ? { ID: cursor } : undefined,
         where: { active: true },
-      })
-      .then((response) => response.map(responseHelper));
+      }),
+    ]);
 
     const nextCursor = updates?.at(-1)?.ID;
+    const oldestId = oldestActive?.ID ?? 1;
 
     return res.status(200).json({
-      nextCursor: nextCursor !== 1 ? nextCursor : undefined,
+      nextCursor: nextCursor !== oldestId ? nextCursor : undefined,
       count: updates.length,
       total,
-      updates,
+      updates: updates.map(responseHelper),
     });
   } catch (error: any) {
     //TODO: better error handling

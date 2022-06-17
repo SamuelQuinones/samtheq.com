@@ -35,11 +35,10 @@ async function main() {
     },
     update: {},
     create: {
-      company: "Not Real Inc.",
-      description: "Created fake data for demos",
+      company: "Cognito Inc",
+      description: "Incognito but reversed",
       title: "Super User",
-      start_date: new Date("2022-01-02"),
-      end_date: new Date("2022-04-01"),
+      start_date: new Date("2022-04-02"),
     },
   });
 

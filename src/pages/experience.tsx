@@ -14,59 +14,51 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Button = m(BaseButton);
 
+const commonSelectAttrs = {
+  ID: true,
+  description: true,
+  start_date: true,
+  end_date: true,
+  additional_info_1: true,
+  additional_info_2: true,
+  additional_info_3: true,
+};
+
 export const getStaticProps: GetStaticProps<TResume> = async () => {
-  const WORK = await prisma.jobHistory
-    .findMany({
+  const [lastUpdated, ...history] = await Promise.all([
+    //* last Updated
+    prisma.$queryRaw<
+      [{ modified_timestamp: Date }]
+    >`SELECT greatest((SELECT max(modified_timestamp) FROM EducationHistory),(SELECT max(modified_timestamp) FROM JobHistory)
+    ) as modified_timestamp`,
+    //* job history
+    prisma.jobHistory.findMany({
       orderBy: { start_date: "desc" },
-      select: {
-        ID: true,
-        title: true,
-        company: true,
-        description: true,
-        start_date: true,
-        end_date: true,
-        additional_info_1: true,
-        additional_info_2: true,
-        additional_info_3: true,
-      },
+      select: { ...commonSelectAttrs, title: true, company: true },
       where: { active: true },
-    })
-    .then((response) => response.map((job) => formatExperience(job, "work")));
-  const EDUCATION = await prisma.educationHistory
-    .findMany({
+    }),
+    //* education history
+    prisma.educationHistory.findMany({
       orderBy: { start_date: "desc" },
-      select: {
-        ID: true,
-        degree: true,
-        institution: true,
-        description: true,
-        start_date: true,
-        end_date: true,
-        additional_info_1: true,
-        additional_info_2: true,
-        additional_info_3: true,
-      },
+      select: { ...commonSelectAttrs, degree: true, institution: true },
       where: { active: true },
+    }),
+  ]);
+
+  const resume: TResume["experienceItems"] = history
+    .flat()
+    .map((item) => {
+      if ("degree" in item && "institution" in item) {
+        return formatExperience(item, "education");
+      }
+      return formatExperience(item, "work");
     })
-    .then((response) =>
-      response.map((school) => formatExperience(school, "education"))
-    );
-  const resume: TResume["experienceItems"] = [...WORK, ...EDUCATION].sort(
-    (itemA, itemB) => {
+    .sort((itemA, itemB) => {
       if (isBefore(itemB.start_date, itemA.start_date)) {
         return 1;
       }
       return -1;
-    }
-  );
-
-  /** RAW query used to figure out when the most recent modified_timestamp was for the combined dataset */
-  const lastUpdated = await prisma.$queryRaw<
-    [{ modified_timestamp: Date }]
-  >`SELECT greatest(
-    (SELECT max(modified_timestamp) FROM EducationHistory),
-    (SELECT max(modified_timestamp) FROM JobHistory)
-    ) as modified_timestamp`;
+    });
 
   return {
     props: {
