@@ -1,15 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { RouterEvent, useRouter } from "next/router";
+import useIsomorphicLayoutEffect from "./use-isomorphic-layout-effect";
 
-function useOnRouterEvent(type: RouterEvent, callback: () => void) {
+function useOnRouterEvent(
+  type: RouterEvent,
+  callback: (...evts: any[]) => void
+) {
   const { events } = useRouter();
 
+  // Create a ref that stores callback
+  const savedHandler = useRef(callback);
+
+  useIsomorphicLayoutEffect(() => {
+    savedHandler.current = callback;
+  }, [callback]);
+
   useEffect(() => {
-    events.on(type, callback);
+    // Create event listener that calls callback function stored in ref
+    const eventListener: typeof callback = (...evts) =>
+      savedHandler.current(...evts);
+
+    events.on(type, eventListener);
     return () => {
-      events.off(type, callback);
+      events.off(type, eventListener);
     };
-  }, [callback, events, type]);
+  }, [events, type]);
 }
 
 export default useOnRouterEvent;
