@@ -33,19 +33,26 @@ export const getBodyScrollbarWidth = () => {
   return Math.abs(myWindow.innerWidth - document.documentElement.clientWidth);
 };
 
-function setDataAttribute<T extends keyof CSSStyleDeclaration>(
+export function setDataAttribute<T extends string>(
   element: HTMLElement,
-  styleProp: T,
+  propName: T,
   value: string
 ) {
-  element.setAttribute(`data-stq-${String(styleProp)}`, value);
+  element.setAttribute(`data-stq-${propName}`, value);
 }
 
-function removeDataAttribute<T extends keyof CSSStyleDeclaration>(
+export function getDataAttribute<T extends string>(
   element: HTMLElement,
-  styleProp: T
+  propName: T
 ) {
-  element.removeAttribute(`data-stq-${String(styleProp)}`);
+  return element.getAttribute(`data-stq-${propName}`);
+}
+
+export function removeDataAttribute<T extends string>(
+  element: HTMLElement,
+  propName: T
+) {
+  element.removeAttribute(`data-stq-${propName}`);
 }
 
 export function setElementStyles<T extends keyof CSSStyleDeclaration>(
@@ -58,7 +65,9 @@ export function setElementStyles<T extends keyof CSSStyleDeclaration>(
   if (!Elements) return;
   Elements.forEach((e) => {
     const actualValue = e.style[styleProp];
-    if (actualValue) setDataAttribute(e, styleProp, actualValue as string);
+    if (actualValue) {
+      setDataAttribute(e, String(styleProp), actualValue as string);
+    }
 
     const calcVal = window.getComputedStyle(e)[styleProp];
     e.style[styleProp] = callback(calcVal);
@@ -77,7 +86,7 @@ export function resetElementStyles<T extends keyof CSSStyleDeclaration>(
     if (dataEl === null) {
       e.style[styleProp] = "" as CSSStyleDeclaration[T];
     } else {
-      removeDataAttribute(e, styleProp);
+      removeDataAttribute(e, String(styleProp));
       e.style[styleProp] = dataEl as CSSStyleDeclaration[T];
     }
   });

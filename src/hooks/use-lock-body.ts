@@ -1,7 +1,10 @@
 import {
   getBodyScrollbarWidth,
-  resetElementStyles,
   setElementStyles,
+  resetElementStyles,
+  setDataAttribute,
+  getDataAttribute,
+  removeDataAttribute,
 } from "@util/DomHelper";
 import useIsomorphicLayoutEffect from "./use-isomorphic-layout-effect";
 
@@ -30,15 +33,17 @@ const removeModalStyles = () => {
 
 function useLockBody(attributeName = "body-locked") {
   useIsomorphicLayoutEffect(() => {
-    const modalAlreadyOpen = Boolean(document.body.getAttribute(attributeName));
-    document.body.setAttribute(attributeName, "true");
+    const modalAlreadyOpen = Boolean(
+      getDataAttribute(document.body, attributeName)
+    );
+    setDataAttribute(document.body, attributeName, "true");
     if (!modalAlreadyOpen) {
       const SBW = getBodyScrollbarWidth();
       addModalStyles(SBW);
     }
     return () => {
       if (!modalAlreadyOpen) {
-        document.body.removeAttribute(attributeName);
+        removeDataAttribute(document.body, attributeName);
         removeModalStyles();
       }
     };
