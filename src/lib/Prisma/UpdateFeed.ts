@@ -49,9 +49,9 @@ function parseCursor(cursor?: string | string[]) {
   if (off < 1) return;
   return off;
 }
-export function queryParser(query: Record<string, string | string[]>) {
-  const limit = parseLimit(query.limit);
-  const cursor = parseCursor(query.cursor);
+export function queryParser(query: Partial<Record<string, string | string[]>>) {
+  const limit = parseLimit(query?.limit);
+  const cursor = parseCursor(query?.cursor);
 
   return { limit, cursor };
 }

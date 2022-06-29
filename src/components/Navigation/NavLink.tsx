@@ -1,33 +1,16 @@
 //TODO: Update to match new logic of example: https://github.com/vercel/next.js/blob/canary/examples/active-class-name/components/ActiveLink.tsx
 
-import { forwardRef } from "react";
+import { type ComponentPropsWithoutRef, forwardRef } from "react";
 import Link from "next/link";
-import { NavLinkProps, useRegexAsPath } from "./Helper";
+import { useRegexAsPath } from "./Helper";
 import classNames from "classnames";
 
-const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
-  ({ children, matchNestedPaths = false, className, ...props }, ref) => {
-    const {
-      href,
-      as,
-      replace,
-      scroll,
-      shallow,
-      passHref,
-      prefetch,
-      locale,
-      ...rest
-    } = props;
-    const linkCompProps = {
-      href,
-      as,
-      replace,
-      scroll,
-      shallow,
-      passHref,
-      prefetch,
-      locale,
-    };
+type Props = ComponentPropsWithoutRef<typeof Link> & {
+  matchNestedPaths?: boolean;
+};
+
+const NavLink = forwardRef<HTMLAnchorElement, Props>(
+  ({ matchNestedPaths = false, className, ...props }, ref) => {
     const asPath = useRegexAsPath(matchNestedPaths);
     const isActiveLink = asPath === props.as || asPath === props.href;
 
@@ -37,16 +20,12 @@ const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(
       className
     );
     return (
-      <Link {...linkCompProps}>
-        <a
-          ref={ref}
-          className={classList}
-          {...rest}
-          aria-current={isActiveLink}
-        >
-          {children}
-        </a>
-      </Link>
+      <Link
+        {...props}
+        ref={ref}
+        className={classList}
+        aria-current={isActiveLink}
+      />
     );
   }
 );

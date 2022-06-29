@@ -20,8 +20,9 @@ const Custom404: NextPage = () => {
         The page you requested could not be found
       </p>
       <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <Link href="/" passHref>
-          <Button>Go to the Home Page</Button>
+        {/* Legacy behavior required */}
+        <Link href="/" passHref legacyBehavior>
+          <Button data-next-legacy-link>Go to the Home Page</Button>
         </Link>
         <Button variant="secondary" onClick={() => back()}>
           Go Back

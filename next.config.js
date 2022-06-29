@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    newNextLinkBehavior: true,
+  },
   reactStrictMode: true,
   async redirects() {
     return [
