@@ -54,12 +54,12 @@ model UpdateFeed {
 model SocialLink {
   ID                 Int       @id @default(autoincrement())
   title              String    @unique @db.VarChar(255)
-  target             String    @db.Text()
+  target             String    @db.Text
   description        String?   @db.VarChar(255)
   priority           Int       @default(5)
   active             Boolean   @default(true)
-  icon_prefix        String?   @db.Text()
-  icon_name          String?   @db.Text()
+  icon_prefix        String?   @db.Text
+  icon_name          String?   @db.Text
   redirect           String?   @unique @db.VarChar(255)
   created_timestamp  DateTime  @default(now()) @db.Timestamp(0)
   modified_timestamp DateTime  @default(now()) @updatedAt @db.Timestamp(0)
