@@ -52,6 +52,9 @@ const Footer = memo(() => {
             <Link
               href="/links"
               onPointerUp={(e) => (e.target as HTMLElement).blur()}
+              onKeyDown={(e) =>
+                e.keyCode === 13 && (e.target as HTMLElement).blur()
+              }
               className="text-secondary-300 hocus:text-secondary-400 hocus:underline"
             >
               Additional Links
