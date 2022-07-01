@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
-import { FC, useCallback, useEffect, useMemo } from "react";
+import { type FC, useCallback, useEffect, useMemo } from "react";
 import { m } from "framer-motion";
 import { useTimelineItem } from "./context";
 import Button from "@components/Button";
@@ -28,26 +28,20 @@ const TimelineItem: FC<BaseProps> = ({
   sideText,
   children,
 }) => {
-  const contentClasses = useMemo(
-    () => classNames(contentClassName, "rounded-md p-2 text-left"),
-    [contentClassName]
+  const contentClasses = classNames(
+    contentClassName,
+    "rounded-md p-2 text-left"
   );
-  const arrowClasses = useMemo(
-    () =>
-      classNames(
-        arrowClassName,
-        "absolute top-3 h-0 w-0 border-8 border-transparent group-even:-translate-x-full group-odd:max-md:-translate-x-full"
-      ),
-    [arrowClassName]
+
+  const arrowClasses = classNames(
+    arrowClassName,
+    "absolute top-3 h-0 w-0 border-8 border-transparent group-even:-translate-x-full group-odd:max-md:-translate-x-full"
   );
-  const iconWrapperClasses = useMemo(
-    () =>
-      classNames(
-        "absolute flex h-10 w-10 items-center justify-center rounded-full",
-        contentClassName,
-        "custom-outline md:left-[calc(50%-1.25rem)]"
-      ),
-    [contentClassName]
+
+  const iconWrapperClasses = classNames(
+    "absolute flex h-10 w-10 items-center justify-center rounded-full",
+    contentClassName,
+    "custom-outline md:left-[calc(50%-1.25rem)]"
   );
 
   return (

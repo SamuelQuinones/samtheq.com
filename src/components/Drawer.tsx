@@ -1,5 +1,5 @@
 //TODO: Look into memoizing helpers
-import { FC, ReactNode, useMemo } from "react";
+import type { FC, ReactNode } from "react";
 import FocusTrap from "focus-trap-react";
 import type { Options } from "focus-trap";
 import classNames from "classnames";
@@ -49,18 +49,9 @@ export const BaseDrawer: FC<BaseProps> = ({
   };
   useLockBody("modal-open");
 
-  const headerClasses = useMemo(
-    () => classNames("drawer-header", headerClassName),
-    [headerClassName]
-  );
-  const bodyClasses = useMemo(
-    () => classNames("drawer-body", bodyClassName),
-    [bodyClassName]
-  );
-  const footerClasses = useMemo(
-    () => classNames("drawer-footer", footerClassName),
-    [footerClassName]
-  );
+  const headerClasses = classNames("drawer-header", headerClassName);
+  const bodyClasses = classNames("drawer-body", bodyClassName);
+  const footerClasses = classNames("drawer-footer", footerClassName);
 
   return (
     <FocusTrap focusTrapOptions={focusTrapOptions}>

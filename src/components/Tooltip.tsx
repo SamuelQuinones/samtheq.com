@@ -1,11 +1,10 @@
 import {
+  type MouseEvent as ME,
+  type ReactNode,
   Children,
   cloneElement,
   isValidElement,
-  MouseEvent as ME,
-  ReactNode,
   useCallback,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -150,14 +149,10 @@ const Tooltip = ({
     "before:visible before:absolute before:top-0 before:left-0 before:h-3 before:w-3 before:rotate-45 before:bg-inherit"
   );
 
-  const tooltipClasses = useMemo(
-    () =>
-      classNames(
-        bgClassName,
-        textClassName,
-        "absolute rounded px-2 py-1 text-sm shadow-md"
-      ),
-    [bgClassName, textClassName]
+  const tooltipClasses = classNames(
+    bgClassName,
+    textClassName,
+    "absolute rounded px-2 py-1 text-sm shadow-md"
   );
 
   return (
