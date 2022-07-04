@@ -1,4 +1,4 @@
-import { FC, useRef, useEffect, useState, useMemo } from "react";
+import { FC, ReactNode, useRef, useEffect, useState, useMemo } from "react";
 import { m } from "framer-motion";
 import { useRouter } from "next/router";
 import { Dropdown } from "@restart/ui";
@@ -13,6 +13,7 @@ import { qs, resolveElement } from "@util/DomHelper";
 type Props = {
   label: string;
   id: string;
+  children?: ReactNode;
 };
 
 /**

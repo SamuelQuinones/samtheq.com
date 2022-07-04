@@ -1,6 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
-import { type FC, useCallback, useEffect, useMemo } from "react";
+import {
+  type FC,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+} from "react";
 import { m } from "framer-motion";
 import { useTimelineItem } from "./context";
 import Button from "@components/Button";
@@ -15,6 +21,7 @@ export type ItemProps<T extends string> = { [key in T]?: string } & {
 };
 
 type BaseProps = {
+  children?: ReactNode;
   contentClassName: string;
   arrowClassName: string;
   icon: IconName;

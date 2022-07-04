@@ -1,4 +1,11 @@
-import { FC, memo, MouseEventHandler, useCallback, useState } from "react";
+import {
+  FC,
+  ReactNode,
+  MouseEventHandler,
+  memo,
+  useCallback,
+  useState,
+} from "react";
 import { DefaultSeo } from "next-seo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, m } from "framer-motion";
@@ -68,7 +75,7 @@ const ScrollToTop = memo(() => {
 });
 ScrollToTop.displayName = "ScrollToTop";
 
-const SiteLayout: FC = ({ children }) => {
+const SiteLayout: FC<{ children?: ReactNode }> = ({ children }) => {
   return (
     <>
       <DefaultSeo {...SEO} />

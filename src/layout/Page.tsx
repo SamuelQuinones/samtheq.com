@@ -1,8 +1,9 @@
-import { FC, /* useEffect, */ useMemo } from "react";
+import { FC, ReactNode, /* useEffect, */ useMemo } from "react";
 import classNames from "classnames";
 import { NextSeo } from "next-seo";
 
 type LayoutProps = {
+  children?: ReactNode;
   containerClasses?: string;
   description?: string;
   title: string;
