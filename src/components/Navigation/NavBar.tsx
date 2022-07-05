@@ -1,7 +1,7 @@
 //TODO: Look into switching the span tags with an svg parent and path children a-la https://codesandbox.io/s/framer-motion-side-menu-mx2rw?from-embed=&file=/src/MenuToggle.tsx
 
 /* eslint-disable @next/next/no-img-element */
-import { FC, ReactNode, useCallback, useRef, useState } from "react";
+import { ReactNode, useCallback, useRef, useState } from "react";
 import { m } from "framer-motion";
 import { useOutsideClick, useOnRouterEvent } from "@hooks";
 // import { contains } from "@util/DomHelper";
@@ -12,7 +12,9 @@ import {
   burgerTop,
 } from "./Helper";
 
-const Navbar: FC<{ children: ReactNode }> = ({ children }) => {
+type Props = { children: ReactNode };
+
+const Navbar = ({ children }: Props) => {
   const [open, setOpen] = useState(false);
   const HEADER_REF = useRef<HTMLElement>(null);
   const CHILDREN_REF = useRef<HTMLDivElement>(null);

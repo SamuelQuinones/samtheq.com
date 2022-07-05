@@ -1,4 +1,4 @@
-import { FC, ReactNode, /* useEffect, */ useMemo } from "react";
+import { ReactNode, /* useEffect, */ useMemo } from "react";
 import classNames from "classnames";
 import { NextSeo } from "next-seo";
 
@@ -32,7 +32,7 @@ const testOpenGraphUrl = (ogurl?: string) => {
   return `${process.env.NEXT_PUBLIC_BASE_URL}/${ogurl}`;
 };
 
-const PageLayout: FC<LayoutProps> = ({
+const PageLayout = ({
   children,
   description,
   containerClasses,
@@ -41,7 +41,7 @@ const PageLayout: FC<LayoutProps> = ({
   pageUrl,
   openGraphUrl,
   canonical,
-}) => {
+}: LayoutProps) => {
   const cn = classNames(
     "pt-16",
     "bs-container-md",

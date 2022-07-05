@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { FC, ReactNode, MouseEvent, useCallback, useRef } from "react";
+import { ReactNode, MouseEvent, useCallback, useRef } from "react";
 import RRModal, {
   type RenderModalBackdropProps,
   type RenderModalDialogProps,
@@ -32,7 +32,7 @@ type Props = {
   children?: ReactNode;
 };
 
-const Modal: FC<Props> = ({
+const Modal = ({
   open,
   handleClose,
   children,
@@ -41,7 +41,7 @@ const Modal: FC<Props> = ({
   headerClassName,
   bodyClassName,
   footerClassName,
-}) => {
+}: Props) => {
   const waitingForMouseUpRef = useRef(false);
   const ignoreBackdropClickRef = useRef(false);
   const modal = useRef<ModalInstance>();

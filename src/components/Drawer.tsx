@@ -1,5 +1,5 @@
 //TODO: Look into memoizing helpers
-import { FC, ReactNode, useCallback } from "react";
+import { ReactNode, useCallback } from "react";
 import classNames from "classnames";
 import { AnimatePresence, m } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,7 +31,7 @@ const dialogVariants = {
   exit: { x: "-100%" },
 };
 
-const Drawer: FC<Props> = ({
+const Drawer = ({
   open,
   handleClose,
   children,
@@ -40,7 +40,7 @@ const Drawer: FC<Props> = ({
   headerClassName,
   bodyClassName,
   footerClassName,
-}) => {
+}: Props) => {
   const headerClasses = classNames("drawer-header", headerClassName);
   const bodyClasses = classNames("drawer-body", bodyClassName);
   const footerClasses = classNames("drawer-footer", footerClassName);

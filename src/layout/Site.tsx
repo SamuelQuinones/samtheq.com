@@ -1,5 +1,4 @@
 import {
-  FC,
   ReactNode,
   MouseEventHandler,
   memo,
@@ -17,6 +16,8 @@ import Button from "@components/Button";
 import SEO from "@util/SeoConfig";
 import DropLink from "@components/Navigation/DropLink";
 import DropmenuItem from "@components/DropMenu/Item";
+
+type Props = { children?: ReactNode };
 
 /** A Button element that appears when the vertical offest exceeds 300px.*/
 const ScrollToTop = memo(() => {
@@ -75,7 +76,7 @@ const ScrollToTop = memo(() => {
 });
 ScrollToTop.displayName = "ScrollToTop";
 
-const SiteLayout: FC<{ children?: ReactNode }> = ({ children }) => {
+const SiteLayout = ({ children }: Props) => {
   return (
     <>
       <DefaultSeo {...SEO} />

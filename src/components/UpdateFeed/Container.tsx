@@ -1,7 +1,7 @@
 import Button from "@components/Button";
 import Modal from "@components/Modal";
 import { m } from "framer-motion";
-import { FC, ReactNode, useCallback, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import { UpdateContext } from "./context";
 
 type Props = {
@@ -18,7 +18,7 @@ const container = {
   },
 };
 
-const UpdateContainer: FC<Props> = ({ children }) => {
+const UpdateContainer = ({ children }: Props) => {
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
 

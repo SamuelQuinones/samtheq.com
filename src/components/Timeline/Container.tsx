@@ -1,14 +1,7 @@
 //TODO: Add context provider for filtering
 //* filtering based on category ["work", "education"] -> and other sub categories
 
-import {
-  FC,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { PrepareModalArgs, TimelineContext } from "./context";
 import Modal from "@components/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,10 +13,7 @@ type Props = {
   showFilterButton?: boolean;
 };
 
-const TimelineContainer: FC<Props> = ({
-  children,
-  showFilterButton = false,
-}) => {
+const TimelineContainer = ({ children, showFilterButton = false }: Props) => {
   const [categories, setCategories] = useState<string>("");
   const [paragraphs, setParagraphs] = useState<string[]>([]);
   const [title, setTitle] = useState("");

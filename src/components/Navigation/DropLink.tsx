@@ -1,4 +1,4 @@
-import { FC, ReactNode, useRef, useEffect, useState, useMemo } from "react";
+import { ReactNode, useRef, useEffect, useState, useMemo } from "react";
 import { m } from "framer-motion";
 import { useRouter } from "next/router";
 import { Dropdown } from "@restart/ui";
@@ -28,7 +28,7 @@ type Props = {
  *  </DropmenuItem>
  * </DropLink>
  */
-const DropLink: FC<Props> = ({ children, label, id }) => {
+const DropLink = ({ children, label, id }: Props) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLAnchorElement>(null);
   const { asPath } = useRouter();

@@ -1,12 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
-import {
-  type FC,
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-} from "react";
+import { type ReactNode, useCallback, useEffect, useMemo } from "react";
 import { m } from "framer-motion";
 import { useTimelineItem } from "./context";
 import Button from "@components/Button";
@@ -28,13 +22,13 @@ type BaseProps = {
   sideText?: string;
 };
 
-const TimelineItem: FC<BaseProps> = ({
+const TimelineItem = ({
   contentClassName,
   arrowClassName,
   icon,
   sideText,
   children,
-}) => {
+}: BaseProps) => {
   const contentClasses = classNames(
     contentClassName,
     "rounded-md p-2 text-left"
