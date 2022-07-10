@@ -3,10 +3,7 @@ import { ReactNode, useCallback } from "react";
 import classNames from "classnames";
 import { AnimatePresence, m } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import RRModal, {
-  type RenderModalDialogProps,
-  type RenderModalBackdropProps,
-} from "@restart/ui/Modal";
+import RRModal from "@restart/ui/Modal";
 
 type Props = {
   open?: boolean;
@@ -46,7 +43,7 @@ const Drawer = ({
   const footerClasses = classNames("drawer-footer", footerClassName);
 
   const renderBackdrop = useCallback(
-    (backdropProps: RenderModalBackdropProps) => (
+    (backdropProps: any) => (
       <m.div
         {...backdropProps}
         {...backdropVariants}
@@ -57,7 +54,7 @@ const Drawer = ({
     []
   );
 
-  const renderDialog = (dialogProps: RenderModalDialogProps) => (
+  const renderDialog = (dialogProps: any) => (
     <m.div
       {...dialogProps}
       variants={dialogVariants}

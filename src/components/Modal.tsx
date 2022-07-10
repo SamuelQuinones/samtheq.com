@@ -1,9 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { ReactNode, MouseEvent, useCallback, useRef } from "react";
-import RRModal, {
-  type RenderModalBackdropProps,
-  type RenderModalDialogProps,
-} from "@restart/ui/Modal";
+import RRModal from "@restart/ui/Modal";
 import { ModalInstance } from "@restart/ui/ModalManager";
 import { AnimatePresence, m } from "framer-motion";
 import classNames from "classnames";
@@ -76,7 +73,7 @@ const Modal = ({
     handleClose?.();
   };
 
-  const renderDialog = (dialogProps: RenderModalDialogProps) => (
+  const renderDialog = (dialogProps: any) => (
     <m.div
       {...dialogProps}
       style={{ display: "block" }}
@@ -111,7 +108,7 @@ const Modal = ({
   );
 
   const renderBackdrop = useCallback(
-    (backdropProps: RenderModalBackdropProps) => (
+    (backdropProps: any) => (
       <m.div
         {...backdropProps}
         {...backdropVariants}

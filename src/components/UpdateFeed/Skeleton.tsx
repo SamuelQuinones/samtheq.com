@@ -1,9 +1,6 @@
-import Card from "@components/Card";
-import Button from "@components/Button";
-
 const UpdateItemSkeleton = () => {
   return (
-    <Card className="bg-gray-900 text-white">
+    <div className="card bg-gray-900 text-white">
       <div className="flex animate-pulse flex-col justify-between">
         <h4 className="mb-2">
           <span className="text-placeholder w-1/2" />
@@ -16,11 +13,10 @@ const UpdateItemSkeleton = () => {
           <span className="text-placeholder w-1/3" />
         </p>
         <div className="-m-4 mt-4 flex justify-end rounded-b-md py-2 px-4">
-          <Button
-            href="#"
+          <button
             tabIndex={-1}
             disabled
-            className="text-placeholder w-1/3 before:inline-block before:content-['']"
+            className="btn btn-primary text-placeholder w-1/3 before:inline-block before:content-['']"
             aria-hidden="true"
           />
         </div>
@@ -29,7 +25,7 @@ const UpdateItemSkeleton = () => {
           <span className="text-placeholder w-1/5" />
         </p>
       </div>
-    </Card>
+    </div>
   );
 };
 

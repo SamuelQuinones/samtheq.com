@@ -5,8 +5,7 @@ import { Dropdown } from "@restart/ui";
 import { useWindowSize } from "@hooks";
 import DropmenuToggle from "@components/DropMenu/Toggle";
 import DropmenuMenu from "@components/DropMenu/Menu";
-import { transitionConfig } from "@components/DropMenu/Helper";
-import { smallTransitionConfig } from "./Helper";
+import { smallTransitionConfig, transitionConfig } from "./Helper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { qs, resolveElement } from "@util/DomHelper";
 
@@ -74,7 +73,7 @@ const DropLink = ({ children, label, id }: Props) => {
           role="button"
           href="#"
           onClick={(e) => e.preventDefault()}
-          className="nav-link drop-toggle flex items-center gap-1"
+          className="nav-link drop-toggle items-center gap-1"
           id={id}
         >
           <span>{label}</span>

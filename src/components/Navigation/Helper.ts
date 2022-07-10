@@ -33,10 +33,12 @@ export function useRegexAsPath(matchNestedPaths = false) {
 const makeTopBottom = (mult: 1 | -1, moveY: number) => {
   return {
     open: {
-      transform: `translateY(${mult * moveY}rem) rotate(${mult * 45}deg)`,
+      y: `${mult * moveY}rem`,
+      rotate: `${mult * 45}deg`,
     },
     closed: {
-      transform: "translateY(0rem) rotate(0deg)",
+      y: "0rem",
+      rotate: "0deg",
     },
   };
 };
@@ -62,6 +64,19 @@ export const smallTransitionConfig = {
     display: "block",
   },
   closed: {
+    opacity: 0,
+    transitionEnd: { display: "none" },
+  },
+};
+
+export const transitionConfig = {
+  open: {
+    scale: 1,
+    opacity: 1,
+    display: "block",
+  },
+  closed: {
+    scale: 0.9,
     opacity: 0,
     transitionEnd: { display: "none" },
   },

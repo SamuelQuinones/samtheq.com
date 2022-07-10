@@ -41,7 +41,7 @@ const CheckItBtn = ({ href = "" }) => {
   return (
     // Legacy behavior required
     <Link passHref href={href} legacyBehavior>
-      <Button data-next-legacy-link="true" variant="secondary" outline>
+      <Button data-next-legacy-link variant="secondary" outline>
         Check it out
       </Button>
     </Link>
