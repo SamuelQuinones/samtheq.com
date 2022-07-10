@@ -32,7 +32,9 @@ a:not([href]):not([class]):hover {
 }
 
 #__next {
-  @apply !flex !min-h-full !flex-col;
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
 }
 
 .custom-outline {

@@ -5,7 +5,11 @@
 .bs-container-lg,
 .bs-container-md,
 .bs-container-sm {
-  @apply mx-auto w-full px-3;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  width: 100%;
 }
 @media (min-width: 576px) {
   .bs-container-sm,

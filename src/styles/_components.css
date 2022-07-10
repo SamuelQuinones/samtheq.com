@@ -4,32 +4,61 @@
 @import "./components/_navigation.css";
 
 .card {
-  @apply rounded-md border border-black border-opacity-5 bg-white p-4 text-black shadow-md;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  border-color: rgb(0 0 0 / 0.05);
+  background-color: white;
+  color: black;
+  padding: 1rem;
+  @apply shadow-md;
 }
 
 div[data-popper-placement^="top"] > .tooltip-arrow {
-  @apply -bottom-1;
+  /* @apply -bottom-1; */
+  bottom: -0.25rem;
 }
 div[data-popper-placement^="bottom"] > .tooltip-arrow {
-  @apply -top-1;
+  /* @apply -top-1; */
+  top: -0.25rem;
 }
 div[data-popper-placement^="left"] > .tooltip-arrow {
-  @apply -right-1;
+  /* @apply -right-1; */
+  right: -0.25rem;
 }
 div[data-popper-placement^="right"] > .tooltip-arrow {
-  @apply -left-1;
+  /* @apply -left-1; */
+  left: -0.25rem;
 }
 
 .text-placeholder {
-  @apply inline-block min-h-[1em] cursor-wait bg-current align-middle opacity-50;
+  display: inline-block;
+  min-height: 1em;
+  cursor: wait;
+  background-color: currentColor;
+  vertical-align: middle;
+  opacity: 0.5;
 }
 
 [data-nav-skip-link] {
   border: 0;
   clip: rect(0, 0, 0, 0);
-  @apply absolute -m-px h-px w-px overflow-hidden p-0 text-white hover:text-secondary-300;
+  position: absolute;
+  margin: -1px;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  padding: 0;
+  color: white;
+  @apply hover:text-secondary-300;
 }
 [data-nav-skip-link]:focus {
   clip: auto;
-  @apply fixed top-1 left-1 z-10 h-auto w-auto bg-gray-600 p-3;
+  position: fixed;
+  top: 0.25rem;
+  left: 0.25rem;
+  z-index: 10;
+  height: auto;
+  width: auto;
+  padding: 0.75rem;
+  background-color: rgb(75, 85, 99);
 }

@@ -15,11 +15,14 @@
 }
 .drawer-header,
 .modal-header {
-  @apply relative p-3;
+  position: relative;
+  padding: 0.75rem;
 }
 .drawer-body,
 .modal-body {
-  @apply flex-1 overflow-auto p-3;
+  flex: 1 1 0%;
+  overflow: auto;
+  padding: 0.75rem;
 }
 
 .drawer-backdrop {
