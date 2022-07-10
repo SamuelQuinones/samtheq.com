@@ -12,6 +12,7 @@ import {
   faYoutube,
   faLinkedinIn,
   faTwitch,
+  faTiktok,
 } from "@fortawesome/free-brands-svg-icons";
 import {
   faChevronUp,
@@ -61,6 +62,7 @@ export const initializeFontAwesome = () => {
     faDownload,
     faGlobe,
     faTwitch,
-    faClockRotateLeft
+    faClockRotateLeft,
+    faTiktok
   );
 };
