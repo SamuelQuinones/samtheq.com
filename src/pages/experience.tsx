@@ -65,8 +65,8 @@ export const getStaticProps: GetStaticProps<TResume> = async () => {
       lastUpdated: format(lastUpdated[0].modified_timestamp, "MMMM Do, YYYY"),
       experienceItems: resume,
     },
-    //* Five Minutes
-    revalidate: 300,
+    //* Fifteen Minutes
+    revalidate: 900,
   };
 };
 

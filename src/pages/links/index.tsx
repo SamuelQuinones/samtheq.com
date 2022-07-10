@@ -41,8 +41,8 @@ export const getStaticProps: GetStaticProps<TLinks> = async () => {
         }
       ),
     },
-    //* Five Minutes
-    revalidate: 300,
+    //* Ten Minutes
+    revalidate: 600,
   };
 };
 
