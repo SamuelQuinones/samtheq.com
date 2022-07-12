@@ -41,8 +41,7 @@ const ExternalRedirect: NextPage<
   return (
     <PageLayout
       title={title}
-      canonical="/links"
-      openGraphUrl={`/links/${redirect}`}
+      pageUrl={`/links/${redirect}`}
       //@ts-expect-error null and undefined mean the same thing here
       description={description}
       containerClasses="flex items-center flex-col justify-around"
