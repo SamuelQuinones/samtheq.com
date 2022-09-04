@@ -1,0 +1,73 @@
+---
+title: Building a blog using NextJS and Contentlayer
+description: please work
+postDate: 2022-08-10T21:45:00-04:00
+tags:
+  - react
+  - tutorial
+---
+
+Lorem ipsum, `dolor sit amet` consectetur adipisicing elit. Necessitatibus in voluptas autem magnam ducimus quidem deserunt architecto a sunt fugit corporis repellendus omnis vel inventore, modi libero cum ab illum?
+
+A new link is available [Check it out today](https://github.com/SamuelQuinones/nextjs-boilerplate) but that is not maybe true. [This one is local](/).
+
+## Dipsum Fonus
+
+Ullamco et nostrud `magna` lorem _commodo nostrud occaecat_ quis pariatur id ipsum. Ipsum
+consequat enim id excepteur consequat nostrud esse esse fugiat dolore.
+Reprehenderit occaecat exercitation non cupidatat in eiusmod laborum ex eu
+fugiat aute culpa pariatur. Irure elit proident consequat veniam minim ipsum ex
+pariatur.
+
+Lorem **ipsum dolor sit**, amet consectetur adipisicing elit. Laudantium minima obcaecati, modi sed id minus eos ratione optio voluptatem est? Iure odit repellendus minima atque dolorum quaerat qui culpa rem.
+Odio exercitationem tempore et laborum reprehenderit eum itaque nesciunt asperiores quos quas ab incidunt adipisci sequi velit odit voluptatum quasi, quia voluptas nisi eveniet quis reiciendis. Nulla eum illo blanditiis.
+Error quos iure minima in expedita, deserunt nihil neque distinctio velit aut cum cupiditate qui alias sapiente accusantium at ut nobis esse repellat eius harum, id labore laudantium optio? Neque?
+
+### Code Block one
+
+```jsx title="_document.jsx" {3}
+import Document, { Html, Head, Main, NextScript } from "next/document";
+
+// 🔥 Super granular and accurate highlighting
+export default class MyDocument extends Document {
+  static async getInitialProps(ctx) {
+    const initialProps = await Document.getInitialProps(ctx);
+    return { ...initialProps };
+  }
+
+  render() {
+    return (
+      <Html>
+        <Head />
+        <body className="bg-zinc-800 text-zinc-200">
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
+  }
+}
+```
+
+## Upsur ants
+
+Mollit nisi cillum exercitation `minim officia` velit laborum non Lorem
+adipisicing dolore. Labore commodo consectetur commodo velit adipisicing irure
+dolore dolor reprehenderit aliquip. Reprehenderit cillum mollit eiusmod
+excepteur elit ipsum aute pariatur in. Cupidatat ex culpa velit culpa ad non
+labore exercitation irure laborum.
+
+### Code Block 2
+
+```rust /&i32/
+let v = vec![1, 2, 3, 4, 5];
+
+let third: &i32 = &v[2];
+println!("The third element is {}", third);
+
+let third: Option<&i32> = v.get(2);
+match third {
+    Some(third) => println!("The third element is {}", third),
+    None => println!("There is no third element."),
+}
+```
