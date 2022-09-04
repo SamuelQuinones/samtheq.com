@@ -1,0 +1,13 @@
+---
+title: {{ titleCase postTitle }}
+description: {{ sentenceCase postDescription }}
+postDate: {{ postDate }}
+tags:
+{{#each coreTags}}
+  - {{ titleCase this }}
+{{/each}}
+keywords:
+{{#each keyWords}}
+  - {{ titleCase this }}
+{{/each}}
+---

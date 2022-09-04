@@ -32,5 +32,8 @@
 .drawer-dialog {
   z-index: 10005;
   outline: 0;
-  @apply fixed top-0 bottom-0 left-0 flex h-full w-full max-w-full flex-col bg-gray-800 bg-clip-padding shadow-lg sm:w-96;
+  @apply fixed top-0 bottom-0 flex h-full w-full max-w-full flex-col bg-gray-800 bg-clip-padding shadow-lg sm:w-96;
+}
+.drawer-dialog.dir-vertical {
+  @apply h-auto right-0 left-0 sm:w-full;
 }

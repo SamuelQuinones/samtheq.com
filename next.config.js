@@ -1,3 +1,5 @@
+const withContentLayer = require("next-contentlayer").withContentlayer;
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
@@ -22,6 +24,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/tags/:tag*",
+        destination: "/blog/tags/:tag*",
+        permanent: false,
+      },
+      {
         source: "/l/:link*",
         destination: "/links/:link*",
         permanent: true,
@@ -30,4 +37,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withContentLayer(nextConfig);

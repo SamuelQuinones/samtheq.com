@@ -76,7 +76,11 @@ const {{ properCase pageName }}: NextPage
   {{/if}}
 ) => {
   return (
+    {{#if existingDestination }}
+    <PageLayout title="{{ properCase pageName }}" pageUrl="/{{ existingDestination }}/{{ kebabCase pageName }}">
+    {{else}}
     <PageLayout title="{{ properCase pageName }}" pageUrl="/{{ kebabCase pageName }}">
+    {{/if}}
       <h1 className="mb-8 text-center text-4xl sm:text-5xl lg:text-6xl">
         {{ properCase pageName }}
       </h1>

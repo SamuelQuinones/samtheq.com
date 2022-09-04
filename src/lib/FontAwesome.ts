@@ -18,6 +18,7 @@ import {
   faChevronUp,
   faChevronDown,
   faChevronRight,
+  faChevronLeft,
   faClose as faCloseSolid,
   faGraduationCap,
   faBriefcase,
@@ -25,7 +26,11 @@ import {
   faDownload,
   faGlobe,
   faClockRotateLeft,
+  faCopy,
+  faCheck,
+  faList,
 } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 
 export const loadIconWithFallback = (
   icon: IconLookup,
@@ -53,6 +58,7 @@ export const initializeFontAwesome = () => {
     faYoutube,
     faChevronUp,
     faChevronDown,
+    faChevronLeft,
     faChevronRight,
     faCloseSolid,
     faGraduationCap,
@@ -63,6 +69,10 @@ export const initializeFontAwesome = () => {
     faGlobe,
     faTwitch,
     faClockRotateLeft,
-    faTiktok
+    faTiktok,
+    faCopy,
+    faCheck,
+    faCalendarDays,
+    faList
   );
 };

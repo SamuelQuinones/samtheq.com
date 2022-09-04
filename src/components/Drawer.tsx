@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RRModal from "@restart/ui/Modal";
 
 type Props = {
+  position?: "left" | "right" | "top" | "bottom";
   open?: boolean;
   children?: ReactNode;
   handleClose: () => void;
@@ -14,6 +15,8 @@ type Props = {
   bodyClassName?: string;
   footer?: ReactNode;
   footerClassName?: string;
+  onExitComplete?: () => void;
+  restoreFocus?: boolean;
 };
 
 const backdropVariants = {
@@ -21,14 +24,29 @@ const backdropVariants = {
   animate: { opacity: 1 },
   exit: { opacity: 0 },
 };
-
-const dialogVariants = {
+const dialogVariantsLeft = {
   hidden: { x: "-100%" },
   visible: { x: "0%" },
   exit: { x: "-100%" },
 };
+const dialogVariantsRight = {
+  hidden: { x: "100%" },
+  visible: { x: "0%" },
+  exit: { x: "100%" },
+};
+const dialogVariantsTop = {
+  hidden: { y: "-100%" },
+  visible: { y: "0%" },
+  exit: { y: "-100%" },
+};
+const dialogVariantsBottom = {
+  hidden: { y: "100%" },
+  visible: { y: "0%" },
+  exit: { y: "100%" },
+};
 
 const Drawer = ({
+  position = "left",
   open,
   handleClose,
   children,
@@ -37,10 +55,27 @@ const Drawer = ({
   headerClassName,
   bodyClassName,
   footerClassName,
+  onExitComplete,
+  restoreFocus,
 }: Props) => {
   const headerClasses = classNames("drawer-header", headerClassName);
   const bodyClasses = classNames("drawer-body", bodyClassName);
   const footerClasses = classNames("drawer-footer", footerClassName);
+  const dialogClasses = classNames("drawer-dialog", {
+    "left-0": position === "left",
+    "right-0": position === "right",
+    "bottom-auto top-0 dir-vertical": position === "top",
+    "top-auto bottom-0 dir-vertical": position === "bottom",
+  });
+  //? Should this be memoized
+  const dialogVariants =
+    position === "left"
+      ? dialogVariantsLeft
+      : position === "right"
+      ? dialogVariantsRight
+      : position === "top"
+      ? dialogVariantsTop
+      : dialogVariantsBottom;
 
   const renderBackdrop = useCallback(
     (backdropProps: any) => (
@@ -62,7 +97,7 @@ const Drawer = ({
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="drawer-dialog"
+      className={dialogClasses}
     >
       <div className={headerClasses}>
         {header}
@@ -82,13 +117,14 @@ const Drawer = ({
   );
 
   return (
-    <AnimatePresence initial={false}>
+    <AnimatePresence initial={false} onExitComplete={onExitComplete}>
       {open && (
         <RRModal
           show={open}
           onHide={handleClose}
           renderDialog={renderDialog}
           renderBackdrop={renderBackdrop}
+          restoreFocus={restoreFocus}
         />
       )}
     </AnimatePresence>
