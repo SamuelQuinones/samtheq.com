@@ -53,28 +53,7 @@ const Slug: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       .trim()
       .replace(/,$/, "");
   }, [post.tags, post.keywords]);
-  const jsonLdImages = useMemo(
-    () =>
-      (post.imageList as Array<{ url: string; alt?: string }>).map(
-        ({ url }) => `${process.env.NEXT_PUBLIC_BASE_URL}${url}`
-      ),
-    [post.imageList]
-  );
-  const openGraphImages = useMemo(() => {
-    const jsonLdLocal = (
-      post.imageList as Array<{ url: string; alt?: string }>
-    ).map(({ url, alt }) => ({
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}${url}`,
-      alt,
-    }));
-    return [
-      {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}${post.coverImage}`,
-        alt: `${post.title} cover image`,
-      },
-      ...jsonLdLocal,
-    ];
-  }, [post.coverImage, post.imageList, post.title]);
+
   return (
     <>
       <NextSeo
@@ -89,7 +68,12 @@ const Slug: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             modifiedTime: post.lastUpdated,
             publishedTime: post.postDate,
           },
-          images: openGraphImages,
+          images: [
+            {
+              url: `${process.env.NEXT_PUBLIC_BASE_URL}${post.coverImage}`,
+              alt: `${post.title} cover image`,
+            },
+          ],
         }}
         additionalMetaTags={[
           { name: "last-updated", content: post.lastUpdated },
@@ -104,11 +88,11 @@ const Slug: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         description={post.description || ""}
         datePublished={post.postDate}
         dateModified={post.lastUpdated}
-        images={jsonLdImages}
+        images={[`${process.env.NEXT_PUBLIC_BASE_URL}${post.coverImage}`]}
       />
       <article
         id="stq-page-content"
-        className="bs-container-md mt-16 max-w-4xl flex-grow"
+        className="bs-container-md mt-16 max-w-4xl flex-grow scroll-mt-16"
       >
         <section data-go-back="" className="flex py-6">
           <Link href="/blog" legacyBehavior passHref>

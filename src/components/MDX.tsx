@@ -51,12 +51,11 @@ const linkify =
   (Tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6"): ComponentType<any> =>
   ({ children, id, ...props }) => {
     return (
-      <Tag {...props} data-heading={id}>
+      <Tag {...props} id={id}>
         <a
           href={`#${id}`}
-          className="relative block no-underline after:text-secondary-400 after:opacity-0 after:transition-opacity after:content-['_#'] hocus:after:opacity-100"
+          className="block no-underline after:text-secondary-400 after:opacity-0 after:transition-opacity after:content-['_#'] hocus:after:opacity-100"
         >
-          <div id={id} className="absolute" />
           {children}
         </a>
       </Tag>

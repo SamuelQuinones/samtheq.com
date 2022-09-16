@@ -12,7 +12,6 @@ import {
   removeImageMeta,
   removeLinkMeta,
 } from "./internals/rehype/removeCustomMeta";
-import getImageList from "./internals/remark/getImageList";
 
 const Post = defineDocumentType(() => ({
   name: "Post",
@@ -88,23 +87,6 @@ const Post = defineDocumentType(() => ({
         return headings;
       },
     },
-    imageList: {
-      type: "json",
-      resolve: async (post) => {
-        const images: Array<{ url: string; alt?: string }> = [];
-        await bundleMDX({
-          source: post.body.raw,
-          mdxOptions: (opts) => {
-            opts.remarkPlugins = [
-              ...(opts.remarkPlugins ?? []),
-              getImageList(images),
-            ];
-            return opts;
-          },
-        });
-        return images;
-      },
-    },
     preview: {
       type: "mdx",
       resolve: async (post) => {
@@ -142,6 +124,7 @@ const Tag = defineDocumentType(() => ({
     },
     description: {
       type: "string",
+      required: true,
     },
     hero_image: {
       type: "string",

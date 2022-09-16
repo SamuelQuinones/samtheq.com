@@ -44,13 +44,11 @@ module.exports = {
         },
         DEFAULT: {
           css: {
-            "[data-heading]": {
+            "h1,h2,h3,h4,h5,h6": {
+              scrollMarginTop: "4rem",
               "> a": {
                 "&:hover": {
                   color: "var(--tw-prose-headings)",
-                },
-                "> div": {
-                  top: "calc(-1 * (3.5rem + 10px))",
                 },
               },
             },
@@ -95,8 +93,10 @@ module.exports = {
                 display: "table",
                 padding: "0.125rem 1.25rem",
                 fontSize: "0.9rem",
-                fontFamily:
-                  'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+                fontFamily: [
+                  "Fira Code VF",
+                  ...defaultTheme.fontFamily.mono,
+                ].join(", "),
                 "~ [data-pre-wrapper] > pre": {
                   marginTop: "0px",
                   borderTopLeftRadius: "0px",

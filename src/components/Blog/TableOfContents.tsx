@@ -28,7 +28,7 @@ const TableOfContents = ({ toc }: Props) => {
   }, [drawerMode]);
 
   const handleFocusDataHeading = useCallback((id: string) => {
-    qs(document, `[data-heading="${id}"] > a`)?.focus();
+    qs(document, `#${id} > a`)?.focus();
   }, []);
 
   const handleDrawerItemClick = useCallback((id: string) => {
@@ -56,9 +56,11 @@ const TableOfContents = ({ toc }: Props) => {
       };
       const classList = classNames(
         "text-sm",
+        "block",
         "transition-colors",
-        "text-white hocus:text-gray-400",
-        "px-2",
+        "rounded-md",
+        "text-white hocus:bg-blue-200/30 hocus:text-white focus:outline-none",
+        "px-2 py-1.5",
         {
           "pl-4": level === 3,
           "pl-6": level === 4,
@@ -79,9 +81,11 @@ const TableOfContents = ({ toc }: Props) => {
     return toc.map(({ id, level, textContent }) => {
       const classList = classNames(
         "text-lg",
+        "block",
         "transition-colors",
-        "text-white hocus:text-gray-400",
-        "px-2",
+        "rounded-md",
+        "text-white hocus:bg-blue-200/30 hocus:text-white focus:outline-none",
+        "px-2 py-1.5",
         {
           "pl-4": level === 3,
           "pl-6": level === 4,
@@ -116,18 +120,9 @@ const TableOfContents = ({ toc }: Props) => {
               height="1em"
               icon={["fas", "list"]}
             />
-            <span className="lg:hidden">
-              <span className="sr-only">
-                <em>Open Table of contents</em>
-              </span>
-            </span>
-            <span className="hidden lg:inline xl:hidden">
-              T.O.C.
-              <span className="sr-only">
-                <em>Open Table of contents</em>
-              </span>
-            </span>
-            <span className="hidden xl:inline">Table of Contents</span>
+            <span className="hidden lg:inline xl:hidden">T.O.C.</span>
+            <span className="sr-only xl:not-sr-only">Table of Contents</span>
+            <em className="sr-only">Opens in a popup</em>
           </Button>
         </Tooltip>
         <Drawer
@@ -164,7 +159,7 @@ const TableOfContents = ({ toc }: Props) => {
             Table of Contents
           </h2>
           <div className="h-full max-h-[calc(100vh-100px-4rem-4rem)] overflow-y-auto pl-4">
-            <ol className="space-y-2">{sideTOC}</ol>
+            <ol className="space-y-1.5">{sideTOC}</ol>
           </div>
         </nav>
       </aside>
