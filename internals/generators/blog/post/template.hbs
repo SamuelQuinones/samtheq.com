@@ -2,12 +2,16 @@
 title: {{ titleCase postTitle }}
 description: {{ sentenceCase postDescription }}
 postDate: {{ postDate }}
+{{#if coreTags.length}}
 tags:
 {{#each coreTags}}
   - {{ titleCase this }}
 {{/each}}
+{{/if}}
+{{#if keyWords.length}}
 keywords:
 {{#each keyWords}}
   - {{ titleCase this }}
 {{/each}}
+{{/if}}
 ---
