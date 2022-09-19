@@ -1,7 +1,7 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import { m } from "framer-motion";
 import prisma from "@lib/Prisma";
-import { format, isBefore } from "@util/DateHelper";
+import { format } from "@util/DateHelper";
 import { formatExperience, type TResume } from "@lib/Prisma/ExperienceHistory";
 import PageLayout from "layout/Page";
 import TimelineContainer from "@components/Timeline/Container";
@@ -14,56 +14,37 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Button = m(BaseButton);
 
-const commonSelectAttrs = {
-  ID: true,
-  description: true,
-  start_date: true,
-  end_date: true,
-  additional_info_1: true,
-  additional_info_2: true,
-  additional_info_3: true,
-};
-
 export const getStaticProps: GetStaticProps<TResume> = async () => {
-  const [lastUpdated, ...history] = await Promise.all([
+  const [lastUpdated, history] = await Promise.all([
     //* last Updated
-    prisma.$queryRaw<
-      [{ modified_timestamp: Date }]
-    >`SELECT greatest((SELECT max(modified_timestamp) FROM EducationHistory),(SELECT max(modified_timestamp) FROM JobHistory)
-    ) as modified_timestamp`,
-    //* job history
-    prisma.jobHistory.findMany({
-      orderBy: { start_date: "desc" },
-      select: { ...commonSelectAttrs, title: true, company: true },
+    prisma.experienceHistory.findFirst({
       where: { active: true },
+      select: { modified_timestamp: true },
+      orderBy: { modified_timestamp: "desc" },
     }),
-    //* education history
-    prisma.educationHistory.findMany({
+    //* job history
+    prisma.experienceHistory.findMany({
       orderBy: { start_date: "desc" },
-      select: { ...commonSelectAttrs, degree: true, institution: true },
+      select: {
+        ID: true,
+        description: true,
+        start_date: true,
+        end_date: true,
+        additional_info_1: true,
+        additional_info_2: true,
+        additional_info_3: true,
+        signifier: true,
+        place: true,
+        exp_type: true,
+      },
       where: { active: true },
     }),
   ]);
 
-  const resume: TResume["experienceItems"] = history
-    .flat()
-    .map((item) => {
-      if ("degree" in item && "institution" in item) {
-        return formatExperience(item, "education");
-      }
-      return formatExperience(item, "work");
-    })
-    .sort((itemA, itemB) => {
-      if (isBefore(itemB.start_date, itemA.start_date)) {
-        return 1;
-      }
-      return -1;
-    });
-
   return {
     props: {
-      lastUpdated: format(lastUpdated[0].modified_timestamp, "MMMM Do, YYYY"),
-      experienceItems: resume,
+      lastUpdated: format(lastUpdated?.modified_timestamp, "MMMM Do, YYYY"),
+      experienceItems: history.map((item) => formatExperience(item)),
     },
     //* Fifteen Minutes
     revalidate: 900,
@@ -109,13 +90,13 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       </div>
       <TimelineContainer>
         {experienceItems.map((item) => {
-          if (item.category === "education") {
+          if (item.exp_type === "education") {
             return (
               <EducationTimelineItem
                 description={item.description}
-                title={item.institution}
+                title={item.signifier}
                 additionalInfo={item.additionalInfo}
-                degree={item.degree}
+                degree={item.place}
                 startDate={item.start_date}
                 endDate={item.end_date}
                 key={`education${item.ID}`}
@@ -125,9 +106,9 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           return (
             <WorkTimelineItem
               description={item.description}
-              title={item.title}
+              title={item.signifier}
               additionalInfo={item.additionalInfo}
-              company={item.company}
+              company={item.place}
               startDate={item.start_date}
               endDate={item.end_date}
               key={`work${item.ID}`}

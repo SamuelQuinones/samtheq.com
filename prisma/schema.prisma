@@ -9,25 +9,11 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
-model EducationHistory {
+model ExperienceHistory {
   ID                 Int       @id @default(autoincrement())
-  institution        String    @db.VarChar(255)
-  degree             String    @db.VarChar(255)
-  start_date         DateTime  @db.Date
-  end_date           DateTime? @db.Date
-  description        String    @db.VarChar(255)
-  additional_info_1  String?   @db.VarChar(255)
-  additional_info_2  String?   @db.VarChar(255)
-  additional_info_3  String?   @db.VarChar(255)
-  active             Boolean   @default(true)
-  inactive_timestamp DateTime? @db.Timestamp(0)
-  modified_timestamp DateTime  @default(now()) @updatedAt @db.Timestamp(0)
-}
-
-model JobHistory {
-  ID                 Int       @id @default(autoincrement())
-  company            String    @db.VarChar(255)
-  title              String    @db.VarChar(255)
+  place              String    @db.VarChar(255)
+  signifier          String    @db.VarChar(255)
+  exp_type           String    @default("work") @db.VarChar(255)
   start_date         DateTime  @db.Date
   end_date           DateTime? @db.Date
   description        String    @db.VarChar(255)

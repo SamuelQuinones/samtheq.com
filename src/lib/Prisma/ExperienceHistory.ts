@@ -1,45 +1,33 @@
-import type { EducationHistory, JobHistory } from "@prisma/client";
+import type { ExperienceHistory } from "@prisma/client";
 import { formatUTC } from "@util/DateHelper";
 
-type ExperienceHistory = EducationHistory | JobHistory;
-
-type ModifyProperties<T extends ExperienceHistory> = Omit<
-  T,
+type ExperienceItem = Omit<
+  ExperienceHistory,
+  | "active"
+  | "modified_timestamp"
+  | "inactive_timestamp"
+  | "start_date"
+  | "end_date"
   | "additional_info_1"
   | "additional_info_2"
   | "additional_info_3"
-  | "start_date"
-  | "end_date"
-  | "modified_timestamp"
-  | "active"
-  | "inactive_timestamp"
 > & {
   start_date: string;
   end_date: string | null;
-  additionalInfo?: string[];
-};
-
-type AddCategory<
-  T extends ExperienceHistory,
-  C extends string
-> = ModifyProperties<T> & {
-  category: C;
+  additionalInfo: string[];
 };
 
 export type TResume = {
   lastUpdated: string;
-  experienceItems: Array<
-    AddCategory<JobHistory, "work"> | AddCategory<EducationHistory, "education">
-  >;
+  experienceItems: Array<ExperienceItem>;
 };
 
 export function formatExperience<
   T extends Omit<
     ExperienceHistory,
     "modified_timestamp" | "active" | "inactive_timestamp"
-  >,
-  C extends string
->(data: T, category: C) {
+  >
+>(data: T) {
   const {
     additional_info_1,
     additional_info_2,
@@ -58,7 +46,6 @@ export function formatExperience<
 
   return {
     ...experienceItem,
-    category,
     start_date: startDate,
     end_date: endDate,
     additionalInfo: additionalInfo,

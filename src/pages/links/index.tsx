@@ -22,8 +22,8 @@ export const getStaticProps: GetStaticProps<TLinks> = async () => {
       where: { active: true },
     }),
     prisma.socialLink.findFirst({
-      orderBy: { created_timestamp: "desc" },
-      select: { created_timestamp: true },
+      orderBy: { modified_timestamp: "desc" },
+      select: { modified_timestamp: true },
       where: { active: true },
     }),
   ]);
@@ -32,7 +32,7 @@ export const getStaticProps: GetStaticProps<TLinks> = async () => {
 
   return {
     props: {
-      lastUpdated: format(lastUpdated?.created_timestamp, "MMMM Do, YYYY"),
+      lastUpdated: format(lastUpdated?.modified_timestamp, "MMMM Do, YYYY"),
       socialLinks: LINKS.map(
         ({ icon_name: icN, icon_prefix: icP, ...rest }) => {
           //@ts-expect-error these are strings but this is fine
