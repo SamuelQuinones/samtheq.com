@@ -2,70 +2,72 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const job1 = await prisma.jobHistory.upsert({
+  const job1 = await prisma.experienceHistory.upsert({
     where: {
       ID: 1,
     },
     update: {},
     create: {
-      company: "Fake Company LLC",
+      place: "Fake Company LLC",
       description: "Came up with a fake company",
-      title: "CEO",
+      signifier: "CEO",
       start_date: new Date("2021-01-01"),
       end_date: new Date("2020-01-01"),
       additional_info_1: "some additional info",
     },
   });
-  const job2 = await prisma.jobHistory.upsert({
+  const job2 = await prisma.experienceHistory.upsert({
     where: {
       ID: 2,
     },
     update: {},
     create: {
-      company: "Not Real Inc.",
+      place: "Not Real Inc.",
       description: "Created fake data for demos",
-      title: "Super User",
+      signifier: "Super User",
       start_date: new Date("2022-01-02"),
       end_date: new Date("2022-04-01"),
     },
   });
-  const job3 = await prisma.jobHistory.upsert({
+  const job3 = await prisma.experienceHistory.upsert({
     where: {
       ID: 3,
     },
     update: {},
     create: {
-      company: "Cognito Inc",
+      place: "Cognito Inc",
       description: "Incognito but reversed",
-      title: "Super User",
+      signifier: "Super User",
       start_date: new Date("2022-04-02"),
     },
   });
 
   console.table([job1, job2, job3]);
-  const education1 = await prisma.educationHistory.upsert({
+  const education1 = await prisma.experienceHistory.upsert({
     where: {
-      ID: 1,
+      ID: 4,
     },
     update: {},
     create: {
-      institution: "Lorem Ipsum University",
+      exp_type: "education",
+      place: "Lorem Ipsum University",
       description: "Took latin courses",
-      degree: "Masters In Latin",
+      signifier: "Masters In Latin",
       start_date: new Date("2019-01-01"),
       end_date: new Date("2019-12-31"),
       additional_info_1: "Can you imagine if this was a real school?",
     },
   });
-  const education2 = await prisma.educationHistory.upsert({
+  const education2 = await prisma.experienceHistory.upsert({
     where: {
-      ID: 2,
+      ID: 5,
     },
     update: {},
     create: {
-      institution: "MKB College",
+      exp_type: "education",
+      place: "MKB College",
       description: "Made Keyboards",
-      degree: "Bachelors in Design",
+      signifier: "Bachelors in Design",
       start_date: new Date("2021-02-04"),
       additional_info_1: "Can you imagine if this was a real school?",
       additional_info_2: "Can you can tell i am running out of ideas",
