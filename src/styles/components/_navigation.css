@@ -1,5 +1,5 @@
 .nav-link {
-  @apply my-1 flex rounded p-2 text-white text-opacity-80 transition-colors focus-within:text-opacity-100 hover:bg-gray-800 active:text-opacity-100 hocus:text-white hocus:text-opacity-100 sm:my-0 sm:mx-0.5;
+  @apply my-1 flex whitespace-nowrap rounded p-2 text-white text-opacity-80 transition-colors focus-within:text-opacity-100 hover:bg-gray-800 active:text-opacity-100 hocus:text-white hocus:text-opacity-100 sm:my-0 sm:mx-0.5;
 }
 
 .nav-link.active {

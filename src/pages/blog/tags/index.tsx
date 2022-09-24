@@ -28,15 +28,17 @@ const Tags: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           <h1 className="mb-5 text-center text-4xl font-semibold sm:text-5xl md:text-left lg:text-6xl max-md:mb-4">
             Tags
           </h1>
-          <Link href="/blog" passHref legacyBehavior>
-            <Button
-              data-next-legacy-link=""
-              className="font-semibold"
-              variant="secondary"
-            >
-              All Blog Posts
-            </Button>
-          </Link>
+          <div className="mb-2 text-center md:mb-0 md:text-left">
+            <Link href="/blog" passHref legacyBehavior>
+              <Button
+                data-next-legacy-link=""
+                className="font-semibold"
+                variant="secondary"
+              >
+                All Blog Posts
+              </Button>
+            </Link>
+          </div>
         </div>
         <div data-description="">
           <p className="mb-2 lg:text-lg lg:leading-6">

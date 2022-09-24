@@ -70,6 +70,9 @@ const TableOfContents = ({ toc }: Props) => {
       return (
         <li key={id}>
           <a href={`#${id}`} className={classList} onClick={onClick}>
+            <span className="sr-only">
+              Table of contents, skip to section with heading{" "}
+            </span>
             {textContent}
           </a>
         </li>
@@ -99,7 +102,11 @@ const TableOfContents = ({ toc }: Props) => {
             className={classList}
             onClick={() => handleDrawerItemClick(id)}
           >
+            <span className="sr-only">
+              Table of contents, skip to section with heading{" "}
+            </span>
             {textContent}
+            <span className="sr-only"> and close this popup</span>
           </a>
         </li>
       );
@@ -142,6 +149,7 @@ const TableOfContents = ({ toc }: Props) => {
                 variant="info"
               >
                 Return to Blog Post
+                <em className="sr-only">closes this popup</em>
               </Button>
             </>
           }

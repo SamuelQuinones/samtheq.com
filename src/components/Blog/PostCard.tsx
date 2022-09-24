@@ -20,9 +20,9 @@ const PostCard = ({ showTags, ...post }: SubPost) => {
     <article className="group relative">
       <div className="absolute -inset-y-2.5 -inset-x-4 transition-colors group-hover:bg-info-900/30 sm:rounded-2xl md:-inset-y-4 md:-inset-x-6" />
       <section className="relative mb-1 flex w-full justify-center overflow-hidden">
-        <span className="h-full w-full bg-gray-200 lg:h-48" />
+        <span className="h-full w-full bg-gray-200 md:h-48" />
         <Image
-          alt="please"
+          alt={`${post.title} cover image`}
           layout="fill"
           draggable={false}
           src={post.coverImage}
@@ -44,7 +44,7 @@ const PostCard = ({ showTags, ...post }: SubPost) => {
             </time>
           </dd>
         </dl>
-        <div className="prose prose-invert my-2 max-w-none line-clamp-2 prose-p:my-0 prose-a:relative prose-a:z-10">
+        <div className="prose prose-invert my-2 max-w-none line-clamp-2 prose-p:my-0 prose-a:relative prose-a:z-10 prose-a:transition-colors">
           <MDXContent />
         </div>
       </section>
