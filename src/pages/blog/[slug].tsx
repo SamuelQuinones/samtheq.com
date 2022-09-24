@@ -5,6 +5,7 @@ import type {
   InferGetStaticPropsType,
   NextPage,
 } from "next";
+import dynamic from "next/dynamic";
 import { ArticleJsonLd, NextSeo } from "next-seo";
 import { allPosts, type Post } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
@@ -13,13 +14,15 @@ import MDXComponents from "@components/MDX";
 import Link from "next/link";
 import Button from "@components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import dynamic from "next/dynamic";
-// import TableOfcontents from "@components/Blog/TableOfContents";
 
 const TableOfContents = dynamic(
   () => import("../../components/Blog/TableOfContents"),
   { ssr: false }
 );
+const Subscribe = dynamic(() => import("../../components/Blog/Subscribe"), {
+  ssr: false,
+  loading: () => <div style={{ height: "54px" }} />,
+});
 
 type Paths = { slug: string };
 
@@ -90,6 +93,7 @@ const Slug: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         dateModified={post.lastUpdated}
         images={[`${process.env.NEXT_PUBLIC_BASE_URL}${post.coverImage}`]}
       />
+      <TableOfContents toc={post.toc} />
       <article
         id="stq-page-content"
         className="bs-container-md mt-16 max-w-4xl flex-grow scroll-mt-16"
@@ -143,13 +147,23 @@ const Slug: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         </section>
         <section
           data-post-body=""
-          className="prose prose-invert max-w-none lg:prose-xl"
+          className="prose prose-invert max-w-none prose-a:transition-colors lg:prose-xl"
         >
           <h1 className="lg:!text-5xl">{post.title}</h1>
           <MDXContent components={MDXComponents} />
         </section>
+        <section className="py-16">
+          <h2 className="text-xl font-semibold tracking-tight">
+            Get notifications delivered to your inbox.
+            <br />
+            Sign up for email notifications about new posts!
+          </h2>
+          <div className="mt-5 max-w-md">
+            <Subscribe />
+          </div>
+        </section>
       </article>
-      <TableOfContents toc={post.toc} />
+      {/* <TableOfContents toc={post.toc} /> */}
     </>
   );
 };

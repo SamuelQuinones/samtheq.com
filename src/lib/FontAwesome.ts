@@ -30,7 +30,10 @@ import {
   faCheck,
   faList,
 } from "@fortawesome/free-solid-svg-icons";
-import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
+import {
+  faCalendarDays,
+  faEnvelope,
+} from "@fortawesome/free-regular-svg-icons";
 
 export const loadIconWithFallback = (
   icon: IconLookup,
@@ -73,6 +76,7 @@ export const initializeFontAwesome = () => {
     faCopy,
     faCheck,
     faCalendarDays,
-    faList
+    faList,
+    faEnvelope
   );
 };
