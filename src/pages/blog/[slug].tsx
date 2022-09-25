@@ -153,7 +153,7 @@ const Slug: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           <MDXContent components={MDXComponents} />
         </section>
         <section className="py-16">
-          <h2 className="text-xl font-semibold tracking-tight">
+          <h2 className="text-lg font-semibold tracking-tight sm:text-xl">
             Get notifications delivered to your inbox.
             <br />
             Sign up for email notifications about new posts!

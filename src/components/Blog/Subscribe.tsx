@@ -9,7 +9,7 @@ const Subscribe = () => {
           <FontAwesomeIcon
             icon={["far", "envelope"]}
             height="1em"
-            className="absolute inset-y-0 left-3 h-full w-6 text-slate-400 group-focus-within:text-sky-500"
+            className="pointer-events-none absolute inset-y-0 left-3 h-full w-6 text-slate-400 group-focus-within:text-sky-500"
           />
           <input
             aria-label="email address"

@@ -48,7 +48,7 @@ const Blog: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       description="Samuel Quinones' Personal Blog"
     >
       <section data-header="" className="pt-5">
-        <h1 className=" mb-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:mb-6 lg:text-6xl">
+        <h1 className="mb-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:mb-6 lg:text-6xl">
           My Blog
         </h1>
         <p className="mb-3">
@@ -57,16 +57,19 @@ const Blog: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           bunch more!
         </p>
         <p className="mb-3">
+          Each post also contains tags used to help clasify them. By clicking on
+          one of the tag buttons on a post card, you can find a subset of all
+          posts that contain that tag.
+        </p>
+        <p className="mb-3">
           This page only shows a brief preview of each post, be sure to click on
           "Read More" to view the full article.
         </p>
-        <p className="mb-3">
-          To get updates anytime a new post is published, signup using the form
-          below. These updates will be delivered via email.
-        </p>
       </section>
       <section className="max-w-sm sm:mx-auto sm:px-4">
-        <h2 className="sr-only">Sign up for blog updates</h2>
+        <h2 className="text-center text-xl font-semibold tracking-tight">
+          Sign up for blog updates
+        </h2>
         <Subscribe />
       </section>
       <section data-post-list="" className="space-y-16 pt-10">
