@@ -3,8 +3,8 @@ import { visit } from "unist-util-visit";
 function toJSON(obj, defaultNewTab = false) {
   let innerObj = obj;
   try {
-    if (innerObj.startsWith("/") && innerObj.endsWith("/")) {
-      innerObj = innerObj.slice(1, -1);
+    if (innerObj.startsWith("/*") && innerObj.endsWith("*/")) {
+      innerObj = innerObj.slice(2, -2);
     }
     const props = JSON.parse(innerObj);
     return props;

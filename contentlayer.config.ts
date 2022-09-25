@@ -6,7 +6,8 @@ import { bundleMDX } from "mdx-bundler";
 import rehypeSlug from "rehype-slug";
 import syntaxHighlighting from "./internals/rehype/syntaxHighlighting";
 import makePostPreview from "./internals/remark/makePostPreview";
-import addLinkProps from "./internals/rehype/newTabLink";
+import newTabLink from "./internals/rehype/newTabLink";
+import imgProps from "./internals/rehype/imgProps";
 import createToc from "./internals/rehype/createToc";
 import {
   removeImageMeta,
@@ -95,8 +96,9 @@ const Post = defineDocumentType(() => ({
           mdxOptions: (opts) => {
             opts.rehypePlugins = [
               ...(opts.rehypePlugins ?? []),
-              addLinkProps,
+              newTabLink,
               removeLinkMeta,
+              removeImageMeta,
             ];
             opts.remarkPlugins = [
               ...(opts.remarkPlugins ?? []),
@@ -138,7 +140,8 @@ export default makeSource({
   mdx: {
     rehypePlugins: [
       rehypeSlug,
-      addLinkProps,
+      newTabLink,
+      imgProps,
       removeLinkMeta,
       removeImageMeta,
       syntaxHighlighting,
