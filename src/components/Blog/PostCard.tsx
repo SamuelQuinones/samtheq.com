@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Post } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
-import { formatUTC } from "@util/DateHelper";
+import { format } from "@util/DateHelper";
 import Button from "@components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -40,7 +40,7 @@ const PostCard = ({ showTags, ...post }: SubPost) => {
               className="mr-3"
             />
             <time dateTime={post.postDate}>
-              {formatUTC(post.postDate, "MMMM Do, YYYY")}
+              {format(post.postDate, "MMMM Do, YYYY")}
             </time>
           </dd>
         </dl>

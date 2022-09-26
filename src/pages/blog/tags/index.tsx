@@ -1,8 +1,9 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import Link from "next/link";
-import { allTags } from "contentlayer/generated";
-import PageLayout from "layout/Page";
 import classNames from "classnames";
+import { allTags } from "contentlayer/generated";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PageLayout from "layout/Page";
 import Button from "@components/Button";
 
 type Params = { tags: string[] };
@@ -32,10 +33,16 @@ const Tags: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             <Link href="/blog" passHref legacyBehavior>
               <Button
                 data-next-legacy-link=""
-                className="font-semibold"
+                className="inline-flex items-center font-semibold"
                 variant="secondary"
               >
-                All Blog Posts
+                <FontAwesomeIcon
+                  icon={["fas", "chevron-left"]}
+                  height="1em"
+                  className="mr-2"
+                  size="sm"
+                />
+                <span>All Blog Posts</span>
               </Button>
             </Link>
           </div>

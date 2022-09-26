@@ -5,9 +5,9 @@ import type {
   NextPage,
 } from "next";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PageLayout from "layout/Page";
 import { allPosts, allTags } from "contentlayer/generated";
-// import { isAfter } from "@util/DateHelper";
 import PostCard, { type SubPost } from "@components/Blog/PostCard";
 import Button from "@components/Button";
 
@@ -78,24 +78,44 @@ const Tag: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         className="mx-auto grid max-w-xl grid-cols-2 gap-4 pb-16 font-semibold"
       >
         <Link href="/blog/tags" legacyBehavior passHref>
-          <Button data-next-legacy-link="" className="text-center">
-            All Tags
+          <Button
+            data-next-legacy-link=""
+            className="inline-flex items-center justify-center"
+          >
+            <FontAwesomeIcon
+              icon={["fas", "chevron-left"]}
+              height="1em"
+              className="mr-2"
+              size="sm"
+            />
+            <span>All Tags</span>
           </Button>
         </Link>
         <Link href="/blog" legacyBehavior passHref>
           <Button
             data-next-legacy-link=""
             variant="secondary"
-            className="text-center"
+            className="inline-flex items-center justify-center"
           >
-            All Blog Posts
+            <FontAwesomeIcon
+              icon={["fas", "chevron-left"]}
+              height="1em"
+              className="mr-2"
+              size="sm"
+            />
+            <span>All Blog Posts </span>
           </Button>
         </Link>
       </section>
       <section data-post-list="" className="space-y-16">
-        {posts.map((post) => (
-          <PostCard key={post.title} {...post} />
-        ))}
+        {posts.length > 0 ? (
+          posts.map((post) => <PostCard key={post.title} {...post} />)
+        ) : (
+          <p className="mb-8 text-center text-xl lg:text-2xl">
+            Huh? It looks like there are no posts exist that use this tag, try
+            checking back in the future!
+          </p>
+        )}
       </section>
     </PageLayout>
   );

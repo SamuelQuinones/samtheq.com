@@ -101,18 +101,19 @@ const Slug: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         <section data-go-back="" className="flex py-6">
           <Link href="/blog" legacyBehavior passHref>
             <Button
-              className="flex items-center text-sm leading-4"
+              className="flex items-center text-sm font-semibold leading-4"
               data-next-legacy-link=""
               variant="secondary"
               outline
             >
+              {/* Had overflow-visibile before */}
               <FontAwesomeIcon
                 icon={["fas", "chevron-left"]}
                 height="1em"
-                className="relative mr-3 overflow-visible"
+                className="relative mr-2"
                 size="xs"
               />
-              <strong>All Blog Posts</strong>
+              <span>All Blog Posts</span>
             </Button>
           </Link>
         </section>
