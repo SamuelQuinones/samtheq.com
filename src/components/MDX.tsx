@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-// TODO: experiment with adding pre ref to children object and targeting the code element
 import {
   useCallback,
   useMemo,
