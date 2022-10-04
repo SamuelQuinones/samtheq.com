@@ -1,10 +1,13 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import Link from "next/link";
+import { m } from "framer-motion";
 import classNames from "classnames";
 import { allTags } from "contentlayer/generated";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PageLayout from "layout/Page";
 import Button from "@components/Button";
+
+const MotionLink = m(Link);
 
 type Params = { tags: string[] };
 export const getStaticProps: GetStaticProps<Params> = async () => {
@@ -13,6 +16,21 @@ export const getStaticProps: GetStaticProps<Params> = async () => {
       tags: allTags.map(({ title }) => title),
     },
   };
+};
+
+const variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1 },
+};
+
+const container = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
 };
 
 const Tags: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
@@ -58,22 +76,26 @@ const Tags: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           </p>
         </div>
       </section>
-      <section
+      <m.section
+        variants={container}
+        initial="hidden"
+        animate="show"
         data-tag-links=""
         className="relative inline-flex flex-wrap gap-2"
       >
         {tags.map((title) => (
-          <Link
+          <MotionLink
+            variants={variants}
             key={title}
             href={`/blog/tags/${title}`}
             role="button"
             tabIndex={0}
-            className={classNames("tag", title.toLowerCase())}
+            className={classNames("tag", "font-bold", title.toLowerCase())}
           >
-            <strong># {title}</strong>
-          </Link>
+            # {title}
+          </MotionLink>
         ))}
-      </section>
+      </m.section>
     </PageLayout>
   );
 };

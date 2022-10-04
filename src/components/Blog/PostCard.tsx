@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { m } from "framer-motion";
 import type { Post } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import { format } from "@util/DateHelper";
@@ -13,11 +14,16 @@ export type SubPost = Pick<
   showTags?: boolean;
 };
 
+const variants = {
+  hidden: { opacity: 0, y: 50 },
+  show: { opacity: 1, y: 0 },
+};
+
 const PostCard = ({ showTags, ...post }: SubPost) => {
   const MDXContent = useMDXComponent(post.preview);
 
   return (
-    <article className="group relative">
+    <m.article variants={variants} className="group relative">
       <div className="absolute -inset-y-2.5 -inset-x-4 transition-colors group-hover:bg-info-900/30 sm:rounded-2xl md:-inset-y-4 md:-inset-x-6" />
       <section className="relative mb-1 flex w-full justify-center overflow-hidden">
         <span className="h-full w-full bg-gray-200 md:h-48" />
@@ -86,7 +92,8 @@ const PostCard = ({ showTags, ...post }: SubPost) => {
           ))}
         </section>
       )}
-    </article>
+      <hr className="pointer-events-none absolute left-0 right-0 -bottom-8 rounded-full border border-secondary-300 border-opacity-30 md:hidden" />
+    </m.article>
   );
 };
 

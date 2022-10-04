@@ -1,8 +1,12 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
+import { useState } from "react";
 import dynamic from "next/dynamic";
+import { m } from "framer-motion";
 import PageLayout from "layout/Page";
 import { allPosts } from "contentlayer/generated";
 import PostCard, { type SubPost } from "@components/Blog/PostCard";
+import Tooltip from "@components/Tooltip";
+import Modal from "@components/Modal";
 
 const Subscribe = dynamic(() => import("../../components/Blog/Subscribe"), {
   ssr: false,
@@ -11,6 +15,16 @@ const Subscribe = dynamic(() => import("../../components/Blog/Subscribe"), {
 
 type Params = {
   posts: Omit<SubPost, "showTags">[];
+};
+
+const container = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
 };
 
 export const getStaticProps: GetStaticProps<Params> = async () => {
@@ -40,6 +54,7 @@ export const getStaticProps: GetStaticProps<Params> = async () => {
 const Blog: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   posts,
 }) => {
+  const [open, setOpen] = useState(false);
   return (
     <PageLayout
       title="Blog"
@@ -47,6 +62,17 @@ const Blog: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       pageUrl="/blog"
       description="Samuel Quinones' Personal Blog"
     >
+      <Modal
+        open={open}
+        handleClose={() => setOpen(false)}
+        header={<h1 className="text-center text-xl">About Tags</h1>}
+      >
+        <p className="mb-3">
+          Each post also contains tags used to help classify them. By clicking
+          on one of the tag buttons on a post card, you can find a subset of all
+          posts that contain that tag.
+        </p>
+      </Modal>
       <section data-header="" className="pt-5">
         <h1 className="mb-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:mb-6 lg:text-6xl">
           My Blog
@@ -54,12 +80,21 @@ const Blog: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         <p className="mb-3">
           I'll write posts about anything that generally interests me;
           development, keyboards, personal thoughts / ramblings, and I'm sure a
-          bunch more!
-        </p>
-        <p className="mb-3">
-          Each post also contains tags used to help clasify them. By clicking on
-          one of the tag buttons on a post card, you can find a subset of all
-          posts that contain that tag.
+          bunch more! Each post also contains{" "}
+          <Tooltip
+            usePortal
+            tooltipText="click to learn more about tags"
+            placement="bottom"
+            flip
+          >
+            <button
+              onClick={() => setOpen(true)}
+              className="text-sky-500 underline transition-colors hocus:text-blue-600"
+              aria-label="click to learn more about tags"
+            >
+              tags
+            </button>
+          </Tooltip>
         </p>
         <p className="mb-3">
           This page only shows a brief preview of each post, be sure to click on
@@ -72,11 +107,29 @@ const Blog: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         </h2>
         <Subscribe />
       </section>
-      <section data-post-list="" className="space-y-16 pt-10">
+      {/*TODO: Look into adding suspense here */}
+      <m.section
+        variants={container}
+        initial="hidden"
+        animate="show"
+        data-post-list=""
+        className="space-y-16 pt-10"
+      >
         {posts.map((post) => (
           <PostCard showTags key={post.title} {...post} />
         ))}
-      </section>
+        {posts.map((post) => (
+          <PostCard showTags key={post.title} {...post} />
+        ))}
+        {posts.length > 0 ? (
+          posts.map((post) => <PostCard showTags key={post.title} {...post} />)
+        ) : (
+          <p className="text-center text-xl lg:text-2xl">
+            Huh, it looks like there are no posts available to read. Try
+            checking back in the future!
+          </p>
+        )}
+      </m.section>
     </PageLayout>
   );
 };
