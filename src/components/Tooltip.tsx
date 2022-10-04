@@ -1,3 +1,5 @@
+// TODO: Maybe change to use restart/ui overlay
+// TODO: clean up portal implementation
 import {
   type MouseEvent as ME,
   type ReactNode,
@@ -10,9 +12,10 @@ import {
 } from "react";
 import classNames from "classnames";
 import { AnimatePresence, m } from "framer-motion";
-import usePopper, { Placement } from "@restart/ui/usePopper";
+import usePopper, { type Placement } from "@restart/ui/usePopper";
 import mergeOptionsWithPopperConfig from "@restart/ui/mergeOptionsWithPopperConfig";
 import useRootClose from "@restart/ui/useRootClose";
+import Portal, { type PortalProps } from "@restart/ui/Portal";
 import { contains } from "@util/DomHelper";
 import { useMergedRef } from "@hooks";
 
@@ -35,7 +38,12 @@ type Props = {
   rootClose?: boolean;
   rootCloseDisabled?: boolean;
   rootCloseEvent?: MouseEvents;
+  usePortal?: boolean;
 };
+
+type MaybePortalProps = {
+  usePortal: boolean;
+} & PortalProps;
 
 // Simple implementation of mouseEnter and mouseLeave.
 // React's built version is broken: https://github.com/facebook/react/issues/4251
@@ -56,6 +64,11 @@ function handleMouseOverOut(
   }
 }
 
+/** Allows for rendering tooltips on root */
+const MaybePortal = ({ usePortal = false, ...props }: MaybePortalProps) => {
+  return usePortal ? <Portal {...props} /> : <>{props.children}</>;
+};
+
 const Tooltip = ({
   children,
   placement = "top",
@@ -67,6 +80,7 @@ const Tooltip = ({
   rootClose,
   rootCloseDisabled,
   rootCloseEvent,
+  usePortal = false,
 }: Props) => {
   const [show, setShow] = useState(false);
 
@@ -161,24 +175,26 @@ const Tooltip = ({
       {cloneElement(child, triggerProps)}
       <AnimatePresence>
         {show && (
-          <m.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            ref={attachRef}
-            className={tooltipClasses}
-            style={styles.popper as any}
-            {...attributes.popper}
-          >
-            {tooltipText}
-            <div
-              ref={attachArrowRef}
-              style={styles.arrow as any}
-              className={arrowClasses}
-              {...attributes.arrow}
-            />
-          </m.div>
+          <MaybePortal usePortal={usePortal} container={document.body}>
+            <m.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              ref={attachRef}
+              className={tooltipClasses}
+              style={styles.popper as any}
+              {...attributes.popper}
+            >
+              {tooltipText}
+              <div
+                ref={attachArrowRef}
+                style={styles.arrow as any}
+                className={arrowClasses}
+                {...attributes.arrow}
+              />
+            </m.div>
+          </MaybePortal>
         )}
       </AnimatePresence>
     </>
