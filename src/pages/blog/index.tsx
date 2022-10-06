@@ -115,12 +115,6 @@ const Blog: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         data-post-list=""
         className="space-y-16 pt-10"
       >
-        {posts.map((post) => (
-          <PostCard showTags key={post.title} {...post} />
-        ))}
-        {posts.map((post) => (
-          <PostCard showTags key={post.title} {...post} />
-        ))}
         {posts.length > 0 ? (
           posts.map((post) => <PostCard showTags key={post.title} {...post} />)
         ) : (
