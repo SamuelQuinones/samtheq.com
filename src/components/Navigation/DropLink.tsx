@@ -1,13 +1,11 @@
-import { ReactNode, useRef, useEffect, useState, useMemo } from "react";
+import { type ReactNode, useState, useMemo } from "react";
 import { m } from "framer-motion";
-import { useRouter } from "next/router";
 import { Dropdown } from "@restart/ui";
 import { useWindowSize } from "@hooks";
 import DropmenuToggle from "@components/DropMenu/Toggle";
 import DropmenuMenu from "@components/DropMenu/Menu";
 import { smallTransitionConfig, transitionConfig } from "./Helper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { qs, resolveElement } from "@util/DomHelper";
 
 type Props = {
   label: string;
@@ -28,22 +26,8 @@ type Props = {
  * </DropLink>
  */
 const DropLink = ({ children, label, id }: Props) => {
-  const menuRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLAnchorElement>(null);
-  const { asPath } = useRouter();
   const [show, setShow] = useState(false);
   const [display, setDisplay] = useState("hidden");
-  useEffect(() => {
-    const menuEl = resolveElement(menuRef);
-    const triggerEl = resolveElement(triggerRef);
-    if (!menuEl || !triggerEl) return;
-    const containsActiveLink = qs(menuEl, ".active");
-    if (!containsActiveLink) {
-      triggerEl.classList.remove("active");
-    } else {
-      triggerEl.classList.add("active");
-    }
-  }, [asPath]);
 
   const { width } = useWindowSize();
   const isSmall = useMemo(() => width <= 639, [width]);
@@ -68,7 +52,6 @@ const DropLink = ({ children, label, id }: Props) => {
         placement="bottom-end"
       >
         <DropmenuToggle
-          ref={triggerRef}
           as="a"
           role="button"
           href="#"
@@ -84,7 +67,6 @@ const DropLink = ({ children, label, id }: Props) => {
           />
         </DropmenuToggle>
         <DropmenuMenu
-          ref={menuRef}
           className={`${display} popper-nav-menu top-[100%] right-0 mt-1 rounded sm:absolute`}
           usePopper={false}
         >

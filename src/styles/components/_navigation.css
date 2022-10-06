@@ -12,3 +12,7 @@
 .nav-link.drop-toggle + .popper-nav-menu .nav-link.active {
   @apply bg-info-700;
 }
+
+.nav-link.drop-toggle:has(+ .popper-nav-menu .nav-link.active) {
+  @apply font-semibold text-opacity-100;
+}
