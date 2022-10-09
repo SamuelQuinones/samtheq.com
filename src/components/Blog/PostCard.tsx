@@ -15,15 +15,20 @@ export type SubPost = Pick<
 };
 
 const variants = {
-  hidden: { opacity: 0, y: 50 },
-  show: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, x: 50 },
+  show: { opacity: 1, x: 0 },
 };
 
 const PostCard = ({ showTags, ...post }: SubPost) => {
   const MDXContent = useMDXComponent(post.preview);
 
   return (
-    <m.article variants={variants} className="group relative">
+    <m.article
+      initial={variants.hidden}
+      whileInView={variants.show}
+      viewport={{ once: true }}
+      className="group relative"
+    >
       <div className="absolute -inset-y-2.5 -inset-x-4 transition-colors group-hover:bg-info-900/30 sm:rounded-2xl md:-inset-y-4 md:-inset-x-6" />
       <section className="relative mb-1 flex w-full justify-center overflow-hidden">
         <span className="h-full w-full bg-gray-200 md:h-48" />

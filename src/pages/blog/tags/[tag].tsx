@@ -5,7 +5,6 @@ import type {
   NextPage,
 } from "next";
 import Link from "next/link";
-import { m } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PageLayout from "layout/Page";
 import { allPosts, allTags } from "contentlayer/generated";
@@ -17,16 +16,6 @@ type Params = {
   posts: Omit<SubPost, "showTags">[];
   tag: string;
   tagDesc?: string;
-};
-
-const container = {
-  hidden: { opacity: 1 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
 };
 
 export const getStaticPaths: GetStaticPaths<Paths> = async () => {
@@ -119,13 +108,7 @@ const Tag: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         </Link>
       </section>
       {/* TODO: Look into adding suspense here */}
-      <m.section
-        variants={container}
-        initial="hidden"
-        animate="show"
-        data-post-list=""
-        className="space-y-16"
-      >
+      <section data-post-list="" className="space-y-16">
         {posts.length > 0 ? (
           posts.map((post) => <PostCard key={post.title} {...post} />)
         ) : (
@@ -134,7 +117,7 @@ const Tag: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             checking back in the future!
           </p>
         )}
-      </m.section>
+      </section>
     </PageLayout>
   );
 };

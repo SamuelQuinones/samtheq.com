@@ -1,7 +1,6 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { m } from "framer-motion";
 import PageLayout from "layout/Page";
 import { allPosts } from "contentlayer/generated";
 import PostCard, { type SubPost } from "@components/Blog/PostCard";
@@ -15,16 +14,6 @@ const Subscribe = dynamic(() => import("../../components/Blog/Subscribe"), {
 
 type Params = {
   posts: Omit<SubPost, "showTags">[];
-};
-
-const container = {
-  hidden: { opacity: 1 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
 };
 
 export const getStaticProps: GetStaticProps<Params> = async () => {
@@ -108,13 +97,7 @@ const Blog: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         <Subscribe />
       </section>
       {/*TODO: Look into adding suspense here */}
-      <m.section
-        variants={container}
-        initial="hidden"
-        animate="show"
-        data-post-list=""
-        className="space-y-16 pt-10"
-      >
+      <section data-post-list="" className="space-y-16 pt-10">
         {posts.length > 0 ? (
           posts.map((post) => <PostCard showTags key={post.title} {...post} />)
         ) : (
@@ -123,7 +106,7 @@ const Blog: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             checking back in the future!
           </p>
         )}
-      </m.section>
+      </section>
     </PageLayout>
   );
 };
