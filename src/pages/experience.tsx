@@ -1,8 +1,9 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import { m } from "framer-motion";
 import prisma from "@lib/Prisma";
-import { format } from "@util/DateHelper";
-import { formatExperience, type TResume } from "@lib/Prisma/ExperienceHistory";
+import { format, formatUTC } from "@util/DateHelper";
+import { type TResume } from "@lib/Prisma/ExperienceHistory";
+// import catchPrismaErrors from "@lib/Prisma/Error";
 import PageLayout from "layout/Page";
 import TimelineContainer from "@components/Timeline/Container";
 import {
@@ -15,45 +16,72 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Button = m(BaseButton);
 
 export const getStaticProps: GetStaticProps<TResume> = async () => {
-  const [lastUpdated, history] = await Promise.all([
-    //* last Updated
-    prisma.experienceHistory.findFirst({
-      where: { active: true },
-      select: { modified_timestamp: true },
-      orderBy: { modified_timestamp: "desc" },
-    }),
-    //* job history
-    prisma.experienceHistory.findMany({
-      orderBy: { start_date: "desc" },
-      select: {
-        ID: true,
-        description: true,
-        start_date: true,
-        end_date: true,
-        additional_info_1: true,
-        additional_info_2: true,
-        additional_info_3: true,
-        signifier: true,
-        place: true,
-        exp_type: true,
-      },
-      where: { active: true },
-    }),
-  ]);
+  try {
+    const [lastUpdated, history] = await Promise.all([
+      //* last Updated
+      prisma.experienceHistory.findFirst({
+        where: { active: true },
+        select: { modified_timestamp: true },
+        orderBy: { modified_timestamp: "desc" },
+      }),
+      //* job history
+      prisma.experienceHistory.findMany({
+        select: {
+          ID: true,
+          description: true,
+          start_date: true,
+          end_date: true,
+          additional_info: {
+            select: {
+              info: true,
+            },
+          },
+          signifier: true,
+          place: true,
+          exp_type: true,
+        },
+        where: { active: true },
+        orderBy: { start_date: "desc" },
+      }),
+    ]);
 
-  return {
-    props: {
-      lastUpdated: format(lastUpdated?.modified_timestamp, "MMMM Do, YYYY"),
-      experienceItems: history.map((item) => formatExperience(item)),
-    },
-    //* Fifteen Minutes
-    revalidate: 900,
-  };
+    return {
+      props: {
+        lastUpdated: format(lastUpdated?.modified_timestamp, "MMMM Do, YYYY"),
+        experienceItems: history.map(
+          ({ start_date, end_date, additional_info, ...item }) => {
+            const startDate = formatUTC(start_date, "MMMM YYYY");
+            const endDate = end_date ? formatUTC(end_date, "MMMM YYYY") : null;
+            return {
+              ...item,
+              start_date: startDate,
+              end_date: endDate,
+              additional_info: additional_info.map(({ info }) => info),
+            };
+          }
+        ),
+        fetchFailed: false,
+      },
+      //* Fifteen Minutes
+      revalidate: 900,
+    };
+  } catch (error) {
+    return {
+      props: {
+        experienceItems: [],
+        lastUpdated: format(new Date(), "MMMM Do, YYYY"),
+        fetchFailed: true,
+      },
+      //* Fifteen Minutes
+      revalidate: 900,
+    };
+  }
 };
 
 const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   experienceItems,
   lastUpdated,
+  fetchFailed,
 }) => {
   return (
     <PageLayout
@@ -88,6 +116,26 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           </p>
         </section>
       </div>
+      {fetchFailed && (
+        <div className="my-10 text-xl md:text-center lg:text-2xl">
+          <p className="mb-3">
+            Something went wrong when trying to retrieve information
+          </p>
+          <p className="mb-3">
+            Said information is still available in my aforementioned resume
+          </p>
+          <p className="mb-3">
+            Please try again later, or{" "}
+            <a
+              href="https://github.com/SamuelQuinones/samtheq.com/issues"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              open a github issue
+            </a>
+          </p>
+        </div>
+      )}
       <TimelineContainer>
         {experienceItems.map((item) => {
           if (item.exp_type === "education") {
@@ -95,7 +143,7 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
               <EducationTimelineItem
                 description={item.description}
                 title={item.signifier}
-                additionalInfo={item.additionalInfo}
+                additionalInfo={item.additional_info}
                 degree={item.place}
                 startDate={item.start_date}
                 endDate={item.end_date}
@@ -107,7 +155,7 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             <WorkTimelineItem
               description={item.description}
               title={item.signifier}
-              additionalInfo={item.additionalInfo}
+              additionalInfo={item.additional_info}
               company={item.place}
               startDate={item.start_date}
               endDate={item.end_date}
@@ -116,7 +164,7 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           );
         })}
       </TimelineContainer>
-      <section className="grid grid-cols-2 gap-6 p-3">
+      <section className="grid gap-6 p-3 sm:grid-cols-2">
         <Button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
