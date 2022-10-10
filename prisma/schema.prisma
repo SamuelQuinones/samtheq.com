@@ -10,19 +10,25 @@ datasource db {
 }
 
 model ExperienceHistory {
-  ID                 Int       @id @default(autoincrement())
-  place              String    @db.VarChar(255)
-  signifier          String    @db.VarChar(255)
-  exp_type           String    @default("work") @db.VarChar(255)
-  start_date         DateTime  @db.Date
-  end_date           DateTime? @db.Date
-  description        String    @db.VarChar(255)
-  additional_info_1  String?   @db.VarChar(255)
-  additional_info_2  String?   @db.VarChar(255)
-  additional_info_3  String?   @db.VarChar(255)
-  active             Boolean   @default(true)
-  inactive_timestamp DateTime? @db.Timestamp(0)
-  modified_timestamp DateTime  @default(now()) @updatedAt @db.Timestamp(0)
+  ID                 Int              @id @default(autoincrement())
+  place              String           @db.VarChar(255)
+  signifier          String           @db.VarChar(255)
+  exp_type           String           @default("work") @db.VarChar(255)
+  start_date         DateTime         @db.Date
+  end_date           DateTime?        @db.Date
+  description        String           @db.VarChar(255)
+  additional_info    ExperienceInfo[]
+  active             Boolean          @default(true)
+  inactive_timestamp DateTime?        @db.Timestamp(0)
+  modified_timestamp DateTime         @default(now()) @updatedAt @db.Timestamp(0)
+}
+
+model ExperienceInfo {
+  ID                 Int                @id @default(autoincrement())
+  info               String             @db.VarChar(255)
+  ExperienceHistory  ExperienceHistory? @relation(fields: [experience_id], references: [ID])
+  experience_id      Int
+  modified_timestamp DateTime           @default(now()) @updatedAt @db.Timestamp(0)
 }
 
 model UpdateFeed {
