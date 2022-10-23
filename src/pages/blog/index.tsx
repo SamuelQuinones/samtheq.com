@@ -1,5 +1,6 @@
-import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import { useState } from "react";
+import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 import PageLayout from "layout/Page";
 import { allPosts } from "contentlayer/generated";
@@ -60,6 +61,10 @@ const Blog: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           Each post also contains tags used to help classify them. By clicking
           on one of the tag buttons on a post card, you can find a subset of all
           posts that contain that tag.
+        </p>
+        <p className="mb-3">
+          Or, you can see all tags by <Link href="/tags">clicking here.</Link>{" "}
+          This will take you to a new page.
         </p>
       </Modal>
       <section data-header="" className="pt-5">

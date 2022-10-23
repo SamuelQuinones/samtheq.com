@@ -5,13 +5,13 @@ import type {
   InferGetStaticPropsType,
   NextPage,
 } from "next";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 import { ArticleJsonLd, NextSeo } from "next-seo";
 import { allPosts, type Post } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import { format } from "@util/DateHelper";
 import MDXComponents from "@components/MDX";
-import Link from "next/link";
 import Button from "@components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
