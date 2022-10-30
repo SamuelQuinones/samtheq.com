@@ -84,6 +84,7 @@ const Slug: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         ]}
       />
       <ArticleJsonLd
+        type="BlogPosting"
         title={post.title}
         url={`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${post.slug}`}
         authorName="Samuel Quinones"
