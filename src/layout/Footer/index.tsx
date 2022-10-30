@@ -24,7 +24,7 @@ const Footer = memo(() => {
             </a>
           </p>
         </section>
-        <section className="my-1 grid auto-cols-max justify-center text-base md:my-0 md:justify-end max-md:gap-y-2">
+        <section className="my-1 grid auto-cols-max justify-center text-base max-md:gap-y-2 md:my-0 md:justify-end">
           <div className="flex items-center">
             <FooterIcon
               prefix="fab"

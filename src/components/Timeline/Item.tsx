@@ -73,7 +73,7 @@ const TimelineItem = ({
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ delay: 0.2, type: "spring", bounce: 0.5 }}
-        className="relative inline-block w-full pb-5 group-last:pb-0 group-odd:text-left group-even:pl-14 group-even:text-left md:w-1/2 group-odd:md:pr-10 group-odd:md:text-right group-even:md:pl-10 group-odd:max-md:pl-14"
+        className="relative inline-block w-full pb-5 group-last:pb-0 group-odd:text-left group-even:pl-14 group-even:text-left group-odd:max-md:pl-14 md:w-1/2 group-odd:md:pr-10 group-odd:md:text-right group-even:md:pl-10"
       >
         <span className={arrowClasses} />
         <div className={contentClasses}>{children}</div>

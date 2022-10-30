@@ -23,5 +23,5 @@
 }
 
 .tag.svelte {
-  @apply border-orange-700 bg-orange-700 text-white hocus:bg-orange-600 hocus:border-orange-600;
+  @apply border-orange-700 bg-orange-700 text-white hocus:border-orange-600 hocus:bg-orange-600;
 }

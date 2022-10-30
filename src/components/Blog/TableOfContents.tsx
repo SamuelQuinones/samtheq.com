@@ -127,7 +127,7 @@ const TableOfContents = ({ toc }: Props) => {
               height="1em"
               icon={["fas", "list"]}
             />
-            <span className="hidden lg:inline xl:hidden">T.O.C.</span>
+            <span className="hidden lg:max-xl:inline">T.O.C.</span>
             <span className="sr-only xl:not-sr-only">Table of Contents</span>
             <em className="sr-only">Opens in a popup</em>
           </Button>

@@ -93,7 +93,7 @@ const Navbar = ({ children }: Props) => {
         {/* Content */}
         <section
           ref={CHILDREN_REF}
-          className="py-2 sm:flex sm:p-0 max-sm:hidden"
+          className="py-2 max-sm:hidden sm:flex sm:p-0"
         >
           {children}
         </section>

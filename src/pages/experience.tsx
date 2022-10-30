@@ -3,7 +3,6 @@ import { m } from "framer-motion";
 import prisma from "@lib/Prisma";
 import { format, formatUTC } from "@util/DateHelper";
 import { type TResume } from "@lib/Prisma/ExperienceHistory";
-// import catchPrismaErrors from "@lib/Prisma/Error";
 import PageLayout from "layout/Page";
 import TimelineContainer from "@components/Timeline/Container";
 import {
@@ -101,7 +100,7 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             </em>
           </p>
         </section>
-        <section className="text-center md:text-left">
+        <section>
           <p className="mb-2">
             Below you will find a timeline of my work and educational
             experience.
