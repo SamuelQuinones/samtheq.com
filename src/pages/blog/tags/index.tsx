@@ -44,7 +44,7 @@ const Tags: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     >
       <section className="my-8 grid items-center md:grid-cols-2">
         <div data-heading="">
-          <h1 className="mb-5 text-center text-4xl font-semibold sm:text-5xl md:text-left lg:text-6xl max-md:mb-4">
+          <h1 className="mb-5 text-center text-4xl font-semibold max-md:mb-4 sm:text-5xl md:text-left lg:text-6xl">
             Tags
           </h1>
           <div className="mb-2 text-center md:mb-0 md:text-left">
