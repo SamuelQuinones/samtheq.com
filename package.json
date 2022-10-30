@@ -34,10 +34,10 @@
     "prisma:studio:prod": "dotenv -c production prisma studio -- --port 9999"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "6.2.0",
-    "@fortawesome/free-brands-svg-icons": "6.2.0",
-    "@fortawesome/free-regular-svg-icons": "6.2.0",
-    "@fortawesome/free-solid-svg-icons": "6.2.0",
+    "@fortawesome/fontawesome-svg-core": "6.1.2",
+    "@fortawesome/free-brands-svg-icons": "6.1.2",
+    "@fortawesome/free-regular-svg-icons": "6.1.2",
+    "@fortawesome/free-solid-svg-icons": "6.1.2",
     "@fortawesome/react-fontawesome": "0.2.0",
     "@prisma/client": "4.5.0",
     "@restart/ui": "1.4.0",

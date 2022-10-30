@@ -42,7 +42,7 @@ const ScrollToTop = memo(() => {
   useEventListener("window", "scroll", toggleVisibility);
 
   return (
-    <AnimatePresence initial={false} exitBeforeEnter={true}>
+    <AnimatePresence initial={false} mode="wait">
       {isVisible && (
         <m.div
           className="fixed bottom-4 right-4"

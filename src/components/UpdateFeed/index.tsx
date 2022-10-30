@@ -63,7 +63,7 @@ const LoadingSkeleton = () => (
 
 /** Drawer Overlay when loading more / there is an error loading more */
 const ViewMoreOverLay = ({ isLoading = false, isError = false }) => (
-  <AnimatePresence exitBeforeEnter initial={false}>
+  <AnimatePresence mode="wait" initial={false}>
     {isError && (
       <m.div
         key="loading-more-error"
@@ -124,7 +124,7 @@ const UpdateFeed = () => {
   }, [additionalUpdates.length, loadMoreError, setSize]);
 
   return (
-    <AnimatePresence exitBeforeEnter /* initial={false} */>
+    <AnimatePresence mode="wait" /* initial={false} */>
       {isError && !initialUpdates && (
         <NoDataCard key="error" message={isError.message} />
       )}
