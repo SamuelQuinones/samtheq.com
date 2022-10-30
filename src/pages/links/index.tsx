@@ -1,12 +1,17 @@
-import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
+import type {
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPage,
+} from "next";
+import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PageLayout from "layout/Page";
 import prisma from "@lib/Prisma";
 import type { TLinks } from "@lib/Prisma/SocialLinks";
 import { format } from "@util/DateHelper";
-import Card from "@components/Card";
+import Button from "@components/Button";
 
-export const getStaticProps: GetStaticProps<TLinks> = async () => {
+export const getServerSideProps: GetServerSideProps<TLinks> = async () => {
   const [LINKS, lastUpdated] = await Promise.all([
     prisma.socialLink.findMany({
       orderBy: [{ priority: "asc" }, { created_timestamp: "desc" }],
@@ -41,23 +46,34 @@ export const getStaticProps: GetStaticProps<TLinks> = async () => {
         }
       ),
     },
-    //* Ten Minutes
-    revalidate: 600,
   };
 };
 
-const Links: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
-  lastUpdated,
-  socialLinks,
-}) => {
+const Links: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ lastUpdated, socialLinks }) => {
   return (
     <PageLayout
       title="Links"
       pageUrl="/links"
       description="A collection of social platform links on which Samuel Quinones is active"
+      containerClasses="max-w-[52rem] scroll-mt-16"
     >
-      <section className="mb-8">
-        <h1 className="mb-3 text-center text-4xl">Other Social Links</h1>
+      <section className="text-center">
+        <Image
+          src="/SamuelQuinonesHeadShot.jpeg"
+          alt="Samuel Quinones Headshot"
+          height={120}
+          width={120}
+          className="rounded-full"
+          priority
+          quality={100}
+        />
+      </section>
+      <section className="mb-4">
+        <h1 className="mb-3 text-center text-2xl">
+          Samuel Quinones' Social Links
+        </h1>
         <p className="mb-2 text-center">
           <em className="block">Last updated: {lastUpdated}</em>
         </p>
@@ -66,47 +82,24 @@ const Links: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         </p>
       </section>
       {socialLinks.length > 0 && (
-        <section className="grid grid-cols-1 gap-1 py-2 md:grid-cols-2 md:gap-2 xl:grid-cols-3 xl:gap-4">
+        <section className="grid grid-cols-1 gap-y-5 py-2">
           {socialLinks.map((link) => (
-            <Card
+            <Button
+              href={link.redirect ? `/links/${link.redirect}` : link.target}
+              target="_blank"
+              rel="noopener noreferrer"
+              outline
+              variant="secondary"
               key={`${link.ID}-${link.title.replace(/[^A-Z0-9]/gim, "")}`}
-              className="group relative flex gap-x-2 bg-secondary-400 p-2"
+              className="group relative flex items-center justify-center gap-x-2 rounded-lg border-2 p-2"
             >
-              <div className="absolute inset-0 rounded-md transition-colors group-hover:bg-secondary-500/50" />
-              <div className="relative py-2">
-                <FontAwesomeIcon
-                  height="1em"
-                  style={{ height: "48px" }}
-                  icon={[link.icon_prefix, link.icon_name]}
-                />
-              </div>
-              <div className="relative flex grow flex-col justify-between gap-y-1">
-                <div className="flex flex-col justify-center gap-y-1">
-                  <p>{link.title}</p>
-                  {link.description && (
-                    <p className="text-sm">{link.description}</p>
-                  )}
-                </div>
-                <a
-                  href={link.redirect ? `/links/${link.redirect}` : link.target}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-end text-sm font-bold text-blue-800 transition-colors hocus:text-blue-900"
-                >
-                  <span className="absolute inset-0 rounded-md" />
-                  <span className="relative text-right">
-                    Open in New Tab{" "}
-                    <FontAwesomeIcon
-                      height="1em"
-                      icon={["fas", "chevron-right"]}
-                    />{" "}
-                    <span className="sr-only">
-                      Open {link.title} in new tab
-                    </span>
-                  </span>
-                </a>
-              </div>
-            </Card>
+              <FontAwesomeIcon
+                height="1em"
+                size="lg"
+                icon={[link.icon_prefix, link.icon_name]}
+              />
+              <p>{link.title}</p>
+            </Button>
           ))}
         </section>
       )}
