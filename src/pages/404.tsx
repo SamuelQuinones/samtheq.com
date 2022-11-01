@@ -22,7 +22,7 @@ const Custom404: NextPage = () => {
       <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
         {/* Legacy behavior required */}
         <Link href="/" passHref legacyBehavior>
-          <Button data-next-legacy-link>Go to the Home Page</Button>
+          <Button data-next-legacy-link="">Go to the Home Page</Button>
         </Link>
         <Button variant="secondary" onClick={() => back()}>
           Go Back
