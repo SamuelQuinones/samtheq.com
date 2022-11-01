@@ -31,7 +31,16 @@ export const getServerSideProps: GetServerSideProps<TLinks> = async () => {
       select: { modified_timestamp: true },
       where: { active: true },
     }),
-  ]);
+  ]).catch(() => [null, null] as [null, null]);
+
+  if (LINKS === null && lastUpdated === null) {
+    return {
+      props: {
+        lastUpdated: format(new Date(), "MMMM Do, YYYY"),
+        socialLinks: [],
+      },
+    };
+  }
 
   const loadIco = (await import("../../lib/FontAwesome")).loadIconWithFallback;
 
@@ -81,7 +90,11 @@ const Links: NextPage<
           The buttons below will take you to my other social media profiles.
         </p>
       </section>
-      {socialLinks.length > 0 && (
+      {socialLinks.length === 0 ? (
+        <p className="text-center text-lg">
+          Unable to get list of links, please try again later.
+        </p>
+      ) : (
         <section className="grid grid-cols-1 gap-y-5 py-2">
           {socialLinks.map((link) => (
             <Button

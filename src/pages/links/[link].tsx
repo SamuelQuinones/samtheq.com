@@ -12,19 +12,21 @@ export const getServerSideProps: GetServerSideProps<
   { link: string }
 > = async ({ params }) => {
   if (!params) return { notFound: true };
-  const LINK = await prisma.socialLink.findFirst({
-    where: {
-      redirect: params.link,
-      active: true,
-      NOT: { redirect: null }, //? Possibly redundant
-    },
-    select: {
-      title: true,
-      description: true,
-      target: true,
-      redirect: true,
-    },
-  });
+  const LINK = await prisma.socialLink
+    .findFirst({
+      where: {
+        redirect: params.link,
+        active: true,
+        NOT: { redirect: null }, //? Possibly redundant
+      },
+      select: {
+        title: true,
+        description: true,
+        target: true,
+        redirect: true,
+      },
+    })
+    .catch(() => null);
   if (LINK === null) return { notFound: true };
   return {
     props: LINK,
