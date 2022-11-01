@@ -72,7 +72,7 @@
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-jsx-a11y": "6.6.1",
     "eslint-plugin-prettier": "4.2.1",
-    "inquirer-autocomplete-prompt": "3.0.0",
+    "inquirer-autocomplete-prompt": "2.0.0",
     "inquirer-datepicker-prompt": "0.4.3",
     "inquirer-directory": "2.2.0",
     "node-plop": "0.26.2",
