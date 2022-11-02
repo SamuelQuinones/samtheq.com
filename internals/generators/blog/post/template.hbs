@@ -5,13 +5,13 @@ postDate: {{ postDate }}
 {{#if coreTags.length}}
 tags:
 {{#each coreTags}}
-  - {{ titleCase this }}
+  - {{ lowerCase this }}
 {{/each}}
 {{/if}}
 {{#if keyWords.length}}
 keywords:
 {{#each keyWords}}
-  - {{ titleCase this }}
+  - {{ lowerCase this }}
 {{/each}}
 {{/if}}
 ---
