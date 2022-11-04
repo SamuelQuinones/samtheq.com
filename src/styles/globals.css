@@ -8,6 +8,10 @@
 /* ../../node_modules/tailwindcss/utilities.css */
 @import "tailwindcss/utilities";
 
+:root {
+  color-scheme: dark;
+}
+
 html {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
