@@ -26,7 +26,9 @@ export default function newTabLink() {
     visit(tree, isAnchor, (node, i, parent) => {
       // if (node.type === "element" && node.tagName === "a") {
       //* external links are new tabs by default
-      const isInternalLink = node.properties.href.startsWith("/");
+      const isInternalLink =
+        node.properties.href.startsWith("/") ||
+        node.properties.href.startsWith("#");
       if (!isInternalLink) {
         node.properties = {
           ...node.properties,
