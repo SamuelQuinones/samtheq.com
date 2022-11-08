@@ -2,18 +2,18 @@ import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import Link from "next/link";
 import { m } from "framer-motion";
 import classNames from "classnames";
-import { allTags } from "contentlayer/generated";
+import { allTags, type Tag } from "contentlayer/generated";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PageLayout from "layout/Page";
 import Button from "@components/Button";
 
 const MotionLink = m(Link);
 
-type Params = { tags: string[] };
+type Params = { tags: Pick<Tag, "title" | "description">[] };
 export const getStaticProps: GetStaticProps<Params> = async () => {
   return {
     props: {
-      tags: allTags.map(({ title }) => title),
+      tags: allTags.map(({ title, description }) => ({ title, description })),
     },
   };
 };
@@ -83,10 +83,11 @@ const Tags: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         data-tag-links=""
         className="relative inline-flex flex-wrap gap-2"
       >
-        {tags.map((title) => (
+        {tags.map(({ title, description }) => (
           <MotionLink
             variants={variants}
             key={title}
+            title={description}
             href={`/blog/tags/${title}`}
             role="button"
             tabIndex={0}
