@@ -8,6 +8,7 @@ import type {
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { ArticleJsonLd, NextSeo } from "next-seo";
+import { pick } from "contentlayer/client";
 import { allPosts, type Post } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import { format } from "@util/DateHelper";
@@ -21,6 +22,18 @@ const TableOfContents = dynamic(
 );
 
 type Paths = { slug: string };
+type SubPost = Pick<
+  Post,
+  | "tags"
+  | "keywords"
+  | "title"
+  | "description"
+  | "slug"
+  | "lastUpdated"
+  | "postDate"
+  | "coverImage"
+  | "toc"
+> & { code: string };
 
 export const getStaticPaths: GetStaticPaths<Paths> = async () => {
   const paths = allPosts.map(({ slug }) => ({
@@ -32,7 +45,7 @@ export const getStaticPaths: GetStaticPaths<Paths> = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<{ post: Post }, Paths> = async ({
+export const getStaticProps: GetStaticProps<{ post: SubPost }, Paths> = async ({
   params,
 }) => {
   if (!params) return { notFound: true };
@@ -40,13 +53,33 @@ export const getStaticProps: GetStaticProps<{ post: Post }, Paths> = async ({
   const blogPost = allPosts.find(({ slug }) => params.slug === slug);
   if (!blogPost) return { notFound: true };
 
-  return { props: { post: blogPost } };
+  const {
+    body: { code },
+    ...rest
+  } = pick(blogPost, [
+    "body",
+    "tags",
+    "keywords",
+    "title",
+    "description",
+    "slug",
+    "lastUpdated",
+    "postDate",
+    "coverImage",
+    "toc",
+  ]);
+
+  return {
+    props: {
+      post: { code, ...rest },
+    },
+  };
 };
 
 const Slug: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   post,
 }) => {
-  const MDXContent = useMDXComponent(post.body.code);
+  const MDXContent = useMDXComponent(post.code);
   const keywords = useMemo(() => {
     return `${post.tags.join(", ")}, ${post.keywords.join(", ")}`
       .trim()
