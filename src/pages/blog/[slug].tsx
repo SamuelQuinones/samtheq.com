@@ -19,10 +19,6 @@ const TableOfContents = dynamic(
   () => import("../../components/Blog/TableOfContents"),
   { ssr: false }
 );
-const Subscribe = dynamic(() => import("../../components/Blog/Subscribe"), {
-  ssr: false,
-  loading: () => <div style={{ height: "54px" }} />,
-});
 
 type Paths = { slug: string };
 
@@ -153,16 +149,6 @@ const Slug: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         >
           <h1 className="lg:!text-5xl">{post.title}</h1>
           <MDXContent components={MDXComponents} />
-        </section>
-        <section className="py-16">
-          <h2 className="text-lg font-semibold tracking-tight sm:text-xl">
-            Get notifications delivered to your inbox.
-            <br />
-            Sign up for email notifications about new posts!
-          </h2>
-          <div className="mt-5 max-w-md">
-            <Subscribe />
-          </div>
         </section>
       </article>
       {/* <TableOfContents toc={post.toc} /> */}

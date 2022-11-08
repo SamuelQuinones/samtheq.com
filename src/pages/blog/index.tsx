@@ -1,17 +1,11 @@
 import { useState } from "react";
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import PageLayout from "layout/Page";
 import { allPosts } from "contentlayer/generated";
 import PostCard, { type SubPost } from "@components/Blog/PostCard";
 import Tooltip from "@components/Tooltip";
 import Modal from "@components/Modal";
-
-const Subscribe = dynamic(() => import("../../components/Blog/Subscribe"), {
-  ssr: false,
-  loading: () => <div style={{ height: "54px" }} />,
-});
 
 type Params = {
   posts: Omit<SubPost, "showTags">[];
@@ -94,12 +88,6 @@ const Blog: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           This page only shows a brief preview of each post, be sure to click on
           "Read More" to view the full article.
         </p>
-      </section>
-      <section className="max-w-sm sm:mx-auto sm:px-4">
-        <h2 className="text-center text-xl font-semibold tracking-tight">
-          Sign up for blog updates
-        </h2>
-        <Subscribe />
       </section>
       {/*TODO: Look into adding suspense here */}
       <section data-post-list="" className="space-y-16 pt-10">
