@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { m } from "framer-motion";
 import type { Post } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";

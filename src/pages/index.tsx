@@ -1,7 +1,7 @@
 //TODO: Add toast component for warning of error but data is present
 
 import type { NextPage } from "next";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import PageLayout from "layout/Page";
 import dynamic from "next/dynamic";
 // import UpdateFeed from "@components/UpdateFeed";

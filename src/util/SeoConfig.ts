@@ -18,6 +18,7 @@ const SEO: DefaultSeoProps = {
       {
         url: `${process.env.NEXT_PUBLIC_BASE_URL}/Logo_866.png`,
         alt: "SamTheQ logo",
+        type: "image/png",
       },
     ],
   },

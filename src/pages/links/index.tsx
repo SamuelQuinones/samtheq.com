@@ -3,7 +3,7 @@ import type {
   InferGetServerSidePropsType,
   NextPage,
 } from "next";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PageLayout from "layout/Page";
 import prisma from "@lib/Prisma";
