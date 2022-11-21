@@ -96,6 +96,7 @@ const ViewMoreOverLay = ({ isLoading = false, isError = false }) => (
 const UpdateFeed = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const {
+    total,
     isError,
     isLoadingInitialData,
     initialUpdates,
@@ -139,7 +140,7 @@ const UpdateFeed = () => {
           >
             <h2 className="text-2xl">Update Feed</h2>
             <Button
-              className="flex items-center gap-x-1.5"
+              className="relative flex items-center gap-x-1.5"
               variant="info"
               onClick={handleViewMore}
             >
@@ -148,6 +149,12 @@ const UpdateFeed = () => {
                 height="16"
                 icon={["fas", "clock-rotate-left"]}
               />
+              {total - 3 > 0 && (
+                <span className="absolute top-0 right-0 inline-flex translate-x-1/2 -translate-y-1/2 transform items-center justify-center rounded-full bg-primary-600 px-2 py-1 text-xs font-bold leading-none">
+                  {total - 3}{" "}
+                  <span className="sr-only">Additional updates</span>
+                </span>
+              )}
             </Button>
           </m.section>
           <UpdateContainer>

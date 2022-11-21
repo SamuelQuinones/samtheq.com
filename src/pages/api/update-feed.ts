@@ -15,7 +15,9 @@ export default async function handler(
   res.setHeader("Content-Type", "application/json");
   try {
     const [total, oldestActive, updates] = await Promise.all([
-      prisma.updateFeed.count(),
+      prisma.updateFeed.count({
+        where: { active: true },
+      }),
       prisma.updateFeed.findFirst({
         orderBy: { ID: "asc" },
         select: { ID: true },

@@ -90,6 +90,7 @@ export function useFetchUpdateFeedInfinite<E = { message: string }>() {
   const isRefreshing = isValidating && data && data.length === size;
   const isLoadingInitialData = !data && !error;
   return {
+    total: data?.[0]?.total || 0,
     size,
     setSize,
     mutate,
