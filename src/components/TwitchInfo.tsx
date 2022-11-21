@@ -7,10 +7,10 @@ const TwitchInfo = () => {
   const { isError, isLoading, data } = useFetchTwitchInfo();
 
   // return (
-  //   <Card className="flex w-full max-w-xs items-center gap-x-2 p-1">
-  //     <div className="text-placeholder mr-2 h-10 w-10 rounded-full" />
-  //     <div className="flex-grow">
-  //       <span className="mb-0.5 mr-2 flex justify-between sm:flex-row">
+  //   <Card className="flex w-full max-w-xs items-center gap-x-2 px-1 py-0.5">
+  //     <div className="text-placeholder mr-2 h-8 w-8 flex-none self-center rounded-full" />
+  //     <div className="flex-grow overflow-hidden">
+  //       <span className="mb-0.5 mr-2 flex justify-between text-sm sm:flex-row">
   //         <p>CorporalSaturn</p>
   //         <div className="flex items-center gap-x-1">
   //           <span className="h-3 w-3 rounded-full bg-green-600" />
@@ -18,12 +18,18 @@ const TwitchInfo = () => {
   //         </div>
   //       </span>
   //       <span className="mb-0.5 mr-2 flex justify-between sm:flex-row">
-  //         <Tooltip placement="bottom" tooltipText="Game Title" flip>
-  //           <p className="text-sm">Game Title</p>
+  //         <Tooltip
+  //           placement="bottom"
+  //           tooltipText="Game Title That is very long and verbose"
+  //           flip
+  //         >
+  //           <p className="truncate text-xs">
+  //             Game Title That is very long and verbose
+  //           </p>
   //         </Tooltip>
-  //         <div className="flex items-center gap-x-1">
-  //           <span className="text-sm">💁‍♂️</span>
-  //           <p className="text-sm">100</p>
+  //         <div className="flex items-center gap-x-1 text-xs">
+  //           <span role="img">💁‍♂️</span>
+  //           <p>100</p>
   //         </div>
   //       </span>
   //     </div>
@@ -32,12 +38,12 @@ const TwitchInfo = () => {
 
   if (isLoading) {
     return (
-      <Card className="w-full max-w-xs p-1">
+      <Card className="w-full max-w-xs px-1 py-0.5">
         <div className="flex animate-pulse gap-x-2">
-          <div className="text-placeholder w-9 rounded-full" />
+          <div className="text-placeholder h-8 w-8 self-center rounded-full" />
           <div className="flex-grow">
             <p className="mb-0.5 text-xs">
-              <span className="text-placeholder w-10/12" />{" "}
+              <span className="text-placeholder w-8/12" />{" "}
               <span className="text-placeholder w-1/12" />
             </p>
             <p className="mb-0.5 text-xs">
@@ -52,14 +58,14 @@ const TwitchInfo = () => {
 
   if (isError && !data) {
     return (
-      <Card className="flex w-full max-w-xs gap-x-2 p-1">
-        <div className="text-placeholder mr-2 w-10 rounded-full" />
-        <div className="flex-grow">
-          <span className="mb-0.5 mr-3 flex justify-between sm:flex-row">
-            <p className="text-sm">{DEFAULT_TWITCH_USER}</p>
-            <p className="text-sm">Unkown</p>
+      <Card className="flex w-full max-w-xs gap-x-2 px-1 py-0.5">
+        <div className="text-placeholder mr-2 h-8 w-8 flex-none self-center rounded-full" />
+        <div className="flex-grow overflow-hidden">
+          <span className="mb-0.5 mr-3 flex justify-between text-sm sm:flex-row">
+            <p>{DEFAULT_TWITCH_USER}</p>
+            <p>Unkown</p>
           </span>
-          <p className="mb-0.5 text-xs">Somehing went wrong</p>
+          <p className="mb-0.5 truncate text-xs">Somehing went wrong</p>
         </div>
       </Card>
     );
@@ -67,10 +73,10 @@ const TwitchInfo = () => {
 
   if (!data?.online) {
     return (
-      <Card className="flex w-full max-w-xs items-center gap-x-2 p-1">
-        <div className="text-placeholder mr-2 h-10 w-10 rounded-full" />
-        <div className="flex-grow">
-          <span className="mb-0.5 mr-2 flex justify-between sm:flex-row">
+      <Card className="flex w-full max-w-xs items-center gap-x-2 px-1 py-0.5">
+        <div className="text-placeholder mr-2 h-8 w-8 flex-none self-center rounded-full" />
+        <div className="flex-grow overflow-hidden">
+          <span className="mb-0.5 mr-2 flex justify-between text-sm sm:flex-row">
             <p>{data?.user_name}</p>
             <div className="flex items-center gap-x-1">
               <span className="inline-block h-3 w-3 rounded-full bg-primary-600" />
@@ -83,10 +89,10 @@ const TwitchInfo = () => {
   }
 
   return (
-    <Card className="flex w-full max-w-xs items-center gap-x-2 p-1">
-      <div className="text-placeholder mr-2 h-10 w-10 rounded-full" />
-      <div className="flex-grow">
-        <span className="mb-0.5 mr-2 flex justify-between sm:flex-row">
+    <Card className="flex w-full max-w-xs items-center gap-x-2 px-1 py-0.5">
+      <div className="text-placeholder mr-2 h-8 w-8 flex-none self-center rounded-full" />
+      <div className="flex-grow overflow-hidden">
+        <span className="mb-0.5 mr-2 flex justify-between text-sm sm:flex-row">
           <p>{data.user_name}</p>
           <div className="flex items-center gap-x-1">
             <span className="h-3 w-3 rounded-full bg-green-600" />
@@ -100,13 +106,13 @@ const TwitchInfo = () => {
             flip
             rootClose
           >
-            <a href="#" className="block text-sm">
+            <a href="#" className="block truncate text-xs">
               {data.game_name}
             </a>
           </Tooltip>
-          <div className="flex items-center gap-x-1">
-            <span className="text-sm">💁‍♂️</span>
-            <p className="text-sm">{data.viewer_count}</p>
+          <div className="flex items-center gap-x-1 text-xs">
+            <span role="img">💁‍♂️</span>
+            <p>{data.viewer_count}</p>
           </div>
         </span>
       </div>
