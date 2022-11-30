@@ -1,6 +1,7 @@
 {
-  "css.customData": [
-    ".vscode/css_custom_data.json"
-  ],
+  "css.customData": [".vscode/css_custom_data.json"],
+  "files.associations": {
+    "*.mdx": "markdown"
+  },
   "typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -14,9 +14,9 @@ I've abstracted this project into a reusable, scalble template for NextJS projec
 
 ### Prerequisites
 
-This project was built using `node 16.13.0` and `npm 8.1.0`.
+This project was built using `node 16.18.0` and `npm 8.19`.
 
-It is recommended that you have `nvm` installed, as you can run `nvm use` or `nvm use 16.13.0`. This way it is ensured the node and npm versions are the intended ones.
+It is recommended that you have `nvm` installed, as you can run `nvm use` or `nvm use 16.18.0`. This way it is ensured the node and npm versions are the intended ones.
 
 To use internal scripts like `generators` on windows you may need to install `ts-node` globally:
 

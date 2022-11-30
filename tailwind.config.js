@@ -21,8 +21,13 @@ module.exports = {
           css: {
             pre: {
               padding: "0.75rem 0",
-              lineHeight: "1.9",
+              lineHeight: 1.9,
               fontSize: "1rem",
+            },
+            "[role='tabpanel'] > div > div > pre": {
+              marginTop: "0",
+              borderTopLeftRadius: "0px",
+              borderTopRightRadius: "0px",
             },
           },
         },
@@ -45,6 +50,9 @@ module.exports = {
                 },
               },
             },
+            "p:has(img)": {
+              textAlign: "center",
+            },
             code: {
               fontVariantLigatures: "none",
               color: "#86e1fc",
@@ -55,6 +63,11 @@ module.exports = {
                 content: `"" !important`,
               },
               fontWeight: "normal",
+            },
+            "[role='tabpanel'] > div > div > pre": {
+              marginTop: "0",
+              borderTopLeftRadius: "0px",
+              borderTopRightRadius: "0px",
             },
             pre: {
               backgroundColor: "#071626", //#08111b
@@ -84,8 +97,8 @@ module.exports = {
               "> [data-rehype-pretty-code-title]": {
                 background: "#071626", //#08111b
                 display: "table",
-                padding: "0.125rem 1.25rem",
-                fontSize: "0.9rem",
+                padding: "0.25rem 0.75rem",
+                fontSize: "0.75rem",
                 fontFamily: [
                   "Fira Code VF",
                   ...defaultTheme.fontFamily.mono,
