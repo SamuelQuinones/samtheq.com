@@ -1,0 +1,572 @@
+---
+title: How I built a blog with NextJS And Contentlayer
+description: Learn how I built my blog using nextjs and the contentlayer library
+postDate: 2022-11-01T17:31:43-04:00
+draft: true
+tags:
+  - nextjs
+  - react
+keywords:
+  - nextjs12
+  - blog
+  - markdown
+  - mdx
+  - tailwind
+  - contentlayer
+---
+
+When I was working on the redesign for my website, I knew I wanted to include a blog that was better and overall more robust then the one on my old website.
+
+## About Next 13
+
+I am aware that nextjs version 13 has [recently been announced](https://nextjs.org/blog/next-13) and conventions for Static Site Generation (SSG) - which is a key feature in this blog - have changed. Please note that next 13's new conventions are _NOT_ production ready, and I had begun work on this blog _long_ before next 13 was announced. If you look at the commit history you can see that for yourself.
+
+Once next 13 reaches production ready status and I have to migrate this codebase to use those new conventions, I will make a separate post detailing the migration. Thankfully, it looks like most of the work I've already done will be able to remain the same and the only real change will be to the aforementioned SSG conventions.
+
+## Remark & Rehype Plugins
+
+Most markdown solutions use the unified remark rehype system under the hood, which allows for extensive customization through plugins. Things like auto-linking headings, syntax highlighting, etc. You can also create your own custom plugins which - once you have a better idea oh how the unified system works - is fairly easy!
+
+A quick note; remark compilation always happens before rehype compilation, and rehype takes the compiled output of compiled markdown with remark plugins. **_Plugin order is very important_**.
+
+This is a list of remark / rehype plugins that I am using (with additional details available):
+
+- [rehype-pretty-code](#rehype-pretty-code)
+- [rehype-slug](#rehype-pretty-code)
+- [generate a post preview (custom)](#post-preview)
+- [create a table of contents (custom)](#create-a-table-of-contents)
+- [custom tag meta (custom)](#custom-tag-meta)
+
+### Rehype Pretty Code
+
+I used [rehype-pretty-code](https://github.com/atomiks/rehype-pretty-code) to add syntax highlighting to the project.
+
+rehype-pretty-code has advantages over more commonly used libraries like prismjs and highlightjs, all of which are outlined in the [plugin's documentation](https://rehype-pretty-code.netlify.app/) but the main draws:
+
+- Leverage same highlighting engine as VSCode
+- highlighting happens at build-time - small bundles
+- can highlight inline code
+- easy to use line highlighting
+- context aware
+
+These among others are the main reasons I opted to use this plugin, and it is easy to use and implement:
+
+```ts title="contentlayer.config.ts" {1,20,26}
+import rehypePrettyCode from "rehype-pretty-code";
+import { defineDocumentType, makeSource } from "contentlayer/source-files";
+
+const prettyOptions = {
+  theme: "one-dark-pro",
+  onVisitLine(node) {
+    // Prevent lines from collapsing in `display: grid` mode, and
+    // allow empty lines to be copy/pasted
+    if (node.children.length === 0) {
+      node.children = [{ type: "text", value: " " }];
+    }
+  },
+  onVisitHighlightedLine(node) {
+    node.properties.className.push("highlighted");
+  },
+  onVisitHighlightedWord(node) {
+    node.properties.className = ["word"];
+  },
+};
+const syntaxHighlighting = [rehypePrettyCode, prettyOptions];
+
+// ... previous code
+export default makeSource({
+  // ... other config items
+  mdx: {
+    rehypePlugins: [syntaxHighlighting],
+  },
+});
+```
+
+I opted to separate the `syntaxHighlighting{:.variable.other.constant}` array into its own file to keep things tidy.
+
+### Rehype Slug
+
+I used [rehype-slug](https://github.com/rehypejs/rehype-slug) to auto-add ID's to my headings, this is akin to what Github will do for any markdown file, and it makes any plog post easy to navigate. The generated ID's are based soley on the text content, read more on the plugin's github page. It is also the _first_ plugin in the list of rehype plugins when compiling with contentlayer so that other plugins can use the auto-generated ID's.
+
+**Note** that this will _NOT_ add links / autolink your headings, there is a separate plugin for that but I am not using that in this case, to add links to the headings I am using the **custom component** feature of MDX which I will outline later in this post.
+
+### Post Preview
+
+This is a custom **remark** plugin I wrote, I was inspired by the [TailwindCSS blog](https://tailwindcss.com/blog) and how on their list of all blog posts, the preview is based on the first paragraph of the post, so I <s>stole</s> borrowed the code they use to generate these previews, and then using contentlayer, make the preview part of the serialized post object.
+
+Here is the code for that plugin `makePostPreview.js`, to see the implementation, check out the final [`contentlayer.config.ts`](https://github.com/SamuelQuinones/samtheq.com/blob/a2a73014d6e47efa5c2ddd72508f21c9f03d41eb/contentlayer.config.ts#L91).
+
+Note that even though I'm only looking for / compiling a small portion of the markdown, I'm still including some of the rehype plugins. The ones I include are ones that handle any custom meta data which are handled for other custom plugins and anything to do with tags that could be children of the potential preview.
+
+```js title="makePostPreview.js"
+// Credit to Tailwindlabs for this
+const makePostPreview = () => (tree) => {
+  let firstParagraphIndex = tree.children.findIndex(
+    (child) => child.type === "paragraph"
+  );
+  if (firstParagraphIndex > -1) {
+    tree.children = tree.children.filter((child, index) => {
+      if (child.type === "import" || child.type === "export") {
+        return true;
+      }
+      return index <= firstParagraphIndex;
+    });
+  }
+};
+
+export default makePostPreview;
+```
+
+### Create a Table of Contents
+
+I wanted to make navigating the post easy so I created a plugin that would go to headings in a markdown file, drill down to text content, and add the heading's `level{:.meta.property.object}`, `textContent{:.meta.property.object}` and `id{:.meta.property.object}` to an input array. This would allow the table of contents to be used as a contentlayer computer property.
+
+Here is the code for the plugin `createToc.js` and the implementation in [`contentlayer.config.ts`](hhttps://github.com/SamuelQuinones/samtheq.com/blob/a2a73014d6e47efa5c2ddd72508f21c9f03d41eb/contentlayer.config.ts).
+
+```js title="createToc.js"
+import { visit } from "unist-util-visit";
+import { toString } from "hast-util-to-string";
+
+const isHeading = (node) => {
+  return (
+    ["h1", "h2", "h3", "h4", "h5", "h6"].includes(node.tagName) &&
+    node.type === "element"
+  );
+};
+
+const createToc = (headings) => () => (tree) => {
+  visit(tree, isHeading, (node) => {
+    const textContent = toString(node);
+    const level = parseInt(node.tagName.slice(1));
+    headings.push({ textContent, level, id: node.properties.id });
+  });
+};
+
+export default createToc;
+```
+
+The table of contents also has an associated component to handle rendering, this component is lazy loaded on the `pages/blog/[slug].tsx` page. You can see the source code for this custom component on [github](https://github.com/SamuelQuinones/samtheq.com/blob/acc55ef33bfa976c2c1b1924886c8cc2136d7219/src/components/Blog/TableOfContents.tsx).
+
+### Custom Tag Meta
+
+Custom meta plugins take advantage of the fact that MDX supports expressions in brackets (`{}`). So for example in my raw MDX I can add JSON blocks that can get parsed into props, which is exactly what I've done here. Here are some examples of what the raw MDX looks like and what the subsequent html will look like. These JSON blocks are surrouned with `{/* ... */}` to help distinguish them:
+
+<CodeTabs defaultActiveKey="1" id="custom-tag-meta">
+
+<CodeTabPanel title="Raw MDX" eventKey="1">
+
+```mdx /{"width":"350", "height":"404.54"}/ /{"newTab": true}/ /{"newTab": false}/
+<!-- Custom Image Meta -->
+![Img Alt text](/img/source.jpg){/* {"width":"350", "height":"404.54"} */}
+
+<!-- Custom Link Meta -->
+here is an internal [link](/blog){/* {"newTab": true} */}.
+And here is an external [link](https://www.example.com){/* {"newTab": false} */}
+
+```
+</CodeTabPanel>
+<CodeTabPanel title="Output HTML" eventKey="2">
+
+```html {5,6} /height="350" height="404.54"/
+<p>
+  <img src="/img/source.jpg" height="350" height="404.54">
+</p>
+<p>
+  here is an internal <a href="/blog" target="_blank" rel="noopener noreferrer">link</a>.
+  And here is an external <a href="https://www.example.com">link</a>.
+</p>
+```
+</CodeTabPanel>
+
+</CodeTabs>
+
+For anchor tags specifically, I added the custom meta objects to invert the default behavior that the plugin also implements; links that start with `/` are internal links and will open in the same tab, and links that go to external sites will open in a new tab. Here is the plugin code.
+
+I also had to write a plugin to remove these mdx expressions because rehype can obviously not parse them into HTML:
+
+<CodeTabs defaultActiveKey="1" id="custom-tag-meta-implementation">
+
+<CodeTabPanel title="imgProps.js" eventKey="1">
+
+```js
+import { visit } from "unist-util-visit";
+function toJSON(obj) {
+  let innerObj = obj;
+  try {
+    if (innerObj.startsWith("/*") && innerObj.endsWith("*/")) {
+      innerObj = innerObj.slice(2, -2);
+    }
+    const props = JSON.parse(innerObj);
+    return props;
+  } catch (error) {
+    console.warn("MDX was malformed");
+    return {};
+  }
+}
+
+const isImage = (node) => node.tagName === "img" && node.type === "element";
+
+export default function imgProps() {
+  return (tree) => {
+    visit(tree, isImage, (node, i, parent) => {
+      if (parent.children?.[i + 1]?.type === "mdxTextExpression") {
+        const mdxNeighbor = parent.children[i + 1];
+        const props = toJSON(mdxNeighbor.value);
+        if (JSON.stringify(props) === "{}") return;
+        node.properties = {
+          ...node.properties,
+          height: props?.height,
+          width: props?.width,
+        };
+      }
+    });
+  };
+}
+```
+</CodeTabPanel>
+<CodeTabPanel title="newTabLink.js" eventKey="2">
+
+```js
+import { visit } from "unist-util-visit";
+function toJSON(obj, defaultNewTab = false) {
+  let innerObj = obj;
+  try {
+    if (innerObj.startsWith("/*") && innerObj.endsWith("*/")) {
+      innerObj = innerObj.slice(2, -2);
+    }
+    const props = JSON.parse(innerObj);
+    return props;
+  } catch (error) {
+    console.warn(
+      "MDX was malformed, using default value, newTab =",
+      defaultNewTab
+    );
+    return { newTab: defaultNewTab };
+  }
+}
+
+const isAnchor = (node) => node.tagName === "a" && node.type === "element";
+
+export default function newTabLink() {
+  return (tree) => {
+    visit(tree, isAnchor, (node, i, parent) => {
+      //* external links are new tabs by default
+      const isInternalLink =
+        node.properties.href.startsWith("/") ||
+        node.properties.href.startsWith("#");
+      if (!isInternalLink) {
+        node.properties = {
+          ...node.properties,
+          target: "_blank",
+          rel: "noopener noreferrer",
+        };
+      }
+      //* since we already know this node is a link, this nested if makes sure the next node is the mdxTextExpression
+      if (parent.children?.[i + 1]?.type === "mdxTextExpression") {
+        const mdxNeighbor = parent.children[i + 1];
+        const props = toJSON(mdxNeighbor.value, !isInternalLink);
+        if (!!props.newTab) {
+          //TODO: make it so we don't have to set these values twice
+          node.properties = {
+            ...node.properties,
+            target: "_blank",
+            rel: "noopener noreferrer",
+          };
+        } else {
+          node.properties = {
+            ...node.properties,
+            target: null,
+            rel: null,
+          };
+        }
+      }
+    });
+  };
+}
+
+```
+</CodeTabPanel>
+<CodeTabPanel title="removeCustomMeta.js" eventKey="3">
+
+```js
+//TODO: Refine conditions
+import { remove } from "unist-util-remove";
+
+export function removeLinkMeta() {
+  return (tree) => {
+    remove(tree, (node, i, parent) => {
+      const isMDXText = node.type === "mdxTextExpression";
+      if (!isMDXText) return;
+      const neighbor = parent.children[i - 1];
+      const neighborIsAnchor =
+        neighbor.type === "element" && neighbor.tagName === "a";
+      return neighborIsAnchor && isMDXText;
+    });
+  };
+}
+
+export function removeImageMeta() {
+  return (tree) => {
+    remove(tree, (node, i, parent) => {
+      const isMDXText = node.type === "mdxTextExpression";
+      if (!isMDXText) return;
+      const neighbor = parent.children[i - 1];
+      const neighborIsImage =
+        neighbor.type === "element" && neighbor.tagName === "img";
+      return neighborIsImage && isMDXText;
+    });
+  };
+}
+
+```
+</CodeTabPanel>
+
+</CodeTabs>
+
+The source code for all plugins and any subsequent updates are available on Github. Be sure to check out the final [`contentlayer.config.ts`](hhttps://github.com/SamuelQuinones/samtheq.com/blob/a2a73014d6e47efa5c2ddd72508f21c9f03d41eb/contentlayer.config.ts).
+
+## MDX Components
+
+MDX allows for component substitution, and custom components. I put all of the MDX components [in one file](https://github.com/SamuelQuinones/samtheq.com/blob/main/src/components/MDX.tsx).
+
+- [Code Block (pre)](#code-block-pre)
+- [Image & Anchor tags](#image-and-anchor-tags)
+- [Headings (h1,h2,etc)](#headings-h1h2etc)
+- [Tabs (custom)](#custom-tabs)
+
+### Code Block (pre)
+
+While syntax highlighting is handled by [rehype-pretty-code](https://github.com/atomiks/rehype-pretty-code), I wanted to add the ability to copy the code from a code block using the standard button component from the code base. This was fairly simple and here is the final custom `pre` tag or code block component:
+
+```tsx
+import { useCallback, useMemo, useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+const Pre = ({ children, ...props }) => {
+  const preRef = useRef<HTMLPreElement>(null);
+  const [copied, setCopied] = useState(false);
+  const icon = useMemo(
+    () => (copied ? ["fas", "check"] : ["fas", "copy"]),
+    [copied]
+  );
+  const copyCode = useCallback(async () => {
+    if (!preRef.current) return;
+    await navigator.clipboard.writeText(preRef.current.innerText).then(() => {
+      setCopied(true);
+    });
+    setTimeout(() => setCopied(false), 1200);
+  }, []);
+  return (
+    <div data-pre-wrapper="" className="relative">
+      <Button
+        outline
+        variant="secondary"
+        onClick={copyCode}
+        className="absolute right-2 top-2 w-8 px-2 text-sm leading-4"
+      >
+        <FontAwesomeIcon height="1em" icon={icon as any} />
+      </Button>
+      <pre {...props} ref={preRef}>
+        {children}
+      </pre>
+    </div>
+  );
+};
+```
+
+### Image and Anchor Tags
+
+Nextjs has its own comonents to handle anchor and image tags, and I wanted to be able to conditionally render them based on props passed using the custom plugins.
+
+In the case of the image specifically, I also wanted to show the alt text below the image. Some blogs do this and I thought it was a nice touch. Here are code snippets for both custom components:
+
+<CodeTabs defaultActiveKey="1" id="custom-next-components-a-img">
+
+<CodeTabPanel title="Anchor (a)" eventKey="1">
+
+```tsx {1}
+import NextLink from "next/link";
+
+const Anchor = (props) => {
+  if (props.href.startsWith("/")) return <NextLink {...props} />;
+  return <a {...props} />;
+};
+```
+
+</CodeTabPanel>
+<CodeTabPanel title="Image (img)" eventKey="2">
+
+```tsx {1}
+import NextImage from "next/image";
+
+const Img = ({ useNormal = false, hideAlt = false, ...props }) => {
+  const Image = useNormal ? "img" : NextImage;
+  const showAlt = !!props.alt && !hideAlt;
+  return (
+    <>
+      <Image {...props} />
+      {showAlt && <span className="block text-xs">{props.alt}</span>}
+    </>
+  );
+};
+```
+</CodeTabPanel>
+
+</CodeTabs>
+
+### Headings (h1,h2,etc)
+
+This is fairly straight forward; `linkify{:.entity.name.function}` is a higher-order-function that expects one of the heading tags. The inner function uses the passed heading tag string and and creates a new component that uses an anchor tag inside the heading to make the headings clickable. This higher-order-function approach was done to prevent redundant code _(see the `components{:.variable.other.constant}` export)_
+
+```tsx /components/2-3
+const linkify =
+  (Tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6") =>
+  ({ children, id, ...props }) => {
+    return (
+      <Tag {...props} id={id}>
+        <a
+          href={`#${id}`}
+          className="after:text-secondary-400 hocus:after:opacity-100 block no-underline after:opacity-0 after:transition-opacity after:content-['_#']"
+        >
+          {children}
+        </a>
+      </Tag>
+    );
+  };
+// ... other components
+
+/** MDX Repalcement Components */
+const components = {
+  // ...
+  h1: linkify("h1"),
+  h2: linkify("h2"),
+  h3: linkify("h3"),
+  h4: linkify("h4"),
+  h5: linkify("h5"),
+  h6: linkify("h6"),
+  // ...
+};
+
+export default components;
+```
+
+### Custom Tabs
+
+You've already seen these used throughout this post, these custom code tabs allow me to save on vertical space and make groups of similar code blocks. It uses [RestartUI's](https://github.com/react-restart/ui) `Nav` and `Tab` components under the hood.
+
+<CodeTabs defaultActiveKey="1" id="custom-tabs-mdx">
+
+<CodeTabPanel eventKey="1" title="Clickable Tab">
+
+```tsx
+// ... needed imports
+
+const CodeTab = ({ eventKey, ...props }) => {
+  const [navItemProps, meta] = useNavItem({
+    key: eventKey,
+  });
+  return (
+    <button
+      {...props}
+      {...navItemProps}
+      className={classNames(
+        meta.isActive
+          ? "border-t-transparent border-b-white bg-[#071626] text-white"
+          : "bg-gray-800 first:border-r peer-first:border-r peer-aria-selected:border-l peer-aria-selected:border-r-0",
+        "peer flex items-center border-y border-slate-600 py-1 px-3 font-mono text-xs"
+      )}
+    />
+  );
+};
+```
+</CodeTabPanel>
+<CodeTabPanel eventKey="2" title="Tab Wrapper">
+
+```tsx
+// ... needed imports
+
+function renderCodeTab(child: any) {
+  const { title, eventKey, id } = child.props;
+  if (title == null) return null;
+  return (
+    <CodeTab eventKey={eventKey} id={id}>
+      {title}
+    </CodeTab>
+  );
+}
+const CodeTabs = ({ children, defaultActiveKey, id }) => {
+  return (
+    <Tabs defaultActiveKey={defaultActiveKey} id={id}>
+      <Nav className="flex rounded-t-lg bg-[#071626] pt-2" role="tablist">
+        {Children.map(children, renderCodeTab)}
+        <div className="flex flex-auto overflow-hidden">
+          <div className="flex flex-auto justify-end border-y border-l border-slate-600 bg-gray-800 pr-4" />
+        </div>
+      </Nav>
+      <div data-tab-container="">
+        {Children.map(children, (child) => {
+          const childProps = { ...child.props };
+          delete childProps.title;
+          return <RestartTabPanel {...childProps} />;
+        })}
+      </div>
+    </Tabs>
+  );
+};
+```
+</CodeTabPanel>
+
+<CodeTabPanel eventKey="3" title="Abstract Component">
+
+```tsx
+// an abstract component
+// is only valid as a direct Child of the `CodeTabs` Component.
+const CodeTabPanel = () => <></>;
+```
+</CodeTabPanel>
+
+</CodeTabs>
+
+## Contentlayer's Biggest Hurdle
+
+My main complaint with contentlayer is that it doesn't _truly_ support procedural deployments with nextjs and [incremental static generation (ISR)](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration).
+
+Contentlayer does have a build command independent of nextjs, but running it will not change the content on the built nextjs project. In order to see new pages or updated pages in production you have to completely rebuild the site with `next build` because contentlayer content is embedded at build time.
+
+I would really like to see a native solution that can make use of something like dynamic imports since the contentlayer files compile down to JSON:
+
+![Image of contentlayer's build output](/blog/how-i-built-a-blog/contentlayer_output.png){/* {"width":"350", "height":"404.54"} */}
+
+That solution could look something like this:
+
+```tsx title="[slug].tsx" {3,9,17,23}
+export const getStaticPaths = async () => {
+  // This would be some path that would have the built json readily available
+  const allPosts = (await import("path/to/contentlayer/content/json")).allPosts;
+  const paths = allPosts.map(({ slug }) => ({
+    params: { slug },
+  }));
+  return {
+    paths,
+    fallback: "blocking",
+  };
+};
+
+export const getStaticProps = async ({ params }) => {
+  if (!params) return { notFound: true };
+
+  // This would be some path that would have the built json readily available
+  const allPosts = (await import("path/to/contentlayer/content/json")).allPosts;
+  const blogPost = allPosts.find(({ slug }) => params.slug === slug);
+  if (!blogPost) return { notFound: true };
+
+  return {
+    props: { post: blogPost },
+    revalidate: 300,
+  };
+};
+```
+
+I suppose a way to accomplish this would be to have the contentlayer content in a separate project, and upload the built files to a Github repo - effectively using Github as a CMS - and then querying the data or raw MDX using `fetch`. And then doing extra work to compile it in the website project. This way you still get a type-safe content system, but you get the benefits of ISR.
+
+I will be looking into this approach in my own time, and will update this post accordingly, but for now at a smaller scale - contentlayer works just fine.
