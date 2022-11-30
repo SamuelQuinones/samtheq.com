@@ -41,7 +41,9 @@ export const fetchTwitchToken = async () => {
   );
   if (!res.ok) {
     const error = await res.json();
-    console.assert(process.env.NODE_ENV === "development", error);
+    if (process.env.NODE_ENV === "development") {
+      console.error(error);
+    }
     return;
   }
   const response = await res.json();
@@ -103,11 +105,15 @@ export async function getStreamInfo(
   }
   if (retries > 0) {
     const revokeResonse = await revokeTwitchToken(token);
-    console.assert(process.env.NODE_ENV === "development", revokeResonse);
+    if (process.env.NODE_ENV === "development") {
+      console.error(revokeResonse);
+    }
     return getStreamInfo(retries - 1, userName, true);
   }
   const error = await res.json();
-  console.assert(process.env.NODE_ENV === "development", error);
+  if (process.env.NODE_ENV === "development") {
+    console.error(error);
+  }
   return;
 }
 

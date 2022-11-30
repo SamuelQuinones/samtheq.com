@@ -17,10 +17,11 @@ type LayoutProps = {
 const testOpenGraphUrl = (ogurl?: string) => {
   if (!ogurl) return;
   if (!process.env.NEXT_PUBLIC_BASE_URL) {
-    console.assert(
-      process.env.NODE_ENV === "development",
-      "NEXT_PUBLIC_BASE_URL is not defined, please make sure it is defined in production"
-    );
+    if (process.env.NODE_ENV === "development") {
+      console.log(
+        "NEXT_PUBLIC_BASE_URL is not defined, please make sure it is defined in production"
+      );
+    }
     return;
   }
   if (ogurl.includes(process.env.NEXT_PUBLIC_BASE_URL)) {
