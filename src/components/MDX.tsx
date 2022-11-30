@@ -1,14 +1,27 @@
+// TODO: Figure out how to lazy load
+// TODO: Responsive Tabs on small screens
+
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-has-content */
 import {
+  Children,
   useCallback,
   useMemo,
   useRef,
   useState,
   type ComponentType,
 } from "react";
+import NextLink from "next/link";
+import NextImage from "next/legacy/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "./Button";
-import NextLink from "next/link";
+import {
+  useNavItem,
+  Tabs,
+  TabPanel as RestartTabPanel,
+  Nav,
+} from "@restart/ui";
+import classNames from "classnames";
 
 const Pre: ComponentType<any> = ({ children, ...props }) => {
   const preRef = useRef<HTMLPreElement>(null);
@@ -46,6 +59,21 @@ const Anchor: ComponentType<any> = (props) => {
   return <a {...props} />;
 };
 
+const Img: ComponentType<any> = ({
+  useNormal = false,
+  hideAlt = false,
+  ...props
+}) => {
+  const Image = useNormal ? "img" : NextImage;
+  const showAlt = !!props.alt && !hideAlt;
+  return (
+    <>
+      <Image {...props} />
+      {showAlt && <span className="block text-xs">{props.alt}</span>}
+    </>
+  );
+};
+
 const linkify =
   (Tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6"): ComponentType<any> =>
   ({ children, id, ...props }) => {
@@ -61,16 +89,66 @@ const linkify =
     );
   };
 
+const CodeTab: ComponentType<any> = ({ eventKey, ...props }) => {
+  const [navItemProps, meta] = useNavItem({
+    key: eventKey,
+  });
+  return (
+    <button
+      {...props}
+      {...navItemProps}
+      className={classNames(
+        meta.isActive
+          ? "border-t-transparent border-b-white bg-[#071626] text-white"
+          : "bg-gray-800 first:border-r peer-first:border-r peer-aria-selected:border-l peer-aria-selected:border-r-0",
+        "peer flex items-center border-y border-slate-600 py-1 px-3 font-mono text-xs"
+      )}
+    />
+  );
+};
+function renderCodeTab(child: any) {
+  const { title, eventKey, id } = child.props;
+  if (title == null) return null;
+  return (
+    <CodeTab eventKey={eventKey} id={id}>
+      {title}
+    </CodeTab>
+  );
+}
+const CodeTabs: ComponentType<any> = ({ children, defaultActiveKey, id }) => {
+  return (
+    <Tabs defaultActiveKey={defaultActiveKey} id={id}>
+      <Nav className="flex rounded-t-lg bg-[#071626] pt-2" role="tablist">
+        {Children.map(children, renderCodeTab)}
+        <div className="flex flex-auto overflow-hidden">
+          <div className="flex flex-auto justify-end border-y border-l border-slate-600 bg-gray-800 pr-4" />
+        </div>
+      </Nav>
+      <div data-tab-container="">
+        {Children.map(children, (child) => {
+          const childProps = { ...child.props };
+          delete childProps.title;
+          return <RestartTabPanel {...childProps} />;
+        })}
+      </div>
+    </Tabs>
+  );
+};
+const CodeTabPanel: ComponentType<any> = () => <></>;
+
 /** MDX Repalcement Components */
 const components = {
   pre: Pre,
   a: Anchor,
+  img: Img,
   h1: linkify("h1"),
   h2: linkify("h2"),
   h3: linkify("h3"),
   h4: linkify("h4"),
   h5: linkify("h5"),
   h6: linkify("h6"),
+  CodeTabs,
+  CodeTabPanel,
 };
 
 export default components;
