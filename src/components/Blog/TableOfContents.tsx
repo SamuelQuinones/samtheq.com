@@ -20,6 +20,18 @@ const TableOfContents = ({ toc }: Props) => {
   const { width } = useWindowSize();
   const drawerMode = useMemo(() => width < 1536, [width]);
 
+  // TODO: See if this improves prop bundle size
+  // useIsomorphicLayoutEffect(() => {
+  //   const rawToc = qsa(document, "[data-md-heading]").map((el) => ({
+  //     id: el.id,
+  //     textContent: el.innerText,
+  //     level: parseInt(el.tagName.replace("H", "")),
+  //   }));
+  //   startTransition(() => {
+  //     setTocData(rawToc);
+  //   });
+  // }, []);
+
   useEffect(() => {
     if (!drawerMode) {
       setTocOpen(false);
