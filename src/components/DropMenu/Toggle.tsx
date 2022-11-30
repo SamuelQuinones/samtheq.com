@@ -10,7 +10,7 @@ type Props = HTMLAttributes<HTMLElement> & {
 const DropmenuToggle: DynamicRefForwardingComponent<"button", Props> =
   forwardRef<HTMLElement, Props>(
     ({ as: Component = "button", onClick: nativeOnClick, ...props }, ref) => {
-      const [{ ref: ddRef, onClick, ...itemProps }] = useDropdownToggle();
+      const [{ ref: ddRef, onClick, ...toggleProps }] = useDropdownToggle();
       // const Component = asProp ?? "button";
       const newRef = useMergedRef(ddRef, ref);
       const handleClick = useCallback(
@@ -22,7 +22,7 @@ const DropmenuToggle: DynamicRefForwardingComponent<"button", Props> =
       );
       return (
         <Component
-          {...itemProps}
+          {...toggleProps}
           {...props}
           onClick={handleClick}
           ref={newRef}

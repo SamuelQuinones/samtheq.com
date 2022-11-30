@@ -1,10 +1,4 @@
-import {
-  ElementType,
-  forwardRef,
-  HTMLAttributes,
-  ReactNode,
-  useCallback,
-} from "react";
+import { ElementType, forwardRef, HTMLAttributes, ReactNode } from "react";
 import { DropdownItemProps, useDropdownItem } from "@restart/ui";
 import type { DynamicRefForwardingComponent } from "@restart/ui/types";
 
@@ -16,22 +10,21 @@ interface Props extends DropdownItemProps, HTMLAttributes<HTMLElement> {
 const DropmenuItem: DynamicRefForwardingComponent<"button", Props> = forwardRef<
   HTMLElement,
   Props
->(({ as: asProp, eventKey, onClick: nativeOnClick, ...props }, ref) => {
-  const [{ onClick, ...itemProps }] = useDropdownItem({
-    key: eventKey,
-    ...props,
-  });
-  const handleClick = useCallback(
-    (e: any) => {
-      onClick(e);
-      nativeOnClick?.(e);
-    },
-    [nativeOnClick, onClick]
-  );
-  const Component = asProp ?? "button";
-  return (
-    <Component {...props} {...itemProps} onClick={handleClick} ref={ref} />
-  );
-});
+>(
+  (
+    { eventKey, disabled, onClick, active, as: Component = "button", ...props },
+    ref
+  ) => {
+    const [dropdownItemProps] = useDropdownItem({
+      key: eventKey,
+      href: props.href,
+      disabled,
+      onClick,
+      active,
+    });
+
+    return <Component {...props} {...dropdownItemProps} ref={ref} />;
+  }
+);
 
 export default DropmenuItem;
