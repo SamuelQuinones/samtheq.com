@@ -27,7 +27,7 @@ const testOpenGraphUrl = (ogurl?: string) => {
   if (ogurl.includes(process.env.NEXT_PUBLIC_BASE_URL)) {
     return ogurl;
   }
-  if (ogurl.includes("/", 0)) {
+  if (ogurl.charAt(0) === "/") {
     return `${process.env.NEXT_PUBLIC_BASE_URL}${ogurl}`;
   }
   return `${process.env.NEXT_PUBLIC_BASE_URL}/${ogurl}`;
