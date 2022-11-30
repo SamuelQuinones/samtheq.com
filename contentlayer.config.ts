@@ -25,11 +25,6 @@ const Post = defineDocumentType(() => ({
       description: "The title of the post",
       required: true,
     },
-    coverImage: {
-      type: "string",
-      description: "Cover image for the blog post",
-      default: "/Logo_866.png",
-    },
     description: {
       type: "string",
       description: "short description of the post, used for SEO",
@@ -38,6 +33,11 @@ const Post = defineDocumentType(() => ({
       type: "date",
       description: "The date of the post",
       required: true,
+    },
+    draft: {
+      type: "boolean",
+      description: "Any draft post is not ready for public consumption",
+      default: false,
     },
     tags: {
       type: "list",

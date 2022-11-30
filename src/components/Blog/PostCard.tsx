@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/legacy/image";
+// import Image from "next/legacy/image";
 import { m } from "framer-motion";
 import type { Post } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export type SubPost = Pick<
   Post,
-  "postDate" | "slug" | "preview" | "title" | "tags" | "coverImage"
+  "postDate" | "slug" | "preview" | "title" | "tags"
 > & {
   showTags?: boolean;
 };
@@ -30,7 +30,7 @@ const PostCard = ({ showTags, ...post }: SubPost) => {
       className="group relative"
     >
       <div className="absolute -inset-y-2.5 -inset-x-4 transition-colors group-hover:bg-info-900/30 sm:rounded-2xl md:-inset-y-4 md:-inset-x-6" />
-      <section className="relative mb-1 flex w-full justify-center overflow-hidden">
+      {/* <section className="relative mb-1 flex w-full justify-center overflow-hidden">
         <span className="h-full w-full bg-gray-200 md:h-48" />
         <Image
           alt={`${post.title} cover image`}
@@ -39,9 +39,9 @@ const PostCard = ({ showTags, ...post }: SubPost) => {
           src={post.coverImage}
           className="absolute h-48 w-full select-none object-cover"
         />
-      </section>
+      </section> */}
       <section data-post-preview="" className="relative">
-        <h3 className="mb-2 text-xl font-bold tracking-tight">{post.title}</h3>
+        <h2 className="mb-2 text-2xl font-bold tracking-tight">{post.title}</h2>
         <dl className="inline-flex font-bold italic text-gray-300">
           <dt className="sr-only">Published on</dt>
           <dd className="whitespace-nowrap leading-6">

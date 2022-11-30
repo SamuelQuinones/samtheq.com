@@ -37,13 +37,16 @@ export const getStaticProps: GetStaticProps<Params, Paths> = async ({
 
   const isAfter = (await import("../../../util/DateHelper")).isAfter;
   const posts = allPosts
-    .map(({ postDate, preview, title, slug, tags, coverImage }) => ({
+    .filter(({ draft }) => {
+      if (process.env.BLOG_DRAFT_MODE === "SHOW") return true;
+      return !draft;
+    })
+    .map(({ postDate, preview, title, slug, tags }) => ({
       postDate,
       preview,
       title,
       slug,
       tags,
-      coverImage,
     }))
     .filter(({ tags }) => tags.includes(params.tag))
     .sort((a, b) => {

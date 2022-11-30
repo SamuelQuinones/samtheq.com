@@ -18,13 +18,18 @@ export const getStaticProps: GetStaticProps<Params> = async () => {
   //* - pagination / lazy loading
   const isAfter = (await import("../../util/DateHelper")).isAfter;
   const posts = allPosts
-    .map(({ postDate, preview, title, slug, tags, coverImage }) => ({
+    .filter(({ draft }) => {
+      if (process.env.BLOG_DRAFT_MODE === "SHOW") {
+        return true;
+      }
+      return !draft;
+    })
+    .map(({ postDate, preview, title, slug, tags }) => ({
       postDate,
       preview,
       title,
       slug,
       tags,
-      coverImage,
     }))
     .sort((a, b) => {
       if (isAfter(a.postDate, b.postDate)) return 1;

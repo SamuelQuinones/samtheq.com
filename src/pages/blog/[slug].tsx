@@ -31,14 +31,20 @@ type SubPost = Pick<
   | "slug"
   | "lastUpdated"
   | "postDate"
-  | "coverImage"
   | "toc"
 > & { code: string };
 
 export const getStaticPaths: GetStaticPaths<Paths> = async () => {
-  const paths = allPosts.map(({ slug }) => ({
-    params: { slug },
-  }));
+  const paths = allPosts
+    .filter(({ draft }) => {
+      if (process.env.BLOG_DRAFT_MODE === "SHOW") {
+        return true;
+      }
+      return !draft;
+    })
+    .map(({ slug }) => ({
+      params: { slug },
+    }));
   return {
     paths,
     fallback: false,
@@ -50,7 +56,12 @@ export const getStaticProps: GetStaticProps<{ post: SubPost }, Paths> = async ({
 }) => {
   if (!params) return { notFound: true };
 
-  const blogPost = allPosts.find(({ slug }) => params.slug === slug);
+  const blogPost = allPosts.find(({ slug, draft }) => {
+    if (process.env.BLOG_DRAFT_MODE === "SHOW") {
+      return params.slug === slug;
+    }
+    return params.slug === slug && !draft;
+  });
   if (!blogPost) return { notFound: true };
 
   const {
@@ -65,7 +76,6 @@ export const getStaticProps: GetStaticProps<{ post: SubPost }, Paths> = async ({
     "slug",
     "lastUpdated",
     "postDate",
-    "coverImage",
     "toc",
   ]);
 
@@ -102,11 +112,12 @@ const Slug: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           },
           images: [
             {
-              url: `${process.env.NEXT_PUBLIC_BASE_URL}${post.coverImage}`,
+              url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/og?title=${post.title}&date=${post.postDate}`,
               alt: `${post.title} cover image`,
             },
           ],
         }}
+        twitter={{ cardType: "summary_large_image" }}
         additionalMetaTags={[
           { name: "last-updated", content: post.lastUpdated },
           { name: "keywords", content: keywords },
@@ -121,7 +132,7 @@ const Slug: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         description={post.description || ""}
         datePublished={post.postDate}
         dateModified={post.lastUpdated}
-        images={[`${process.env.NEXT_PUBLIC_BASE_URL}${post.coverImage}`]}
+        images={[`${process.env.NEXT_PUBLIC_BASE_URL}`]}
       />
       <TableOfContents toc={post.toc} />
       <article
