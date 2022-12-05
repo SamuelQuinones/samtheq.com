@@ -1,6 +1,5 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
@@ -29,6 +28,8 @@ model ExperienceInfo {
   ExperienceHistory  ExperienceHistory? @relation(fields: [experience_id], references: [ID])
   experience_id      Int
   modified_timestamp DateTime           @default(now()) @updatedAt @db.Timestamp(0)
+
+  @@index([experience_id])
 }
 
 model UpdateFeed {
