@@ -108,10 +108,12 @@ const UpdateFeed = () => {
     mutate,
   } = useFetchUpdateFeedInfinite();
 
+  //? Does this need to be memozied?
   const loadMoreError = useMemo(
     () => isError && additionalUpdates.length === 0 && !isRefreshing,
     [additionalUpdates.length, isError, isRefreshing]
   );
+  //? Does this need to be memozied?
   const loadMoreLoad = useMemo(
     () => isLoadingMore || isRefreshing,
     [isLoadingMore, isRefreshing]

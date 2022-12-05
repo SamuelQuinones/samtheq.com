@@ -40,6 +40,7 @@ const TimelineContainer = ({ children, showFilterButton = false }: Props) => {
       }),
     []
   );
+  //? Does this need to be memozied?
   const timelineValue = useMemo(
     () => ({
       registerCategory,

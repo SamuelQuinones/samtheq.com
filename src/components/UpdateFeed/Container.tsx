@@ -27,6 +27,7 @@ const UpdateContainer = ({ children }: Props) => {
     setShowModal(true);
   }, []);
 
+  //? Does this need to be memozied?
   const updateValue = useMemo(() => ({ prepareMessage }), [prepareMessage]);
   return (
     <UpdateContext.Provider value={updateValue}>

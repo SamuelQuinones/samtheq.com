@@ -339,16 +339,13 @@ MDX allows for component substitution, and custom components. I put all of the M
 While syntax highlighting is handled by [rehype-pretty-code](https://github.com/atomiks/rehype-pretty-code), I wanted to add the ability to copy the code from a code block using the standard button component from the code base. This was fairly simple and here is the final custom `pre` tag or code block component:
 
 ```tsx
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Pre = ({ children, ...props }) => {
   const preRef = useRef<HTMLPreElement>(null);
   const [copied, setCopied] = useState(false);
-  const icon = useMemo(
-    () => (copied ? ["fas", "check"] : ["fas", "copy"]),
-    [copied]
-  );
+  const icon = copied ? ["fas", "check"] : ["fas", "copy"]
   const copyCode = useCallback(async () => {
     if (!preRef.current) return;
     await navigator.clipboard.writeText(preRef.current.innerText).then(() => {

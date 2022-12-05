@@ -61,6 +61,7 @@ const TableOfContents = ({ toc }: Props) => {
     }
   }, [handleFocusDataHeading]);
 
+  //? Does this need to be memozied?
   const sideTOC = useMemo(() => {
     return toc.map(({ level, textContent, id }) => {
       const onClick = () => {
@@ -92,6 +93,7 @@ const TableOfContents = ({ toc }: Props) => {
     });
   }, [handleFocusDataHeading, toc]);
 
+  //? Does this need to be memozied?
   const drawerTOC = useMemo(() => {
     return toc.map(({ id, level, textContent }) => {
       const classList = classNames(

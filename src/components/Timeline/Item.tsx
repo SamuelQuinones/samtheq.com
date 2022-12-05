@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
-import { type ReactNode, useCallback, useEffect, useMemo } from "react";
+import { type ReactNode, useCallback, useEffect } from "react";
 import { m } from "framer-motion";
 import { useTimelineItem } from "./context";
 import Button from "@components/Button";
@@ -100,10 +100,7 @@ export const EducationTimelineItem = ({
     () => prepareModal({ title, additionalInfo }),
     [additionalInfo, prepareModal, title]
   );
-  const sideText = useMemo(
-    () => `${startDate} - ${endDate || "Present"}`,
-    [endDate, startDate]
-  );
+  const sideText = `${startDate} - ${endDate || "Present"}`;
 
   return (
     <TimelineItem
@@ -147,10 +144,7 @@ export const WorkTimelineItem = ({
     () => prepareModal({ title, additionalInfo }),
     [additionalInfo, prepareModal, title]
   );
-  const sideText = useMemo(
-    () => `${startDate} - ${endDate || "Present"}`,
-    [endDate, startDate]
-  );
+  const sideText = `${startDate} - ${endDate || "Present"}`;
 
   return (
     <TimelineItem

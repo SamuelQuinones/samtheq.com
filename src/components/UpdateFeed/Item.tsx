@@ -55,10 +55,9 @@ const UpdateFeedItem = ({
   checkItOutLink,
   feedDate,
 }: UpdateFeedProps) => {
-  const truncatedMessage = useMemo(
-    () => (previewText ? previewText : message.substring(0, 100)),
-    [message, previewText]
-  );
+  const truncatedMessage = previewText
+    ? previewText
+    : message.substring(0, 100);
   const shouldShowButton = useMemo(() => {
     if (previewText) {
       if (previewText === message) return false;

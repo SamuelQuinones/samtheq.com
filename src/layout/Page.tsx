@@ -49,6 +49,7 @@ const PageLayout = ({
     "flex-grow",
     containerClasses
   );
+  //? Does this need to be memozied?
   const urlMeta = useMemo(() => {
     if (pageUrl !== undefined) {
       const finalUrl = testOpenGraphUrl(pageUrl);

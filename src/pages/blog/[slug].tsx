@@ -90,6 +90,7 @@ const Slug: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   post,
 }) => {
   const MDXContent = useMDXComponent(post.code);
+  //? Does this need to be memozied
   const keywords = useMemo(() => {
     return `${post.tags.join(", ")}, ${post.keywords.join(", ")}`
       .trim()

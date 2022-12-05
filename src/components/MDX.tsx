@@ -6,7 +6,6 @@
 import {
   Children,
   useCallback,
-  useMemo,
   useRef,
   useState,
   type ComponentType,
@@ -26,10 +25,7 @@ import classNames from "classnames";
 const Pre: ComponentType<any> = ({ children, ...props }) => {
   const preRef = useRef<HTMLPreElement>(null);
   const [copied, setCopied] = useState(false);
-  const icon = useMemo(
-    () => (copied ? ["fas", "check"] : ["fas", "copy"]),
-    [copied]
-  );
+  const icon = copied ? ["fas", "check"] : ["fas", "copy"];
   const copyCode = useCallback(async () => {
     if (!preRef.current) return;
     await navigator.clipboard.writeText(preRef.current.innerText).then(() => {
