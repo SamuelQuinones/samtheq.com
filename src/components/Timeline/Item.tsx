@@ -1,34 +1,49 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames";
-import { type ReactNode, useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { m } from "framer-motion";
 import { useTimelineItem } from "./context";
 import Button from "@components/Button";
 import type { IconName } from "@fortawesome/fontawesome-svg-core";
 
-export type ItemProps<T extends string> = { [key in T]?: string } & {
-  title: string;
-  description: string;
-  additionalInfo?: string[];
-  startDate: string;
-  endDate: string | null;
-};
-
 type BaseProps = {
-  children?: ReactNode;
   contentClassName: string;
   arrowClassName: string;
   icon: IconName;
   sideText?: string;
+  title: string;
+  description: string;
+  additionalInfo?: string[];
+  place?: string;
+  expType: string;
+  startDate: string;
+  endDate: string | null;
 };
 
 const TimelineItem = ({
   contentClassName,
   arrowClassName,
   icon,
-  sideText,
-  children,
+  title,
+  description,
+  additionalInfo = [],
+  place,
+  expType,
+  startDate,
+  endDate,
 }: BaseProps) => {
+  const { prepareModal, registerCategory } = useTimelineItem();
+  const handlePrepare = useCallback(
+    () => prepareModal({ title, additionalInfo }),
+    [additionalInfo, prepareModal, title]
+  );
+  useEffect(() => {
+    registerCategory(expType);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [expType]);
+
+  const sideText = `${startDate} - ${endDate || "Present"}`;
+
   const contentClasses = classNames(
     contentClassName,
     "rounded-md p-2 text-left"
@@ -76,98 +91,25 @@ const TimelineItem = ({
         className="relative inline-block w-full pb-5 group-last:pb-0 group-odd:text-left group-even:pl-14 group-even:text-left group-odd:max-md:pl-14 md:w-1/2 group-odd:md:pr-10 group-odd:md:text-right group-even:md:pl-10"
       >
         <span className={arrowClasses} />
-        <div className={contentClasses}>{children}</div>
+        <div className={contentClasses}>
+          <h3 className="text-xl font-bold">{title}</h3>
+          {place && <h4 className="mb-2 text-lg italic">{place}</h4>}
+          <p>{description}</p>
+          <p className="mt-2 block font-bold italic md:hidden">{sideText}</p>
+          {additionalInfo.length > 0 && (
+            <section className="mt-3 text-right">
+              <Button
+                aria-label={`Read more about ${title} at ${place}`}
+                variant="secondary"
+                onClick={handlePrepare}
+              >
+                Read More
+              </Button>
+            </section>
+          )}
+        </div>
       </m.div>
     </li>
   );
 };
 export default TimelineItem;
-
-export const EducationTimelineItem = ({
-  description,
-  title,
-  additionalInfo = [],
-  degree,
-  startDate,
-  endDate,
-}: ItemProps<"degree">) => {
-  const { prepareModal, registerCategory } = useTimelineItem();
-  useEffect(() => {
-    registerCategory("education");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const handlePrepare = useCallback(
-    () => prepareModal({ title, additionalInfo }),
-    [additionalInfo, prepareModal, title]
-  );
-  const sideText = `${startDate} - ${endDate || "Present"}`;
-
-  return (
-    <TimelineItem
-      contentClassName="bg-info-700"
-      arrowClassName="group-even:border-r-info-700 group-odd:md:border-l-info-700 group-odd:max-md:border-r-info-700"
-      icon="graduation-cap"
-      sideText={sideText}
-    >
-      <h3 className="text-xl font-bold">{title}</h3>
-      {degree && <h4 className="mb-2 text-lg italic">{degree}</h4>}
-      <p>{description}</p>
-      <p className="mt-2 block font-bold italic md:hidden">{sideText}</p>
-      {additionalInfo.length > 0 && (
-        <section className="mt-3 text-right">
-          <Button
-            aria-label={`Read more about ${degree} at ${title}`}
-            variant="secondary"
-            onClick={handlePrepare}
-          >
-            Read More
-          </Button>
-        </section>
-      )}
-    </TimelineItem>
-  );
-};
-export const WorkTimelineItem = ({
-  description,
-  title,
-  additionalInfo = [],
-  company,
-  startDate,
-  endDate,
-}: ItemProps<"company">) => {
-  const { prepareModal, registerCategory } = useTimelineItem();
-  useEffect(() => {
-    registerCategory("work");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const handlePrepare = useCallback(
-    () => prepareModal({ title, additionalInfo }),
-    [additionalInfo, prepareModal, title]
-  );
-  const sideText = `${startDate} - ${endDate || "Present"}`;
-
-  return (
-    <TimelineItem
-      contentClassName="bg-primary-600"
-      arrowClassName="group-even:border-r-primary-600 group-odd:md:border-l-primary-600 group-odd:max-md:border-r-primary-600"
-      icon="briefcase"
-      sideText={sideText}
-    >
-      <h3 className="text-xl font-bold">{title}</h3>
-      {company && <h4 className="mb-2 text-lg italic">{company}</h4>}
-      <p>{description}</p>
-      <p className="mt-2 block font-bold italic md:hidden">{sideText}</p>
-      {additionalInfo.length > 0 && (
-        <section className="mt-3 text-right">
-          <Button
-            aria-label={`Read more about ${title} at ${company}`}
-            variant="secondary"
-            onClick={handlePrepare}
-          >
-            Read More
-          </Button>
-        </section>
-      )}
-    </TimelineItem>
-  );
-};

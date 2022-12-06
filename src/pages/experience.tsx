@@ -1,18 +1,53 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
+import dynamic from "next/dynamic";
 import { m } from "framer-motion";
 import prisma from "@lib/Prisma";
 import { format, formatUTC } from "@util/DateHelper";
 import { type TResume } from "@lib/Prisma/ExperienceHistory";
 import PageLayout from "layout/Page";
-import TimelineContainer from "@components/Timeline/Container";
-import {
-  EducationTimelineItem,
-  WorkTimelineItem,
-} from "@components/Timeline/Item";
-import BaseButton from "@components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import BaseButton from "@components/Button";
 
+const TimelineContainer = dynamic(
+  () => import("../components/Timeline/Container"),
+  { ssr: false }
+);
+const TimelineItem = dynamic(() => import("../components/Timeline/Item"), {
+  ssr: false,
+});
 const Button = m(BaseButton);
+
+const themeConfig = new Map([
+  [
+    "work",
+    {
+      contentClassName: "bg-primary-600",
+      arrowClassName:
+        "group-even:border-r-primary-600 group-odd:md:border-l-primary-600 group-odd:max-md:border-r-primary-600",
+      icon: "briefcase" as const,
+    },
+  ],
+  [
+    "education",
+    {
+      contentClassName: "bg-info-700",
+      arrowClassName:
+        "group-even:border-r-info-700 group-odd:md:border-l-info-700 group-odd:max-md:border-r-info-700",
+      icon: "graduation-cap" as const,
+    },
+  ],
+]);
+const getTheme = (key: string) => {
+  if (themeConfig.has(key)) {
+    return themeConfig.get(key)!;
+  }
+  return {
+    contentClassName: "bg-black",
+    arrowClassName:
+      "group-even:border-r-black group-odd:md:border-l-black group-odd:max-md:border-r-black",
+    icon: "globe" as const,
+  };
+};
 
 export const getStaticProps: GetStaticProps<TResume> = async () => {
   try {
@@ -137,28 +172,18 @@ const Experience: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       )}
       <TimelineContainer>
         {experienceItems.map((item) => {
-          if (item.exp_type === "education") {
-            return (
-              <EducationTimelineItem
-                description={item.description}
-                title={item.signifier}
-                additionalInfo={item.additional_info}
-                degree={item.place}
-                startDate={item.start_date}
-                endDate={item.end_date}
-                key={`education${item.ID}`}
-              />
-            );
-          }
+          const theme = getTheme(item.exp_type);
           return (
-            <WorkTimelineItem
+            <TimelineItem
+              {...theme}
+              expType={item.exp_type}
               description={item.description}
               title={item.signifier}
               additionalInfo={item.additional_info}
-              company={item.place}
+              place={item.place}
               startDate={item.start_date}
               endDate={item.end_date}
-              key={`work${item.ID}`}
+              key={`${item.exp_type}${item.ID}`}
             />
           );
         })}
