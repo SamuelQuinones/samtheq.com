@@ -3,7 +3,6 @@
 import { m } from "framer-motion";
 import CompCard from "@components/Card";
 import Button from "@components/Button";
-import { useMemo } from "react";
 import Link from "next/link";
 import { useUpdateCard } from "./context";
 import { format } from "@util/DateHelper";
@@ -58,14 +57,21 @@ const UpdateFeedItem = ({
   const truncatedMessage = previewText
     ? previewText
     : message.substring(0, 100);
-  const shouldShowButton = useMemo(() => {
-    if (previewText) {
-      if (previewText === message) return false;
-      return true;
-    }
-    if (message.length <= 100) return false;
-    return true;
-  }, [message, previewText]);
+  const shouldShowButton = previewText
+    ? previewText === message
+      ? false
+      : true
+    : message.length <= 100
+    ? false
+    : true;
+  // const shouldShowButton = useMemo(() => {
+  //   if (previewText) {
+  //     if (previewText === message) return false;
+  //     return true;
+  //   }
+  //   if (message.length <= 100) return false;
+  //   return true;
+  // }, [message, previewText]);
 
   const { prepareMessage } = useUpdateCard();
 
