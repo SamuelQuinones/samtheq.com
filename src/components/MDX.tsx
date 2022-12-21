@@ -20,6 +20,7 @@ import {
   TabPanel as RestartTabPanel,
   Nav,
 } from "@restart/ui";
+import { makeEventKey } from "@restart/ui/SelectableContext";
 import classNames from "classnames";
 
 const Pre: ComponentType<any> = ({ children, ...props }) => {
@@ -87,7 +88,7 @@ const linkify =
 
 const CodeTab: ComponentType<any> = ({ eventKey, ...props }) => {
   const [navItemProps, meta] = useNavItem({
-    key: eventKey,
+    key: makeEventKey(eventKey),
   });
   return (
     <button
