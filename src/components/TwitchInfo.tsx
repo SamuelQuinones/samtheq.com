@@ -1,6 +1,6 @@
 import Card from "./Card";
 import Tooltip from "./Tooltip";
-import { useFetchTwitchInfo } from "@lib/Twitch";
+import { useFetchTwitchInfo } from "@lib/Twitch/client";
 import { DEFAULT_TWITCH_USER } from "@util/constants";
 
 const TwitchInfo = () => {

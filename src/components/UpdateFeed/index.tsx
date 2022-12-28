@@ -1,6 +1,6 @@
 import { Fragment, useCallback, useMemo, useState } from "react";
 import { AnimatePresence, m } from "framer-motion";
-import { useFetchUpdateFeedInfinite } from "@lib/Prisma/UpdateFeed";
+import { useFetchUpdateFeedInfinite } from "@lib/Prisma/UpdateFeed/client";
 import Card from "@components/Card";
 import Drawer from "@components/Drawer";
 import Button from "@components/Button";

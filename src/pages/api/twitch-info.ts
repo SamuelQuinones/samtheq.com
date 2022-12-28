@@ -1,12 +1,11 @@
 //TODO: Either revoke or store token
 
-import {
-  getStreamInfo,
-  parseUserNameQuery,
-  type ErrorResponse,
-  type OfflineResponse,
-  type OnlineResponse,
-} from "@lib/Twitch";
+import { getStreamInfo, parseUserNameQuery } from "@lib/Twitch/server";
+import type {
+  ErrorResponse,
+  OfflineResponse,
+  OnlineResponse,
+} from "@lib/Twitch/types";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(

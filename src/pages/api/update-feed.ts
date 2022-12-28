@@ -1,8 +1,5 @@
-import {
-  IUpdateFeedResponse,
-  queryParser,
-  responseHelper,
-} from "@lib/Prisma/UpdateFeed";
+import { queryParser, responseHelper } from "@lib/Prisma/UpdateFeed/server";
+import type { IUpdateFeedResponse } from "@lib/Prisma/UpdateFeed/types";
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@lib/Prisma";
 import catchPrismaErrors from "@lib/Prisma/Error";

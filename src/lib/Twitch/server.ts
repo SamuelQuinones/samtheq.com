@@ -1,27 +1,4 @@
-import useSWR from "swr";
-import { fetcherGET } from "./SWR";
 import { DEFAULT_TWITCH_USER, GETABLE_TWITCH_USERS } from "@util/constants";
-
-declare global {
-  // eslint-disable-next-line no-var
-  var twitch_token: string | undefined;
-}
-
-export interface OfflineResponse {
-  online: false;
-  user_name: string;
-}
-export interface OnlineResponse {
-  online: true;
-  game_name: string;
-  user_name: string;
-  viewer_count: string | number;
-}
-
-export interface ErrorResponse {
-  online: false;
-  message: string;
-}
 
 export const parseUserNameQuery = (userName?: string | string[]) => {
   if (Array.isArray(userName)) return DEFAULT_TWITCH_USER;
@@ -115,17 +92,4 @@ export async function getStreamInfo(
     console.error(error);
   }
   return;
-}
-
-export function useFetchTwitchInfo() {
-  const { data, error } = useSWR<
-    OfflineResponse | OnlineResponse,
-    ErrorResponse
-  >("/api/twitch-info", fetcherGET);
-
-  return {
-    data,
-    isLoading: !error && !data,
-    isError: error,
-  };
 }
