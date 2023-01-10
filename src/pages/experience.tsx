@@ -1,5 +1,5 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { m } from "framer-motion";
 import prisma from "@lib/Prisma";
 import { format, formatUTC } from "@util/DateHelper";
@@ -7,14 +7,17 @@ import { type TResume } from "@lib/Prisma/ExperienceHistory";
 import PageLayout from "layout/Page";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BaseButton from "@components/Button";
+import TimelineContainer from "@components/Timeline/Container";
+import TimelineItem from "@components/Timeline/Item";
 
-const TimelineContainer = dynamic(
-  () => import("../components/Timeline/Container"),
-  { ssr: false }
-);
-const TimelineItem = dynamic(() => import("../components/Timeline/Item"), {
-  ssr: false,
-});
+// const TimelineContainer = dynamic(
+//   () => import("../components/Timeline/Container"),
+//   { ssr: false }
+// );
+// const TimelineItem = dynamic(() => import("../components/Timeline/Item"), {
+//   ssr: false,
+// });
+
 const Button = m(BaseButton);
 
 const themeConfig = new Map([
