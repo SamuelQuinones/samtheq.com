@@ -1,5 +1,3 @@
-const withContentLayer = require("next-contentlayer").withContentlayer;
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -16,16 +14,6 @@ const nextConfig = {
         permanent: false,
       },
       {
-        source: "/posts/:slug*",
-        destination: "/blog/:slug*",
-        permanent: true,
-      },
-      {
-        source: "/tags/:tag*",
-        destination: "/blog/tags/:tag*",
-        permanent: false,
-      },
-      {
         source: "/l/:link*",
         destination: "/links/:link*",
         permanent: true,
@@ -34,4 +22,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withContentLayer(nextConfig);
+module.exports = nextConfig;
