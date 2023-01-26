@@ -7,9 +7,10 @@ import { ThemeGenerator } from "./theme";
 import { PageGenerator } from "./page";
 import { BlogPostGenerator } from "./blog/post";
 import { TagGenerator } from "./blog/tag";
+import inquirerPrompt from "inquirer-autocomplete-prompt";
 
 export default function plop(plop: NodePlopAPI) {
-  plop.setPrompt("autocomplete", require("inquirer-autocomplete-prompt"));
+  plop.setPrompt("autocomplete", inquirerPrompt);
   plop.setPrompt("directory", require("inquirer-directory"));
   plop.setPrompt("datetime", require("inquirer-datepicker-prompt"));
 
