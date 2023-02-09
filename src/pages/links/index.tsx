@@ -1,15 +1,20 @@
+// TODO: require is temporary, until fontawesome fixes hydration issues
+/* eslint-disable @typescript-eslint/no-var-requires */
 import type {
   GetServerSideProps,
   InferGetServerSidePropsType,
   NextPage,
 } from "next";
 import Image from "next/legacy/image";
+import { m } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PageLayout from "layout/Page";
 import prisma from "@lib/Prisma";
 import type { TLinks } from "@lib/Prisma/SocialLinks";
 import { format } from "@util/DateHelper";
-import Button from "@components/Button";
+import BaseButton from "@components/Button";
+
+const Button = m(BaseButton);
 
 export const getServerSideProps: GetServerSideProps<TLinks> = async () => {
   const [LINKS, lastUpdated] = await Promise.all([
@@ -42,16 +47,26 @@ export const getServerSideProps: GetServerSideProps<TLinks> = async () => {
     };
   }
 
-  const loadIco = (await import("../../lib/FontAwesome")).loadIconWithFallback;
+  const findIco =
+    require("@fortawesome/fontawesome-svg-core").findIconDefinition;
 
   return {
     props: {
       lastUpdated: format(lastUpdated?.modified_timestamp, "MMMM Do, YYYY"),
       socialLinks: LINKS.map(
-        ({ icon_name: icN, icon_prefix: icP, ...rest }) => {
-          //@ts-expect-error these are strings but this is fine
-          const { iconName, prefix } = loadIco({ iconName: icN, prefix: icP });
-          return { ...rest, icon_name: iconName, icon_prefix: prefix };
+        ({ icon_name: iconName, icon_prefix: prefix, ...rest }) => {
+          if (iconName == null || prefix == null) {
+            return { ...rest, icon_name: "globe", icon_prefix: "fas" };
+          }
+          const iconDefinition = findIco({ iconName, prefix });
+          if (!iconDefinition) {
+            return { ...rest, icon_name: "globe", icon_prefix: "fas" };
+          }
+          return {
+            ...rest,
+            icon_name: iconDefinition.iconName,
+            icon_prefix: iconDefinition.prefix,
+          };
         }
       ),
     },
@@ -66,7 +81,7 @@ const Links: NextPage<
       title="Links"
       pageUrl="/links"
       description="A collection of social platform links on which Samuel Quinones is active"
-      containerClasses="max-w-[52rem] scroll-mt-16"
+      containerClasses="max-w-2xl scroll-mt-16"
     >
       <section className="text-center">
         <Image
@@ -98,17 +113,19 @@ const Links: NextPage<
         <section className="grid grid-cols-1 gap-y-5 py-2">
           {socialLinks.map((link) => (
             <Button
+              whileHover={{ scale: 1.02 }}
               href={link.redirect ? `/links/${link.redirect}` : link.target}
               target="_blank"
               rel="noopener noreferrer"
-              outline
-              variant="secondary"
+              // outline
+              // variant="secondary"
               key={`${link.ID}-${link.title.replace(/[^A-Z0-9]/gim, "")}`}
-              className="group relative flex items-center justify-center gap-x-2 rounded-lg border-2 p-2"
+              className="relative flex items-center justify-center gap-x-2 rounded-lg border-2 p-2"
             >
               <FontAwesomeIcon
                 height="1em"
-                size="lg"
+                size="xl"
+                //@ts-expect-error these are safe strings
                 icon={[link.icon_prefix, link.icon_name]}
               />
               <p>{link.title}</p>

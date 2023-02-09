@@ -1,10 +1,15 @@
-import { Fragment, useCallback, useMemo, useState } from "react";
+import {
+  type ElementType,
+  Fragment,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { AnimatePresence, m } from "framer-motion";
 import { useFetchUpdateFeedInfinite } from "@lib/Prisma/UpdateFeed/client";
 import Card from "@components/Card";
 import Drawer from "@components/Drawer";
 import Button from "@components/Button";
-import UpdateItemSkeleton from "./Skeleton";
 import UpdateContainer from "./Container";
 import UpdateFeedItem from "./Item";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -29,36 +34,6 @@ const NoDataCard = ({ message = "" }) => (
     <p>Unable to fetch data to populates update cards</p>
     <p>{message}</p>
   </MotionCard>
-);
-
-/** Base Loading Skeleton */
-const LoadingSkeleton = () => (
-  <m.div
-    variants={variants}
-    initial={false}
-    animate="show"
-    exit="hidden"
-    className="mt-16 mb-3 w-full"
-  >
-    <section className="mb-4 flex w-full animate-pulse items-center justify-between px-3">
-      <h2 className="w-1/6 text-xl">
-        <span className="text-placeholder w-full" />
-      </h2>
-      <Button
-        variant="info"
-        href="#"
-        tabIndex={-1}
-        disabled
-        className="text-placeholder w-1/6 before:inline-block before:content-['']"
-        aria-hidden="true"
-      />
-    </section>
-    <section className="grid grid-cols-1 gap-5 md:grid-cols-3">
-      <UpdateItemSkeleton />
-      <UpdateItemSkeleton />
-      <UpdateItemSkeleton />
-    </section>
-  </m.div>
 );
 
 /** Drawer Overlay when loading more / there is an error loading more */
@@ -93,7 +68,7 @@ const ViewMoreOverLay = ({ isLoading = false, isError = false }) => (
   </AnimatePresence>
 );
 
-const UpdateFeed = () => {
+const UpdateFeed = ({ LoadingSkeleton }: { LoadingSkeleton: ElementType }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const {
     total,
