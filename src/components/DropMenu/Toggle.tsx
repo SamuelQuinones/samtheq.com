@@ -1,5 +1,5 @@
 import { useMergedRef } from "@hooks";
-import { useDropdownToggle } from "@restart/ui";
+import { useDropdownToggle } from "@restart/ui/DropdownToggle";
 import { DynamicRefForwardingComponent } from "@restart/ui/types";
 import { ElementType, forwardRef, HTMLAttributes, useCallback } from "react";
 

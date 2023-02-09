@@ -1,5 +1,5 @@
 import { ElementType, forwardRef, HTMLAttributes, ReactNode } from "react";
-import { DropdownItemProps, useDropdownItem } from "@restart/ui";
+import { DropdownItemProps, useDropdownItem } from "@restart/ui/DropdownItem";
 import type { DynamicRefForwardingComponent } from "@restart/ui/types";
 
 interface Props extends DropdownItemProps, HTMLAttributes<HTMLElement> {

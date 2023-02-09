@@ -1,6 +1,9 @@
 import { ElementType, forwardRef, HTMLAttributes, ReactNode } from "react";
 import type { DynamicRefForwardingComponent } from "@restart/ui/types";
-import { useDropdownMenu, UseDropdownMenuOptions } from "@restart/ui";
+import {
+  useDropdownMenu,
+  UseDropdownMenuOptions,
+} from "@restart/ui/DropdownMenu";
 import { useIsomorphicLayoutEffect, useMergedRef } from "@hooks";
 
 interface Props extends UseDropdownMenuOptions, HTMLAttributes<HTMLElement> {
@@ -43,7 +46,6 @@ const DropmenuMenu: DynamicRefForwardingComponent<"div", Props> = forwardRef<
       if (show) popper?.update();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [show]);
-    // const Component = asProp ?? "div";
     const newRef = useMergedRef(dmRef, ref);
     return <Component {...props} {...menuProps} ref={newRef} />;
   }
