@@ -1,10 +1,7 @@
+// TODO: require is temporary, until fontawesome fixes hydration issues
+/* eslint-disable @typescript-eslint/no-var-requires */
 //* Core
-import {
-  config,
-  library,
-  findIconDefinition,
-  type IconLookup,
-} from "@fortawesome/fontawesome-svg-core";
+const { config, library } = require("@fortawesome/fontawesome-svg-core");
 import {
   faDiscord,
   faGithub,
@@ -34,16 +31,6 @@ import {
   faCalendarDays,
   faEnvelope,
 } from "@fortawesome/free-regular-svg-icons";
-
-export const loadIconWithFallback = (
-  icon: IconLookup,
-  fallback: IconLookup = { iconName: "globe", prefix: "fas" }
-) => {
-  if (icon.prefix == null || icon.iconName == null) return fallback;
-  const iconDefinition = findIconDefinition(icon);
-  if (!iconDefinition) return fallback;
-  return { iconName: iconDefinition.iconName, prefix: iconDefinition.prefix };
-};
 
 /**
  * Function intended to be called outside of any react code, before the NextJS App initializes.

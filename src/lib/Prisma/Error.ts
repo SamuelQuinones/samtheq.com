@@ -1,7 +1,7 @@
 import {
   PrismaClientInitializationError,
   PrismaClientKnownRequestError,
-} from "@prisma/client/runtime";
+} from "@prisma/client/runtime/library";
 
 function prismaMessageHelper(code: string, message: string) {
   const flattenedMessage = message
