@@ -85,6 +85,7 @@ export async function getStreamInfo(
     if (process.env.NODE_ENV === "development") {
       console.error(revokeResonse);
     }
+    //? Does this need to be awaited?
     return getStreamInfo(retries - 1, userName, true);
   }
   const error = await res.json();
