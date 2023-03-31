@@ -1,6 +1,6 @@
 "use client";
 import clsx from "clsx";
-import { useButtonProps, ButtonProps } from "@restart/ui/Button";
+import { useButtonProps, type ButtonProps } from "@restart/ui/Button";
 import { forwardRef } from "react";
 
 interface Props extends ButtonProps {
