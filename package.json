@@ -1,0 +1,62 @@
+{
+  "name": "samtheq-com",
+  "private": true,
+  "author": {
+    "name": "Samuel Quiñones",
+    "email": "samuelquinones@samtheq.com"
+  },
+  "scripts": {
+    "dev": "next dev -p 5555",
+    "build": "next build",
+    "start": "next start -p 6006",
+    "lint": "next lint && prettier -c \"src/**/*.{json,css}\"",
+    "format": "next lint --fix && prettier -w \"src/**/*.{json,css}\"",
+    "prisma:pull": "dotenv -c development prisma db pull",
+    "prisma:seed": "dotenv -c development prisma db seed",
+    "prisma:generate": "dotenv -c development prisma generate",
+    "prisma:migrate:reset": "dotenv -c development prisma migrate -- reset",
+    "prisma:migrate:start": "dotenv -c development prisma migrate -- dev --create-only",
+    "prisma:migrate:finish": "dotenv -c development prisma migrate -- dev",
+    "prisma:migrate:deploy": "dotenv -c staging prisma migrate -- deploy",
+    "prisma:studio:dev": "dotenv -c development prisma studio -- --port 9999",
+    "prisma:studio:prod": "dotenv -c production prisma studio -- --port 9999"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "6.4.0",
+    "@fortawesome/free-brands-svg-icons": "6.4.0",
+    "@fortawesome/free-regular-svg-icons": "6.4.0",
+    "@fortawesome/free-solid-svg-icons": "6.4.0",
+    "@fortawesome/react-fontawesome": "0.2.0",
+    "@prisma/client": "4.12.0",
+    "@restart/ui": "1.6.2",
+    "date-fns": "2.29.3",
+    "date-fns-tz": "2.0.0",
+    "deepmerge": "4.3.1",
+    "framer-motion": "10.8.5",
+    "next": "13.2.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "sharp": "0.32.0",
+    "swr": "2.1.1",
+    "typescript": "4.9.5"
+  },
+  "devDependencies": {
+    "@types/node": "16.18.14",
+    "@types/react": "18.0.29",
+    "@types/react-dom": "18.0.11",
+    "@typescript-eslint/eslint-plugin": "5.55.0",
+    "@typescript-eslint/parser": "5.55.0",
+    "autoprefixer": "10.4.14",
+    "clsx": "1.2.1",
+    "dotenv-cli": "6.0.0",
+    "eslint": "8.36.0",
+    "eslint-config-next": "13.2.4",
+    "eslint-config-prettier": "8.8.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "postcss": "8.4.21",
+    "prettier": "2.8.7",
+    "prettier-plugin-tailwindcss": "0.2.6",
+    "prisma": "4.12.0",
+    "tailwindcss": "3.3.1"
+  }
+}

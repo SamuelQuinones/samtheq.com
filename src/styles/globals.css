@@ -1,0 +1,41 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+@import "./_components.css";
+
+@import "tailwindcss/utilities";
+
+:root {
+  color-scheme: dark;
+  --stq-bg-color: #371b36;
+  --stq-text-color: #ffffff;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: var(--stq-bg-color);
+  color: var(--stq-text-color);
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  height: 100%;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.custom-outline {
+  box-shadow: 0 0 0 2pt white;
+}

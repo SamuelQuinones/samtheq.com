@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model ExperienceHistory {
+  ID                 Int              @id @default(autoincrement())
+  place              String           @db.VarChar(255)
+  signifier          String           @db.VarChar(255)
+  exp_type           String           @default("work") @db.VarChar(255)
+  start_date         DateTime         @db.Date
+  end_date           DateTime?        @db.Date
+  description        String           @db.VarChar(255)
+  additional_info    ExperienceInfo[]
+  active             Boolean          @default(true)
+  inactive_timestamp DateTime?        @db.Timestamp(0)
+  modified_timestamp DateTime         @default(now()) @updatedAt @db.Timestamp(0)
+}
+
+model ExperienceInfo {
+  ID                 Int                @id @default(autoincrement())
+  info               String             @db.VarChar(255)
+  ExperienceHistory  ExperienceHistory? @relation(fields: [experience_id], references: [ID])
+  experience_id      Int
+  modified_timestamp DateTime           @default(now()) @updatedAt @db.Timestamp(0)
+
+  @@index([experience_id])
+}
+
+model UpdateFeed {
+  ID                 Int       @id @default(autoincrement())
+  title              String    @db.VarChar(255)
+  message            String    @db.VarChar(255)
+  check_it_out_link  String?   @db.VarChar(255)
+  active             Boolean   @default(true)
+  update_card_time   DateTime  @default(now()) @db.Timestamp(0)
+  modified_timestamp DateTime  @default(now()) @updatedAt @db.Timestamp(0)
+  inactive_timestamp DateTime? @db.Timestamp(0)
+}
+
+model SocialLink {
+  ID                 Int       @id @default(autoincrement())
+  title              String    @unique @db.VarChar(255)
+  target             String    @db.Text
+  priority           Int       @default(5)
+  active             Boolean   @default(true)
+  icon_prefix        String?   @db.Text
+  icon_name          String?   @db.Text
+  redirect           String?   @unique @db.VarChar(255)
+  created_timestamp  DateTime  @default(now()) @db.Timestamp(0)
+  modified_timestamp DateTime  @default(now()) @updatedAt @db.Timestamp(0)
+  inactive_timestamp DateTime? @db.Timestamp(0)
+}
