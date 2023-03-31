@@ -5,6 +5,9 @@
     "name": "Samuel Quiñones",
     "email": "samuelquinones@samtheq.com"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "scripts": {
     "dev": "next dev -p 5555",
     "build": "next build",
@@ -32,7 +35,7 @@
     "date-fns": "2.29.3",
     "date-fns-tz": "2.0.0",
     "deepmerge": "4.3.1",
-    "framer-motion": "10.8.5",
+    "framer-motion": "10.10.0",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -42,14 +45,14 @@
   },
   "devDependencies": {
     "@types/node": "16.18.14",
-    "@types/react": "18.0.29",
+    "@types/react": "18.0.31",
     "@types/react-dom": "18.0.11",
-    "@typescript-eslint/eslint-plugin": "5.55.0",
-    "@typescript-eslint/parser": "5.55.0",
+    "@typescript-eslint/eslint-plugin": "5.57.0",
+    "@typescript-eslint/parser": "5.57.0",
     "autoprefixer": "10.4.14",
     "clsx": "1.2.1",
     "dotenv-cli": "6.0.0",
-    "eslint": "8.36.0",
+    "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-prettier": "4.2.1",
