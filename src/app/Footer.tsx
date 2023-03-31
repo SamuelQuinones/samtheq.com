@@ -1,3 +1,4 @@
+import Tooltip from "@/components/Tooltip";
 import type { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -11,15 +12,17 @@ type FooterIconProps = {
 
 function FooterIcon({ name, prefix, title = name, url }: FooterIconProps) {
   return (
-    <a
-      href={url}
-      className="mx-2 text-white transition-colors duration-200 active:text-secondary-300 hocus:text-secondary-300"
-      title={title}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <FontAwesomeIcon style={{ height: "24px" }} icon={[prefix, name]} height="1em" />
-    </a>
+    <Tooltip tooltipText={title} placement="top">
+      <a
+        href={url}
+        className="mx-2 text-white transition-colors duration-200 active:text-secondary-300 hocus:text-secondary-300"
+        title={title}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <FontAwesomeIcon style={{ height: "24px" }} icon={[prefix, name]} height="1em" />
+      </a>
+    </Tooltip>
   );
 }
 

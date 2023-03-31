@@ -3,6 +3,19 @@
 @import "./components/_modal.css";
 @import "./components/_navigation.css";
 
+div[data-popper-placement^="top"] > .tooltip-arrow {
+  bottom: -0.25rem;
+}
+div[data-popper-placement^="bottom"] > .tooltip-arrow {
+  top: -0.25rem;
+}
+div[data-popper-placement^="left"] > .tooltip-arrow {
+  right: -0.25rem;
+}
+div[data-popper-placement^="right"] > .tooltip-arrow {
+  left: -0.25rem;
+}
+
 [data-nav-skip-link] {
   border: 0;
   clip: rect(0, 0, 0, 0);
