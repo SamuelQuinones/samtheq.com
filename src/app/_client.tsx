@@ -1,13 +1,13 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // TODO: Once templates are fixed, move this to a template.tsx
 "use client";
 
-import addClientIcons from "@/lib/FontAwesome/client";
+const { config } = require("@fortawesome/fontawesome-svg-core");
 import { LazyMotion } from "framer-motion";
 
 const loadFeatures = async () => (await import("../lib/FramerMotion.js")).default;
 
-// See comment above function
-addClientIcons();
+config.autoAddCss = false;
 
 export default function Template({ children }: { children: React.ReactNode }) {
   return (

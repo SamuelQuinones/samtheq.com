@@ -4,6 +4,7 @@ import Button from "@/components/Button";
 import Drawer from "@/components/Drawer";
 import Modal from "@/components/Modal";
 import { useBreakpoints, useIsomorphicLayoutEffect } from "@/hooks";
+import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { format } from "date-fns";
 import { AnimatePresence, m } from "framer-motion";
@@ -213,7 +214,7 @@ export default function UpdateFeedContainer() {
                 onClick={handleViewMore}
               >
                 <span>View History</span>
-                <FontAwesomeIcon height="16" icon={["fas", "clock-rotate-left"]} />
+                <FontAwesomeIcon height="16" icon={faClockRotateLeft} />
                 {total - 3 > 0 && (
                   <span className="absolute right-0 top-0 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center rounded-full bg-primary-600 px-2 py-1 text-xs/none font-bold">
                     {total - 3} <span className="sr-only">Additional updates</span>

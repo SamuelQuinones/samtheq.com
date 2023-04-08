@@ -1,3 +1,5 @@
+import { faBriefcase, faGlobe, faGraduationCap } from "@fortawesome/free-solid-svg-icons";
+
 export const themeConfig = new Map([
   [
     "work",
@@ -5,7 +7,7 @@ export const themeConfig = new Map([
       contentClassName: "bg-primary-600",
       arrowClassName:
         "group-even:border-r-primary-600 group-odd:md:border-l-primary-600 group-odd:max-md:border-r-primary-600",
-      icon: "briefcase" as const,
+      icon: faBriefcase,
     },
   ],
   [
@@ -14,7 +16,7 @@ export const themeConfig = new Map([
       contentClassName: "bg-info-700",
       arrowClassName:
         "group-even:border-r-info-700 group-odd:md:border-l-info-700 group-odd:max-md:border-r-info-700",
-      icon: "graduation-cap" as const,
+      icon: faGraduationCap,
     },
   ],
 ]);
@@ -26,6 +28,6 @@ export const getTheme = (key: string) => {
     contentClassName: "bg-black",
     arrowClassName:
       "group-even:border-r-black group-odd:md:border-l-black group-odd:max-md:border-r-black",
-    icon: "globe" as const,
+    icon: faGlobe,
   };
 };

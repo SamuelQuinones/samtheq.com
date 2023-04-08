@@ -2,7 +2,7 @@
 
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
-import type { IconName } from "@fortawesome/fontawesome-svg-core";
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 import { m } from "framer-motion";
@@ -26,7 +26,7 @@ type TimelineContextValue = {
 type TimelineItemProps = {
   contentClassName: string;
   arrowClassName: string;
-  icon: IconName;
+  icon: IconDefinition;
   title: string;
   description: string;
   additionalInfo?: string[];
@@ -151,7 +151,7 @@ export function TimelineItem({
         transition={{ type: "spring", bounce: 0.5, stiffness: 125 }}
         className={iconWrapperClasses}
       >
-        <FontAwesomeIcon icon={["fas", icon]} height="24" className="h-6 w-6" />
+        <FontAwesomeIcon icon={icon} height="24" className="h-6 w-6" />
       </m.span>
       <m.div
         initial={{ opacity: 0, scale: 0.7 }}

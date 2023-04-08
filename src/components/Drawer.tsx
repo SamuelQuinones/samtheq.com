@@ -3,6 +3,7 @@ import { AnimatePresence, m } from "framer-motion";
 import { type ReactNode, useCallback } from "react";
 import RRModal from "@restart/ui/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
   position?: "left" | "right" | "top" | "bottom";
@@ -87,7 +88,7 @@ export default function Drawer({
           onClick={handleClose}
           aria-label="Close This Drawer"
         >
-          <FontAwesomeIcon icon={["fas", "close"]} size="2x" />
+          <FontAwesomeIcon icon={faClose} size="2x" />
         </m.button>
       </div>
       <div className={bodyClasses}>{children}</div>

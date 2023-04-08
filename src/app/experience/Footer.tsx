@@ -1,6 +1,7 @@
 "use client";
 
 import BaseButton from "@/components/Button";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { m } from "framer-motion";
 
@@ -22,7 +23,7 @@ export default function ExperienceFooter() {
         download
       >
         <span>
-          <FontAwesomeIcon icon={["fas", "download"]} width="1em" height="1em" />
+          <FontAwesomeIcon icon={faDownload} width="1em" height="1em" />
         </span>
         <span>Download My Resume</span>
       </Button>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // LAYOUT CLASSES bs-container-md mt-16 grow scroll-mt-16
 
 import "../styles/fa.css";
@@ -7,10 +8,9 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Template from "./_client";
 import { SEO } from "@/lib/NextJS/metadata";
-import addServerIcons from "@/lib/FontAwesome/server";
+const { config } = require("@fortawesome/fontawesome-svg-core");
 
-// see comment above function about this
-addServerIcons();
+config.autoAddCss = false;
 
 const InterVar = localFont({
   src: [

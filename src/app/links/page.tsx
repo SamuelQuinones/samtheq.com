@@ -1,8 +1,27 @@
 import { mergeMetadata } from "@/lib/NextJS/metadata";
 import { prisma } from "@/lib/Prisma/db";
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { format } from "date-fns";
 import LinkHeader from "./Header";
 import SocialLink from "./SocialLink";
+
+/**
+ * April 8th 2023 - no longer am I using the library, instead I'll dynamically import the icons on the server
+ */
+const importIcon = async (prefix: string | null, icon: string | null): Promise<IconDefinition> => {
+  if (icon === null) return faGlobe;
+  if (prefix === "fab") {
+    return (await import("@fortawesome/free-brands-svg-icons"))[icon] as IconDefinition;
+  }
+  if (prefix === "fas") {
+    return (await import("@fortawesome/free-solid-svg-icons"))[icon] as IconDefinition;
+  }
+  if (prefix === "far") {
+    return (await import("@fortawesome/free-regular-svg-icons"))[icon] as IconDefinition;
+  }
+  return faGlobe;
+};
 
 async function getAllLinks() {
   const [LINKS, lastUpdated] = await Promise.all([
@@ -27,7 +46,17 @@ async function getAllLinks() {
 
   if (LINKS === null && lastUpdated === null) return { lastUpdated: new Date(), socialLinks: [] };
 
-  return { lastUpdated: lastUpdated?.modified_timestamp || new Date(), socialLinks: LINKS };
+  const socialLinks = await Promise.all(
+    LINKS.map(async ({ icon_name, icon_prefix, ...rest }) => {
+      const icon = await importIcon(icon_prefix, icon_name).catch(() => faGlobe);
+      return {
+        icon,
+        ...rest,
+      };
+    })
+  );
+
+  return { lastUpdated: lastUpdated?.modified_timestamp || new Date(), socialLinks };
 }
 
 export const revalidate = 0; //* ensures page is always dynamically rendered

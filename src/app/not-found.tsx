@@ -7,6 +7,7 @@
  */
 import Button from "@/components/Button";
 import Tooltip from "@/components/Tooltip";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 
@@ -38,7 +39,7 @@ export default function Notfound() {
             rel="noopener noreferrer"
           >
             <span>Report a Problem</span>
-            <FontAwesomeIcon height="1em" width="1em" icon={["fab", "github"]} />
+            <FontAwesomeIcon height="1em" width="1em" icon={faGithub} />
           </Button>
         </Tooltip>
       </div>

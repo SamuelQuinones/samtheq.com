@@ -1,16 +1,16 @@
 import Tooltip from "@/components/Tooltip";
-import type { IconName, IconPrefix } from "@fortawesome/fontawesome-svg-core";
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { faGithub, faLinkedinIn, faTwitter, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
 type FooterIconProps = {
-  name: IconName;
-  prefix: IconPrefix;
-  title?: string;
+  icon: IconDefinition;
+  title: string;
   url: string;
 };
 
-function FooterIcon({ name, prefix, title = name, url }: FooterIconProps) {
+function FooterIcon({ icon, title, url }: FooterIconProps) {
   return (
     <Tooltip tooltipText={title} placement="top">
       <a
@@ -20,7 +20,7 @@ function FooterIcon({ name, prefix, title = name, url }: FooterIconProps) {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <FontAwesomeIcon style={{ height: "24px" }} icon={[prefix, name]} height="1em" />
+        <FontAwesomeIcon style={{ height: "24px" }} icon={icon} height="1em" />
       </a>
     </Tooltip>
   );
@@ -49,12 +49,15 @@ export default function Footer() {
         </section>
         <section className="my-1 grid auto-cols-max justify-center text-base max-md:gap-y-2 md:my-0 md:justify-end">
           <div className="flex items-center">
-            <FooterIcon prefix="fab" name="youtube" url="https://www.youtube.com/@sammy_q" />
-            <FooterIcon prefix="fab" name="twitter" url="https://twitter.com/SamuelQuinones1" />
-            <FooterIcon prefix="fab" name="github" url="https://github.com/SamuelQuinones" />
+            <FooterIcon icon={faYoutube} title="Youtube" url="https://www.youtube.com/@sammy_q" />
             <FooterIcon
-              prefix="fab"
-              name="linkedin-in"
+              icon={faTwitter}
+              title="Twitter"
+              url="https://twitter.com/SamuelQuinones1"
+            />
+            <FooterIcon icon={faGithub} title="Github" url="https://github.com/SamuelQuinones" />
+            <FooterIcon
+              icon={faLinkedinIn}
               url="https://www.linkedin.com/in/samuelq/"
               title="linkedin"
             />

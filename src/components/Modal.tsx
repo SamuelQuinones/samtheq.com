@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { m, AnimatePresence } from "framer-motion";
 import { type ReactNode, useRef, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
 
 const backdropVariants = {
   initial: { opacity: 0 },
@@ -94,7 +95,7 @@ export default function Modal({
               onClick={() => handleClose?.()}
               aria-label="Close This Modal"
             >
-              <FontAwesomeIcon icon={["fas", "close"]} size="2x" />
+              <FontAwesomeIcon icon={faClose} size="2x" />
             </m.button>
           </div>
           <div className={bodyClasses}>{children}</div>
