@@ -7,10 +7,22 @@ import LinkHeader from "./Header";
 import SocialLink from "./SocialLink";
 
 /**
+ * April 8th 2023
+ * In order to make the recent changes in `cbac1eb01d4f2bdb369f0e5a81ae7cd946753a04` compatible with prod,
+ * This function will convert IconNames to the name of the exported inon definition
+ * TODO: Update the database to use the named export strings so that this is not necesarry
+ */
+function stringToIconName(str?: string | null) {
+  if (str == null) return "faGlobe";
+  if (/^fa[A-Z]/gm.test(str)) return str;
+  const fixedName = str.replace(/-./g, (x) => x[1].toUpperCase());
+  return "fa" + fixedName.charAt(0).toUpperCase() + fixedName.slice(1);
+}
+
+/**
  * April 8th 2023 - no longer am I using the library, instead I'll dynamically import the icons on the server
  */
-const importIcon = async (prefix: string | null, icon: string | null): Promise<IconDefinition> => {
-  if (icon === null) return faGlobe;
+async function importIcon(prefix: string | null, icon: string): Promise<IconDefinition> {
   if (prefix === "fab") {
     return (await import("@fortawesome/free-brands-svg-icons"))[icon] as IconDefinition;
   }
@@ -21,7 +33,7 @@ const importIcon = async (prefix: string | null, icon: string | null): Promise<I
     return (await import("@fortawesome/free-regular-svg-icons"))[icon] as IconDefinition;
   }
   return faGlobe;
-};
+}
 
 async function getAllLinks() {
   const [LINKS, lastUpdated] = await Promise.all([
@@ -48,7 +60,7 @@ async function getAllLinks() {
 
   const socialLinks = await Promise.all(
     LINKS.map(async ({ icon_name, icon_prefix, ...rest }) => {
-      const icon = await importIcon(icon_prefix, icon_name).catch(() => faGlobe);
+      const icon = await importIcon(icon_prefix, stringToIconName(icon_name)).catch(() => faGlobe);
       return {
         icon,
         ...rest,
