@@ -1,6 +1,6 @@
 /* 
-March 30th 2023
+April 7th 2023
 THIS IS GROSS BUT NEXT 13 APP DIR IS MAKING ME DO THIS
-For some reason node modules global css import order gets messed up
+For some reason node modules global css import order gets messed up but only in production
 */
 @import "@fortawesome/fontawesome-svg-core/styles.css";

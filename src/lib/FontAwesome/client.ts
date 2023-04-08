@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import {
+  faGithub,
   faLinkedinIn,
   faTiktok,
   faTwitch,
@@ -35,6 +36,7 @@ export default function addClientIcons() {
     faTiktok,
     faTwitter,
     faLinkedinIn,
-    faTwitch
+    faTwitch,
+    faGithub
   );
 }

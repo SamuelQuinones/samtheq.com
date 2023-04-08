@@ -194,7 +194,7 @@ export default function UpdateFeedContainer() {
           >
             <h3 className="mb-3 text-2xl font-bold">Unable to fetch data</h3>
             <p>Unable to fetch data to populates update cards</p>
-            <p>{message}</p>
+            <p>{isError.message}</p>
           </m.div>
         )}
         {isLoadingInitialData && <LoadingSkeleton key="loading-initial-updates" />}

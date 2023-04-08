@@ -49,13 +49,17 @@ export default async function Links() {
   return (
     <main id="stq-page-content" className="bs-container-md mt-16 max-w-2xl grow scroll-mt-16">
       <LinkHeader lastUpdated={format(lastUpdated, "MMMM do, yyyy")} />
-      <ul className="grid grid-cols-1 gap-y-5 py-2">
-        {socialLinks.map(({ ID, ...rest }) => (
-          <li data-link-title={rest.title} key={ID}>
-            <SocialLink {...rest} />
-          </li>
-        ))}
-      </ul>
+      {socialLinks.length === 0 ? (
+        <p className="text-center text-lg">Unable to get list of links, please try again later.</p>
+      ) : (
+        <ul className="grid grid-cols-1 gap-y-5 py-2">
+          {socialLinks.map(({ ID, ...rest }) => (
+            <li data-link-title={rest.title} key={ID}>
+              <SocialLink {...rest} />
+            </li>
+          ))}
+        </ul>
+      )}
     </main>
   );
 }
