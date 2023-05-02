@@ -53,7 +53,7 @@ export const revalidate = 900;
 const title = "Experience";
 const description =
   "The work and educational experience of Samuel Quinones presented in timeline form";
-const canonical = `${process.env.NEXT_PUBLIC_BASE_URL}/experience`;
+const canonical = "/experience";
 const extra = { title, description, url: canonical };
 export const metadata = mergeMetadata({
   title,

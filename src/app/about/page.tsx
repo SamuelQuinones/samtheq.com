@@ -2,7 +2,7 @@ import { mergeMetadata } from "@/lib/NextJS/metadata";
 
 const title = "About";
 const description = "About Samuel Quinones and this site";
-const canonical = `${process.env.NEXT_PUBLIC_BASE_URL}/about`;
+const canonical = "/about";
 const extra = { title, description, url: canonical };
 export const metadata = mergeMetadata({
   title,

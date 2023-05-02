@@ -75,7 +75,7 @@ export const revalidate = 0; //* ensures page is always dynamically rendered
 
 const title = "Links";
 const description = "A collection of social platform links on which Samuel Quinones is active";
-const canonical = `${process.env.NEXT_PUBLIC_BASE_URL}/links`;
+const canonical = "/links";
 const extra = { title, description, url: canonical };
 export const metadata = mergeMetadata({
   title,

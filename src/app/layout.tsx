@@ -7,7 +7,7 @@ import localFont from "next/font/local";
 import Footer from "./Footer";
 import Header from "./Header";
 import Template from "./_client";
-import { SEO } from "@/lib/NextJS/metadata";
+import { mergeMetadata } from "@/lib/NextJS/metadata";
 const { config } = require("@fortawesome/fontawesome-svg-core");
 
 config.autoAddCss = false;
@@ -32,7 +32,9 @@ const FiraCode = localFont({
   variable: "--font-fira-code",
 });
 
-export const metadata = SEO;
+export const metadata = mergeMetadata({
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? ""),
+});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
