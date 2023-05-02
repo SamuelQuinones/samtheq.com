@@ -2,7 +2,7 @@
 
 import { useIsomorphicLayoutEffect, useMergedRef } from "@/hooks";
 import { useDropdownMenu, type UseDropdownMenuOptions } from "@restart/ui/DropdownMenu";
-import type { DynamicRefForwardingComponent } from "@restart/ui/esm/types";
+import type { DynamicRefForwardingComponent } from "@restart/ui/types";
 import { ElementType, forwardRef, HTMLAttributes, ReactNode } from "react";
 
 export interface DropmenuMenuProps extends UseDropdownMenuOptions, HTMLAttributes<HTMLElement> {
