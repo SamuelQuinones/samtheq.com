@@ -8,7 +8,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Template from "./_client";
 import { mergeMetadata } from "@/lib/NextJS/metadata";
-const { config } = require("@fortawesome/fontawesome-svg-core");
+import { config } from "@fortawesome/fontawesome-svg-core";
 
 config.autoAddCss = false;
 
