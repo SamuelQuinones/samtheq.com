@@ -5,7 +5,7 @@ import RRModal from "@restart/ui/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 
-type Props = {
+interface DrawerProps {
   position?: "left" | "right" | "top" | "bottom";
   open?: boolean;
   children?: ReactNode;
@@ -17,7 +17,7 @@ type Props = {
   footerClassName?: string;
   onExitComplete?: () => void;
   restoreFocus?: boolean;
-};
+}
 
 const backdropVariants = { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } };
 const dialogVariantsLeft = { hidden: { x: "-100%" }, visible: { x: "0%" }, exit: { x: "-100%" } };
@@ -37,7 +37,7 @@ export default function Drawer({
   footerClassName,
   onExitComplete,
   restoreFocus,
-}: Props) {
+}: DrawerProps) {
   const headerClasses = clsx("drawer-header", headerClassName);
   const bodyClasses = clsx("drawer-body", bodyClassName);
   const footerClasses = clsx("drawer-footer", footerClassName);

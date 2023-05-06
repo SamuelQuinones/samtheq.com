@@ -1,8 +1,10 @@
 import { redirect } from "next/navigation";
 
-type Params = Record<"params", { slug?: string[] }>;
+interface Context {
+  params: { slug?: string[] };
+}
 
-export async function GET(req: Request, { params }: Params) {
+export async function GET(req: Request, { params }: Context) {
   const slug = (params.slug || []).join("/");
 
   redirect(`${process.env.NEXT_PUBLIC_BLOG_URL}/${slug}`);

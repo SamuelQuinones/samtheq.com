@@ -8,17 +8,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
 
-type NavLinkProps = {
+interface NavLinkProps {
   highlightNested?: boolean;
   to: string;
   children?: ReactNode;
-};
+}
 
-type DropLinkProps = {
+interface DropLinkProps {
   label: string;
   id: string;
   children: ReactNode;
-};
+}
 
 export function NavLink({ to, highlightNested, children }: NavLinkProps) {
   const pathname = usePathname();

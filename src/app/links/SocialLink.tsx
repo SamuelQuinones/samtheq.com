@@ -8,9 +8,9 @@ import { m } from "framer-motion";
 
 const Button = m(BaseButton);
 
-type SocialLinkProps = Pick<SocialLink, "title" | "target" | "redirect"> & {
+interface SocialLinkProps extends Pick<SocialLink, "title" | "target" | "redirect"> {
   icon: IconDefinition;
-};
+}
 
 export default function SocialLink({ title, target, redirect, icon }: SocialLinkProps) {
   return (

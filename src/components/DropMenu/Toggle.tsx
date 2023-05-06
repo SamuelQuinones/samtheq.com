@@ -5,9 +5,9 @@ import { useDropdownToggle } from "@restart/ui/DropdownToggle";
 import type { DynamicRefForwardingComponent } from "@restart/ui/types";
 import { type ElementType, forwardRef, type HTMLAttributes, useCallback } from "react";
 
-type DropmenuToggleProps = HTMLAttributes<HTMLElement> & {
+interface DropmenuToggleProps extends HTMLAttributes<HTMLElement> {
   as?: ElementType;
-};
+}
 
 const DropmenuToggle: DynamicRefForwardingComponent<"button", DropmenuToggleProps> = forwardRef<
   HTMLElement,
@@ -24,4 +24,5 @@ const DropmenuToggle: DynamicRefForwardingComponent<"button", DropmenuToggleProp
   );
   return <Component {...toggleProps} {...props} onClick={handleClick} ref={newRef} />;
 });
+
 export default DropmenuToggle;

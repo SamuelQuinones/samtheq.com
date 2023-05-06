@@ -16,14 +16,17 @@ import {
   useContext,
 } from "react";
 
-type PrepareModalArgs = { additionalInfo: string[]; title: string };
+interface PrepareModalArgs {
+  additionalInfo: string[];
+  title: string;
+}
 
-type TimelineContextValue = {
+interface TimelineContextValue {
   registerCategory: (c: string) => void;
-  prepareModal: (args: PrepareModalArgs) => void;
-};
+  prepareModal: (args: { additionalInfo: string[]; title: string }) => void;
+}
 
-type TimelineItemProps = {
+interface TimelineItemProps {
   contentClassName: string;
   arrowClassName: string;
   icon: IconDefinition;
@@ -34,7 +37,7 @@ type TimelineItemProps = {
   expType: string;
   startDate: string;
   endDate: string | null;
-};
+}
 
 const TimelineContext = createContext<TimelineContextValue | null>(null);
 
@@ -71,7 +74,7 @@ export function TimelineContainer({ children }: { children: ReactNode }) {
       }),
     []
   );
-  //? Does this need to be memozied?
+
   const timelineValue = useMemo(
     () => ({ registerCategory, prepareModal }),
     [prepareModal, registerCategory]

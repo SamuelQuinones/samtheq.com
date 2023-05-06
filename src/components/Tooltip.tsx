@@ -29,7 +29,7 @@ type MouseEvents = {
     : never;
 }[keyof GlobalEventHandlersEventMap];
 
-type TooltipProps = {
+interface TooltipProps {
   children: ReactNode;
   tooltipText: string;
   placement?: Placement;
@@ -41,11 +41,11 @@ type TooltipProps = {
   rootCloseDisabled?: boolean;
   rootCloseEvent?: MouseEvents;
   usePortal?: boolean;
-};
+}
 
-type MaybePortalProps = {
+interface MaybePortalProps extends PortalProps {
   usePortal: boolean;
-} & PortalProps;
+}
 
 // Simple implementation of mouseEnter and mouseLeave.
 // React's built version is broken: https://github.com/facebook/react/issues/4251

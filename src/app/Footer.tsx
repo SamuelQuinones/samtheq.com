@@ -4,11 +4,11 @@ import { faGithub, faLinkedinIn, faTwitter, faYoutube } from "@fortawesome/free-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
-type FooterIconProps = {
+interface FooterIconProps {
   icon: IconDefinition;
   title: string;
   url: string;
-};
+}
 
 function FooterIcon({ icon, title, url }: FooterIconProps) {
   return (

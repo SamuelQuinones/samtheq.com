@@ -1,15 +1,16 @@
 "use client";
+
 import clsx from "clsx";
-import { useButtonProps, type ButtonProps } from "@restart/ui/Button";
+import { useButtonProps, type ButtonProps as RRButtonProps } from "@restart/ui/Button";
 import { forwardRef } from "react";
 
-interface Props extends ButtonProps {
+interface ButtonProps extends RRButtonProps {
   variant?: string;
   outline?: boolean;
   shape?: "pill" | "square" | "default";
 }
 
-const Button = forwardRef<HTMLElement, Props>(
+const Button = forwardRef<HTMLElement, ButtonProps>(
   (
     {
       as: asProp,
@@ -40,7 +41,5 @@ const Button = forwardRef<HTMLElement, Props>(
     return <Component {...props} {...buttonProps} className={classes} ref={ref} />;
   }
 );
-
-Button.displayName = "Button";
 
 export default Button;

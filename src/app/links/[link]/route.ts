@@ -1,9 +1,13 @@
 import { prisma } from "@/lib/Prisma/db";
 import { notFound, redirect } from "next/navigation";
 
+interface Context {
+  params: { link?: string };
+}
+
 export const dynamicParams = true;
 
-export async function GET(req: Request, { params }: { params: { link?: string } }) {
+export async function GET(req: Request, { params }: Context) {
   const link = params.link;
   // eslint-disable-next-line eqeqeq
   if (link == undefined) return notFound();

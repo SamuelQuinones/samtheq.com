@@ -4,23 +4,78 @@ import Button from "@/components/Button";
 import Drawer from "@/components/Drawer";
 import Modal from "@/components/Modal";
 import { useBreakpoints, useIsomorphicLayoutEffect } from "@/hooks";
+import { fetcherGET } from "@/lib/SWR/fetcher";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import type { UpdateFeed } from "@prisma/client";
 import { format } from "date-fns";
 import { AnimatePresence, m } from "framer-motion";
 import { useState, useCallback, useRef, useContext, createContext, useMemo, Fragment } from "react";
-import useUpdateFeed from "./use-update-feed";
+import useSWRInfinite from "swr/infinite";
 
-type UpdateItemProps = {
-  title: string;
-  message: string;
-  link?: string;
-  feedDate: string;
+//#region FetchData
+type Updates = Omit<
+  UpdateFeed,
+  | "preview_text"
+  | "check_it_out_link"
+  | "inactive_timestamp"
+  | "active"
+  | "preview_text"
+  | "update_card_time"
+> & {
+  preview_text?: string;
+  check_it_out_link?: string;
+  update_card_time: string;
 };
 
-type UpdateContextValue = {
+interface UpdateFeedResponse {
+  nextCursor?: number;
+  count: number;
+  total: number;
+  updates: Updates[];
+}
+
+function getKey(index: number, previousPageData: UpdateFeedResponse | null) {
+  // reached the end
+  if (previousPageData && !previousPageData.nextCursor) return null;
+  // first page, we don't have `previousPageData`
+  if (index === 0) return "/api/update-feed";
+  // add the cursor to the API endpoint
+  return `/api/update-feed?limit=10&cursor=${previousPageData?.nextCursor}`;
+}
+
+function useUpdateFeed<E = { message: string }>() {
+  const { data, error, setSize, mutate, isValidating, isLoading, size } = useSWRInfinite<
+    UpdateFeedResponse,
+    E
+  >(getKey, fetcherGET);
+  const isEmpty = data?.[0].updates.length === 0;
+  const isRefreshing = isValidating && data && data.length === size;
+
+  return {
+    mutate,
+    setSize,
+    total: data?.[0]?.total || 0,
+    isRefreshing,
+    isReachingEnd: isEmpty || (data && !data[data.length - 1]?.nextCursor),
+    isLoadingInitialData: !data && !error && isLoading,
+    isLoadingMore: isLoading || (size > 0 && data && typeof data[size - 1] === "undefined"),
+    initialUpdates: data?.[0]?.updates,
+    additionalUpdates:
+      data
+        ?.slice(1)
+        ?.map(({ updates }) => updates)
+        .flat() ?? [],
+    isError: error,
+  };
+}
+//#endregion FetchData
+
+//#region Updatecontext
+interface UpdateContextValue {
   prepareMessage: (msg: string) => void;
-};
+}
+
 const UpdateContext = createContext<UpdateContextValue | null>(null);
 
 const useUpdateCard = () => {
@@ -31,64 +86,17 @@ const useUpdateCard = () => {
     return context as UpdateContextValue;
   }
 };
+//#endregion UpdateContext
 
-const opacityVariants = { hidden: { opacity: 0 }, show: { opacity: 1 } };
+//#region UpdateFeedItem
+interface UpdateItemProps {
+  title: string;
+  message: string;
+  link?: string;
+  feedDate: string;
+}
 
 const cardVariants = { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0 } };
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.5 } },
-};
-
-const LoadingSkeleton = () => (
-  <div className="mb-3 mt-16 w-full">
-    <section className="mb-4 flex w-full animate-pulse items-center justify-between px-3">
-      <h2 className="w-1/6 text-xl">
-        <span className="inline-block min-h-[1em] w-full cursor-wait bg-current align-middle opacity-50" />
-      </h2>
-      <button
-        tabIndex={-1}
-        disabled
-        className="btn btn-info inline-block min-h-[1em] w-1/6 cursor-wait bg-current align-middle opacity-50 before:inline-block before:content-['']"
-        aria-hidden="true"
-      />
-    </section>
-    <section className="grid grid-cols-1 gap-5 md:grid-cols-3">
-      {[...Array(3)].map((_, i) => (
-        <div
-          key={i}
-          className="rounded-md border border-black border-opacity-5 bg-gray-900 p-4 text-white shadow-md"
-        >
-          <div className="flex animate-pulse flex-col justify-between">
-            <h4 className="mb-2">
-              <span className="inline-block min-h-[1em] w-1/2 cursor-wait bg-current align-middle opacity-50" />
-            </h4>
-            <p className="line-clamp-2">
-              <span className="inline-block min-h-[1em] w-7/12 cursor-wait bg-current align-middle opacity-50" />{" "}
-              <span className="inline-block min-h-[1em] w-1/3 cursor-wait bg-current align-middle opacity-50" />{" "}
-              <span className="inline-block min-h-[1em] w-1/4 cursor-wait bg-current align-middle opacity-50" />{" "}
-              <span className="inline-block min-h-[1em] w-1/4 cursor-wait bg-current align-middle opacity-50" />{" "}
-              <span className="inline-block min-h-[1em] w-1/3 cursor-wait bg-current align-middle opacity-50" />
-            </p>
-            <div className="-m-4 mt-4 flex justify-end rounded-b-md px-4 py-2">
-              <button
-                tabIndex={-1}
-                disabled
-                className="btn btn-primary inline-block min-h-[1em] w-1/3 cursor-wait bg-current align-middle opacity-50 before:inline-block before:content-['']"
-                aria-hidden="true"
-              />
-            </div>
-            <p className="-m-2 mb-1 mt-4">
-              <span className="inline-block min-h-[1em] w-1/5 cursor-wait bg-current align-middle opacity-50" />{" "}
-              <span className="inline-block min-h-[1em] w-1/5 cursor-wait bg-current align-middle opacity-50" />
-            </p>
-          </div>
-        </div>
-      ))}
-    </section>
-  </div>
-);
 
 export function UpdateFeedItem({ title, message, link, feedDate }: UpdateItemProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -135,6 +143,15 @@ export function UpdateFeedItem({ title, message, link, feedDate }: UpdateItemPro
     </m.div>
   );
 }
+//#endregion UpdateFeedItem
+
+//#region UpdateFeedContainer
+const opacityVariants = { hidden: { opacity: 0 }, show: { opacity: 1 } };
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.5 } },
+};
 
 export default function UpdateFeedContainer() {
   const [message, setMessage] = useState("");
@@ -183,6 +200,7 @@ export default function UpdateFeedContainer() {
       >
         {message}
       </Modal>
+      {/* Main Three Cards */}
       <AnimatePresence mode="wait">
         {isError && !initialUpdates && (
           <m.div
@@ -198,7 +216,54 @@ export default function UpdateFeedContainer() {
             <p>{isError.message}</p>
           </m.div>
         )}
-        {isLoadingInitialData && <LoadingSkeleton key="loading-initial-updates" />}
+        {isLoadingInitialData && (
+          <div key="loading-initial-updates" className="mb-3 mt-16 w-full">
+            <section className="mb-4 flex w-full animate-pulse items-center justify-between px-3">
+              <h2 className="w-1/6 text-xl">
+                <span className="inline-block min-h-[1em] w-full cursor-wait bg-current align-middle opacity-50" />
+              </h2>
+              <button
+                tabIndex={-1}
+                disabled
+                className="btn btn-info inline-block min-h-[1em] w-1/6 cursor-wait bg-current align-middle opacity-50 before:inline-block before:content-['']"
+                aria-hidden="true"
+              />
+            </section>
+            <section className="grid grid-cols-1 gap-5 md:grid-cols-3">
+              {[...Array(3)].map((_, i) => (
+                <div
+                  key={i}
+                  className="rounded-md border border-black border-opacity-5 bg-gray-900 p-4 text-white shadow-md"
+                >
+                  <div className="flex animate-pulse flex-col justify-between">
+                    <h4 className="mb-2">
+                      <span className="inline-block min-h-[1em] w-1/2 cursor-wait bg-current align-middle opacity-50" />
+                    </h4>
+                    <p className="line-clamp-2">
+                      <span className="inline-block min-h-[1em] w-7/12 cursor-wait bg-current align-middle opacity-50" />{" "}
+                      <span className="inline-block min-h-[1em] w-1/3 cursor-wait bg-current align-middle opacity-50" />{" "}
+                      <span className="inline-block min-h-[1em] w-1/4 cursor-wait bg-current align-middle opacity-50" />{" "}
+                      <span className="inline-block min-h-[1em] w-1/4 cursor-wait bg-current align-middle opacity-50" />{" "}
+                      <span className="inline-block min-h-[1em] w-1/3 cursor-wait bg-current align-middle opacity-50" />
+                    </p>
+                    <div className="-m-4 mt-4 flex justify-end rounded-b-md px-4 py-2">
+                      <button
+                        tabIndex={-1}
+                        disabled
+                        className="btn btn-primary inline-block min-h-[1em] w-1/3 cursor-wait bg-current align-middle opacity-50 before:inline-block before:content-['']"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <p className="-m-2 mb-1 mt-4">
+                      <span className="inline-block min-h-[1em] w-1/5 cursor-wait bg-current align-middle opacity-50" />{" "}
+                      <span className="inline-block min-h-[1em] w-1/5 cursor-wait bg-current align-middle opacity-50" />
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </section>
+          </div>
+        )}
         {initialUpdates && (
           <Fragment key="initial-updates">
             <m.section
@@ -241,6 +306,7 @@ export default function UpdateFeedContainer() {
           </Fragment>
         )}
       </AnimatePresence>
+      {/* Feed History */}
       <Drawer
         headerClassName="z-10"
         header={<h1 className="max text-center text-xl">Update Feed History</h1>}
@@ -305,3 +371,4 @@ export default function UpdateFeedContainer() {
     </UpdateContext.Provider>
   );
 }
+//#endregion UpdateFeedContainer

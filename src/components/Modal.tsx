@@ -20,7 +20,7 @@ const dialogVariants = {
   exit: { opacity: 0, y: "-10vh" },
 };
 
-type Props = {
+interface ModalProps {
   open?: boolean;
   handleClose?: () => void;
   header?: ReactNode;
@@ -29,7 +29,7 @@ type Props = {
   footer?: ReactNode;
   footerClassName?: string;
   children?: ReactNode;
-};
+}
 
 export default function Modal({
   open,
@@ -40,7 +40,7 @@ export default function Modal({
   headerClassName,
   bodyClassName,
   footerClassName,
-}: Props) {
+}: ModalProps) {
   const waitingForMouseUpRef = useRef(false);
   const ignoreBackdropClickRef = useRef(false);
   const modal = useRef<ModalInstance>();
