@@ -26,6 +26,12 @@ const SEO: Metadata = {
       url: "/favicon.ico",
       type: "image/x-icon",
     },
+    {
+      rel: "apple-touch-icon",
+      url: "/apple-touch-icon.png",
+      sizes: "180x180",
+      type: "image/png",
+    },
   ],
   description,
   twitter: {
