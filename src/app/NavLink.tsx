@@ -6,9 +6,9 @@ import clsx from "clsx";
 import { m } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { type HTMLAttributes, useState, type ReactNode } from "react";
 
-interface NavLinkProps {
+interface NavLinkProps extends HTMLAttributes<HTMLElement> {
   highlightNested?: boolean;
   to: string;
   children?: ReactNode;
@@ -20,12 +20,12 @@ interface DropLinkProps {
   children: ReactNode;
 }
 
-export function NavLink({ to, highlightNested, children }: NavLinkProps) {
+export function NavLink({ to, highlightNested, children, className, ...rest }: NavLinkProps) {
   const pathname = usePathname();
   const isActive = highlightNested ? `/${pathname.split("/")[1]}` === to : pathname === to;
-  const classList = clsx("nav-link", { active: isActive });
+  const classList = clsx("nav-link", { active: isActive }, className);
   return (
-    <Link href={to} className={classList}>
+    <Link {...rest} href={to} className={classList}>
       {children}
     </Link>
   );
@@ -47,10 +47,10 @@ const defaultTransition = { type: "tween", duration: 0.15 };
 /**
  * @example
  * <DropLink id="drop-link-one" label="Projects">
- *  <DropmenuItem as={NavLink} href="/code">
+ *  <DropmenuItem as={NavLink} to="/code">
  *    Code
  *  </DropmenuItem>
- *  <DropmenuItem as={NavLink} href="/video">
+ *  <DropmenuItem as={NavLink} to="/video">
  *    Video
  *  </DropmenuItem>
  * </DropLink>
@@ -64,9 +64,9 @@ export function DropLink({ children, id, label }: DropLinkProps) {
   const transition = isLarge ? defaultTransition : smallTransition;
 
   return (
-    <div className="relative">
+    <div className="nav-item relative">
       <Dropdown show={show} onToggle={(nextShow) => setShow(nextShow)} placement="bottom-end">
-        <DropmenuToggle role="button" className="nav-link drop-toggle items-center gap-1" id={id}>
+        <DropmenuToggle id={id} className="nav-link drop-toggle items-center gap-1">
           <span>{label}</span>
           <span className="text-xs">&#9660;</span>
         </DropmenuToggle>

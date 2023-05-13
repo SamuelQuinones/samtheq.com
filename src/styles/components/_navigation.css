@@ -2,17 +2,14 @@
   @apply my-1 flex whitespace-nowrap rounded p-2 text-white text-opacity-80 transition-colors focus-within:text-opacity-100 hover:bg-gray-800 active:text-opacity-100 hocus:text-white hocus:text-opacity-100 sm:mx-0.5 sm:my-0;
 }
 
-.nav-link.active {
-  @apply font-semibold text-opacity-100;
-}
-
-.nav-link.drop-toggle + .popper-nav-menu .nav-link {
-  @apply m-0 rounded-none py-1 active:bg-info-700 hocus:bg-gray-600 md:justify-center;
-}
-.nav-link.drop-toggle + .popper-nav-menu .nav-link.active {
-  @apply bg-info-700;
-}
-
+.nav-link.active,
 .nav-link.drop-toggle:has(+ .popper-nav-menu .nav-link.active) {
   @apply font-semibold text-opacity-100;
+}
+
+.nav-item .drop-toggle + .popper-nav-menu .nav-link {
+  @apply m-0 rounded-none py-1 active:bg-info-700 hocus:bg-gray-600 md:justify-center;
+}
+.nav-item .drop-toggle + .popper-nav-menu .nav-link.active {
+  @apply bg-info-700;
 }
