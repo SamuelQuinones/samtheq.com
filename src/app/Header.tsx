@@ -103,8 +103,11 @@ export default function Header() {
           <NavLink to="/experience">Experience</NavLink>
           <NavLink to="/blog">Blog</NavLink>
           <DropLink id="content-drop-down" label="Projects">
-            <DropmenuItem className="nav-link w-full hocus:!bg-transparent hocus:!text-opacity-80">
-              Coming Soon...
+            <DropmenuItem as={NavLink} to="/code">
+              Code
+            </DropmenuItem>
+            <DropmenuItem as={NavLink} to="/media">
+              Media
             </DropmenuItem>
           </DropLink>
         </section>
