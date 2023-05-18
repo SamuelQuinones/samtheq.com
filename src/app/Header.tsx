@@ -1,7 +1,5 @@
 "use client";
 
-//TODO: Reset Focus
-
 import { useIsomorphicLayoutEffect, useOutsideClick } from "@/hooks";
 import { useState, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";

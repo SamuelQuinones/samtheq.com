@@ -1,5 +1,3 @@
-// TODO: Look into loading ui via loading.tsx
-
 import { mergeMetadata } from "@/lib/NextJS/metadata";
 import { prisma } from "@/lib/Prisma/db";
 import { format } from "date-fns";
