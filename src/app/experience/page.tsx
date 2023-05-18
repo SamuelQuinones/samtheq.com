@@ -12,7 +12,7 @@ import { TimelineContainer, TimelineItem } from "./Timeline";
 async function getExperienceItems() {
   const [lastUpdated, history] = await Promise.all([
     //* last Updated
-    prisma.experienceHistory.findFirst({
+    prisma.experienceHistory.findFirstOrThrow({
       where: { active: true },
       select: { modified_timestamp: true },
       orderBy: { modified_timestamp: "desc" },
@@ -39,7 +39,7 @@ async function getExperienceItems() {
   }
 
   return {
-    lastUpdated: lastUpdated?.modified_timestamp || new Date(),
+    lastUpdated: lastUpdated.modified_timestamp,
     error: false,
     experienceItems: history.map(({ additional_info, ...rest }) => ({
       ...rest,

@@ -49,7 +49,7 @@ async function getAllLinks() {
       },
       where: { active: true },
     }),
-    prisma.socialLink.findFirst({
+    prisma.socialLink.findFirstOrThrow({
       orderBy: { modified_timestamp: "desc" },
       select: { modified_timestamp: true },
       where: { active: true },
@@ -68,7 +68,7 @@ async function getAllLinks() {
     })
   );
 
-  return { lastUpdated: lastUpdated?.modified_timestamp || new Date(), socialLinks };
+  return { lastUpdated: lastUpdated.modified_timestamp, socialLinks };
 }
 
 export const revalidate = 0; //* ensures page is always dynamically rendered

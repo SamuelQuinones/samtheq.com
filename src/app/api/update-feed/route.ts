@@ -29,6 +29,7 @@ export async function GET(req: Request) {
       prisma.updateFeed.count({
         where: { active: true },
       }),
+      //? Can / should this be a findFirstOrThrow ?
       prisma.updateFeed.findFirst({
         orderBy: { ID: "asc" },
         select: { ID: true },

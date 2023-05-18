@@ -7,23 +7,19 @@ interface Context {
 
 export const dynamicParams = true;
 
+/**
+ * May 18th 2023
+ * For some reason this function doesnt work with a normal try catch
+ */
 export async function GET(req: Request, { params }: Context) {
   const link = params.link;
   // eslint-disable-next-line eqeqeq
   if (link == undefined) return notFound();
 
   const SOCIAL_LINK = await prisma.socialLink
-    .findFirst({
-      where: {
-        redirect: link,
-        active: true,
-        NOT: { redirect: null }, //? Possibly redundant
-      },
-      select: {
-        title: true,
-        target: true,
-        redirect: true,
-      },
+    .findFirstOrThrow({
+      where: { redirect: link, active: true },
+      select: { target: true },
     })
     .catch(() => null);
   if (SOCIAL_LINK === null) return notFound();
