@@ -44,8 +44,8 @@ export default function Drawer({
   const dialogClasses = clsx("drawer-dialog", {
     "left-0": position === "left",
     "right-0": position === "right",
-    "bottom-auto top-0 dir-vertical": position === "top",
-    "top-auto bottom-0 dir-vertical": position === "bottom",
+    "dir-vertical bottom-auto top-0": position === "top",
+    "dir-vertical top-auto": position === "bottom",
   });
   //? Should this be memoized
   const dialogVariants =

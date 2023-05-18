@@ -160,7 +160,7 @@ export default function Tooltip({
 
   const arrowClasses = clsx(
     "tooltip-arrow invisible absolute z-[-1] h-3 w-3 bg-inherit",
-    "before:visible before:absolute before:top-0 before:left-0 before:h-3 before:w-3 before:rotate-45 before:bg-inherit"
+    "before:visible before:absolute before:left-0 before:top-0 before:h-3 before:w-3 before:rotate-45 before:bg-inherit"
   );
 
   const tooltipClasses = clsx(
