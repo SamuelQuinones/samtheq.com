@@ -16,7 +16,7 @@ export default function ExperienceFooter() {
         whileFocus={{ scale: 1.03 }}
         shape="square"
         variant="blue"
-        className="flex justify-center gap-x-1 py-3 text-center text-xl"
+        className="flex justify-center gap-x-1 py-3 text-xl"
         href="/SamuelQuinonesResume.pdf"
         target="_blank"
         //@ts-expect-error component doesn't allow this but it does exist
@@ -33,7 +33,7 @@ export default function ExperienceFooter() {
         whileFocus={{ scale: 1.03 }}
         shape="square"
         variant="secondary"
-        className="flex justify-center gap-x-1 py-3 text-center text-xl"
+        className="flex justify-center gap-x-1 py-3 text-xl"
         href="/SamuelQuinonesResume.pdf"
         target="_blank"
       >
