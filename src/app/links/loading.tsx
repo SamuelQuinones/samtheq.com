@@ -4,7 +4,10 @@ const NUM_LOADERS = 5;
 
 export default function LinksLoading() {
   return (
-    <main id="stq-page-content" className="bs-container-md mt-16 max-w-2xl grow scroll-mt-16">
+    <main
+      id="stq-page-content"
+      className="bs-container-md mt-16 w-full max-w-2xl grow scroll-mt-16"
+    >
       <LinkHeader lastUpdated="loading..." />
       <ul className="grid grid-cols-1 gap-y-5 py-2">
         {[...Array(NUM_LOADERS)].map((_, i) => (
