@@ -64,7 +64,7 @@ export const metadata = mergeMetadata({
 export default async function Experience() {
   const { lastUpdated, error, experienceItems } = await getExperienceItems();
   return (
-    <main id="stq-page-content" className="bs-container-md mt-16 grow scroll-mt-16">
+    <main id="stq-page-content" className="bs-container-md mt-16 w-full grow scroll-mt-16">
       <ExperienceHeader lastUpdated={format(lastUpdated, "MMMM do yyyy")} />
       {error && (
         <div className="my-10 text-xl md:text-center lg:text-2xl">

@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <main
       id="stq-page-content"
-      className="bs-container-lg mt-16 flex grow scroll-mt-16 flex-col items-center justify-center"
+      className="bs-container-lg mt-16 flex w-full grow scroll-mt-16 flex-col items-center justify-center"
     >
       <h1 className="text-center text-3xl sm:text-4xl md:text-6xl">Samuel Quinones</h1>
       <div className="relative my-12 inline-block h-56 w-56 rounded-full border-2">

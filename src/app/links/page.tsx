@@ -88,7 +88,10 @@ export const metadata = mergeMetadata({
 export default async function Links() {
   const { socialLinks, lastUpdated } = await getAllLinks();
   return (
-    <main id="stq-page-content" className="bs-container-md mt-16 max-w-2xl grow scroll-mt-16">
+    <main
+      id="stq-page-content"
+      className="bs-container-md mt-16 w-full max-w-2xl grow scroll-mt-16"
+    >
       <LinkHeader lastUpdated={format(lastUpdated, "MMMM do, yyyy")} />
       {socialLinks.length === 0 ? (
         <p className="text-center text-lg">Unable to get list of links, please try again later.</p>

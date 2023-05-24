@@ -16,7 +16,7 @@ export default function Notfound() {
   return (
     <main
       id="stq-page-content"
-      className="bs-container-md mt-16 flex grow scroll-mt-16 flex-col items-center justify-center"
+      className="bs-container-md mt-16 flex w-full grow scroll-mt-16 flex-col items-center justify-center"
     >
       {/*
         April 7th 2023 - No support for metadata in not-found.tsx yet

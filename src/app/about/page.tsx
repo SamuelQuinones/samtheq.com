@@ -14,7 +14,7 @@ export const metadata = mergeMetadata({
 
 export default function About() {
   return (
-    <main id="stq-page-content" className="bs-container-md mt-16 grow scroll-mt-16">
+    <main id="stq-page-content" className="bs-container-md mt-16 w-full grow scroll-mt-16">
       <h1 className="my-4 text-center text-4xl sm:text-5xl lg:text-6xl">About Me</h1>
       <div className="mx-auto max-w-5xl md:text-xl [&_p]:mb-4">
         <p>

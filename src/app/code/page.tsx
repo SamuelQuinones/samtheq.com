@@ -16,7 +16,7 @@ export const metadata = mergeMetadata({
 
 export default function CodeProjects() {
   return (
-    <main id="stq-page-content" className="bs-container-md mt-16 grow scroll-mt-16">
+    <main id="stq-page-content" className="bs-container-md mt-16 w-full grow scroll-mt-16">
       <h1 className="mb-10 mt-4 text-center text-3xl sm:text-5xl lg:text-6xl">
         Development Projects
       </h1>
