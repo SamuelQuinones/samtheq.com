@@ -5,8 +5,6 @@ interface Context {
   params: { link?: string };
 }
 
-export const dynamicParams = true;
-
 /**
  * May 18th 2023
  * For some reason this function doesnt work with a normal try catch
