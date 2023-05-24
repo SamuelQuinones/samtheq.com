@@ -13,6 +13,8 @@ import { AnimatePresence, m } from "framer-motion";
 import { useState, useCallback, useRef, useContext, createContext, useMemo, Fragment } from "react";
 import useSWRInfinite from "swr/infinite";
 
+const UPDATE_FEED_HOME_AMOUNT = 3;
+
 //#region FetchData
 type Updates = Omit<
   UpdateFeed,
@@ -130,11 +132,22 @@ export function UpdateFeedItem({ title, message, link, feedDate }: UpdateItemPro
         <p className="line-clamp-2">{message}</p>
       </section>
       <section className="flex justify-end gap-2 peer-[&:not(.is-truncated)]:[&_>_:first-child]:invisible">
-        <Button disabled={disabled} onClick={() => prepareMessage(message)}>
+        <Button
+          disabled={disabled}
+          className="overflow-hidden text-ellipsis whitespace-nowrap"
+          onClick={() => prepareMessage(message)}
+        >
           Read More
         </Button>
         {link && (
-          <Button href={link} outline target="_blank" rel="noopener noreferrer" variant="secondary">
+          <Button
+            href={link}
+            outline
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="secondary"
+            className="overflow-hidden text-ellipsis whitespace-nowrap"
+          >
             Check it Out
           </Button>
         )}
@@ -230,7 +243,7 @@ export default function UpdateFeedContainer() {
               />
             </section>
             <section className="grid grid-cols-1 gap-5 md:grid-cols-3">
-              {[...Array(3)].map((_, i) => (
+              {[...Array(UPDATE_FEED_HOME_AMOUNT)].map((_, i) => (
                 <div
                   key={i}
                   className="rounded-md border border-black border-opacity-5 bg-gray-900 p-4 text-white shadow-md"
@@ -280,9 +293,10 @@ export default function UpdateFeedContainer() {
               >
                 <span>View History</span>
                 <FontAwesomeIcon height="16" icon={faClockRotateLeft} />
-                {total - 3 > 0 && (
+                {total - UPDATE_FEED_HOME_AMOUNT > 0 && (
                   <span className="absolute right-0 top-0 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center rounded-full bg-primary-600 px-2 py-1 text-xs/none font-bold">
-                    {total - 3} <span className="sr-only">Additional updates</span>
+                    {total - UPDATE_FEED_HOME_AMOUNT}{" "}
+                    <span className="sr-only">Additional updates</span>
                   </span>
                 )}
               </Button>
