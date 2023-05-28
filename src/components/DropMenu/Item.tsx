@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * May 27th, 2023
+ * Dropdown items only get the active property AUTOMATICALLY from meta if they are children of a restartui Nav.
+ *
+ * The active property comes from the nav context, so either make a child of Nav or pass active manually
+ */
+
 import { useDropdownItem, type DropdownItemProps } from "@restart/ui/DropdownItem";
 import type { DynamicRefForwardingComponent } from "@restart/ui/types";
 import clsx from "clsx";

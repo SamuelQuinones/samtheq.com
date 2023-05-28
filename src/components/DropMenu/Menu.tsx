@@ -1,5 +1,11 @@
 "use client";
 
+/**
+ * May 27th, 2023
+ * Remember that hidden and show states need to be controlled with the show property:
+ * `show && "dropmenu-show"`, where it is display none by default and block when "dropmenu-show" is active
+ */
+
 import { useIsomorphicLayoutEffect, useMergedRef } from "@/hooks";
 import { useDropdownMenu, type UseDropdownMenuOptions } from "@restart/ui/DropdownMenu";
 import type { DynamicRefForwardingComponent } from "@restart/ui/types";
@@ -45,8 +51,16 @@ const DropmenuMenu: DynamicRefForwardingComponent<"div", DropmenuMenuProps> = fo
       if (show) popper?.update();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [show]);
+    let style = props.style;
+    if (popper?.placement) {
+      // we don't need the default popper style,
+      // menus are display: none when not shown.
+      style = { ...props.style, ...menuProps.style };
+      //@ts-expect-error we are manually adding this prop
+      props["x-placement"] = popper.placement;
+    }
     const newRef = useMergedRef(dmRef, ref);
-    return <Component {...props} {...menuProps} ref={newRef} />;
+    return <Component {...props} {...menuProps} style={style} ref={newRef} />;
   }
 );
 
