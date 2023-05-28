@@ -7,9 +7,9 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Template from "./_client";
 import { mergeMetadata } from "@/lib/NextJS/metadata";
-// import { config } from "@fortawesome/fontawesome-svg-core";
+import { config } from "@fortawesome/fontawesome-svg-core";
 
-// config.autoAddCss = false;
+config.autoAddCss = false;
 
 const InterVar = localFont({
   src: [
