@@ -1,6 +1,6 @@
 "use client";
 
-import { ModalInstance } from "@restart/ui/ModalManager";
+import type { ModalInstance } from "@restart/ui/ModalManager";
 import RRModal from "@restart/ui/Modal";
 import clsx from "clsx";
 import { m, AnimatePresence } from "framer-motion";

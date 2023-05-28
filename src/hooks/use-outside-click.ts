@@ -1,6 +1,6 @@
 import { contains } from "@/util/DomHelper";
 import { resolveElement } from "@/util/ReactHelper";
-import { RefObject } from "react";
+import type { RefObject } from "react";
 import useEventListener from "./use-event-listener";
 
 function useOutsideClick<T extends HTMLElement = HTMLElement>(

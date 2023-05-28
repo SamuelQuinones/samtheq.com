@@ -1,4 +1,4 @@
-import { type RefObject } from "react";
+import type { RefObject } from "react";
 
 /**
  * Helper function that will resolve the input arguement to a HTML element if possible
