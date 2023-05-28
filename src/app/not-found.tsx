@@ -1,18 +1,14 @@
 "use client";
 
-/**
- * April 7th 2023 - Next links don't seem to work on not-found pages.
- * For now, utilizing the router's push and back functions, push should be replaced once everything works
- * https://github.com/vercel/next.js/issues/47862
- */
 import Button from "@/components/Button";
 import Tooltip from "@/components/Tooltip";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function Notfound() {
-  const { back, push } = useRouter();
+  const { back } = useRouter();
   return (
     <main
       id="stq-page-content"
@@ -26,7 +22,9 @@ export default function Notfound() {
       <h1 className="text-center text-6xl">404</h1>
       <p className="mt-5 text-center">The page you requested could not be found</p>
       <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <Button onClick={() => push("/")}>Go to the Home Page</Button>
+        <Link href="/" passHref legacyBehavior>
+          <Button data-next-legacy-link="">Go to the Home Page</Button>
+        </Link>
         <Button variant="secondary" onClick={back}>
           Go Back
         </Button>
