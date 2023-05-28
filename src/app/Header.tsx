@@ -96,15 +96,15 @@ export default function Header() {
         </section>
         {/* Content */}
         <section ref={CHILDREN_REF} className="py-2 max-sm:hidden sm:flex sm:p-0">
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/about">About</NavLink>
-          <NavLink to="/experience">Experience</NavLink>
-          <NavLink to="/blog">Blog</NavLink>
+          <NavLink href="/">Home</NavLink>
+          <NavLink href="/about">About</NavLink>
+          <NavLink href="/experience">Experience</NavLink>
+          <NavLink href="/blog">Blog</NavLink>
           <DropLink id="content-drop-down" label="Projects">
-            <DropmenuItem as={NavLink} to="/code">
+            <DropmenuItem as={NavLink} href="/code">
               Code
             </DropmenuItem>
-            <DropmenuItem as={NavLink} to="/media">
+            <DropmenuItem as={NavLink} href="/media">
               Media
             </DropmenuItem>
           </DropLink>

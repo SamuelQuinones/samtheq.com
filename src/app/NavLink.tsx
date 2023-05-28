@@ -10,7 +10,7 @@ import { type HTMLAttributes, useState, type ReactNode } from "react";
 
 interface NavLinkProps extends HTMLAttributes<HTMLElement> {
   highlightNested?: boolean;
-  to: string;
+  href: string;
   children?: ReactNode;
 }
 
@@ -20,7 +20,7 @@ interface DropLinkProps {
   children: ReactNode;
 }
 
-export function NavLink({ to, highlightNested, children, className, ...rest }: NavLinkProps) {
+export function NavLink({ href: to, highlightNested, children, className, ...rest }: NavLinkProps) {
   const pathname = usePathname();
   const isActive = highlightNested ? `/${pathname.split("/")[1]}` === to : pathname === to;
   const classList = clsx("nav-link", { active: isActive }, className);
