@@ -23,7 +23,7 @@ interface PrepareModalArgs {
 
 interface TimelineContextValue {
   registerCategory: (c: string) => void;
-  prepareModal: (args: { additionalInfo: string[]; title: string }) => void;
+  prepareModal: (args: PrepareModalArgs) => void;
 }
 
 interface TimelineItemProps {

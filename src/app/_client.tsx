@@ -13,7 +13,7 @@ config.autoAddCss = false;
 
 const loadFeatures = async () => (await import("../lib/FramerMotion.js")).default;
 
-export default function Template({ children }: { children: React.ReactNode }) {
+export default function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
     <LazyMotion strict features={loadFeatures}>
       {children}

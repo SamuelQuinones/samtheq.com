@@ -5,7 +5,7 @@ import "../styles/globals.css";
 import localFont from "next/font/local";
 import Footer from "./Footer";
 import Header from "./Header";
-import Template from "./_client";
+import ClientLayout from "./_client";
 import { mergeMetadata } from "@/lib/NextJS/metadata";
 import { config } from "@fortawesome/fontawesome-svg-core";
 
@@ -39,11 +39,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${InterVar.variable} ${FiraCode.variable}`}>
       <body>
-        <Template>
+        <ClientLayout>
           <Header />
           {children}
           <Footer />
-        </Template>
+        </ClientLayout>
       </body>
     </html>
   );
