@@ -3,7 +3,6 @@ import { prisma } from "@/lib/Prisma/db";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { format } from "date-fns";
-import LinkHeader from "./Header";
 import SocialLink from "./SocialLink";
 
 /**
@@ -88,11 +87,16 @@ export const metadata = mergeMetadata({
 export default async function Links() {
   const { socialLinks, lastUpdated } = await getAllLinks();
   return (
-    <main
-      id="stq-page-content"
-      className="bs-container-md mt-16 w-full max-w-2xl grow scroll-mt-16"
-    >
-      <LinkHeader lastUpdated={format(lastUpdated, "MMMM do, yyyy")} />
+    <>
+      <section className="mb-4">
+        <h1 className="mb-3 text-center text-2xl">Samuel Quinones' Social Links</h1>
+        <p className="mb-2 text-center">
+          <em className="block">Last updated: {format(lastUpdated, "MMMM do, yyyy")}</em>
+        </p>
+        <p className="text-center">
+          The buttons below will take you to my other social media profiles.
+        </p>
+      </section>
       {socialLinks.length === 0 ? (
         <p className="text-center text-lg">Unable to get list of links, please try again later.</p>
       ) : (
@@ -104,6 +108,6 @@ export default async function Links() {
           ))}
         </ul>
       )}
-    </main>
+    </>
   );
 }

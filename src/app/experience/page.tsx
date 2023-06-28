@@ -2,8 +2,6 @@ import { mergeMetadata } from "@/lib/NextJS/metadata";
 import { prisma } from "@/lib/Prisma/db";
 import { format } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
-import ExperienceFooter from "./Footer";
-import ExperienceHeader from "./Header";
 import { getTheme } from "./theme";
 import { TimelineContainer, TimelineItem } from "./Timeline";
 
@@ -64,8 +62,10 @@ export const metadata = mergeMetadata({
 export default async function Experience() {
   const { lastUpdated, error, experienceItems } = await getExperienceItems();
   return (
-    <main id="stq-page-content" className="bs-container-md mt-16 w-full grow scroll-mt-16">
-      <ExperienceHeader lastUpdated={format(lastUpdated, "MMMM do yyyy")} />
+    <>
+      <div className="my-3 text-center text-lg">
+        <p className="italic">Last updated: {format(lastUpdated, "MMMM do yyyy")}</p>
+      </div>
       {error && (
         <div className="my-10 text-xl md:text-center lg:text-2xl">
           <p className="mb-3">Something went wrong when trying to retrieve information</p>
@@ -85,7 +85,9 @@ export default async function Experience() {
       <TimelineContainer>
         {experienceItems.map((item) => {
           const theme = getTheme(item.exp_type);
+          //? should this happen on the server?
           const startDate = formatInTimeZone(item.start_date, "UTC", "MMMM yyyy");
+          //? should this happen on the server?
           const endDate = item.end_date
             ? formatInTimeZone(item.end_date, "UTC", "MMMM yyyy")
             : null;
@@ -104,7 +106,6 @@ export default async function Experience() {
           );
         })}
       </TimelineContainer>
-      <ExperienceFooter />
-    </main>
+    </>
   );
 }
