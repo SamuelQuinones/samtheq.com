@@ -1,6 +1,7 @@
 "use client";
 
 // TODO: Throttle reset
+// TODO: Show a version of the error, stripped of anything secret
 
 import { useEffect } from "react";
 
