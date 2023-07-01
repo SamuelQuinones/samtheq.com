@@ -3,9 +3,8 @@ const NUM_LOADERS = 5;
 export default function LinksLoading() {
   return (
     <>
-      <section className="mb-4">
-        <h1 className="mb-3 text-center text-2xl">Samuel Quinones' Social Links</h1>
-        <p className="mb-2 text-center">
+      <section className="mb-4 space-y-3">
+        <p className="text-center">
           <em className="block">Loading...</em>
         </p>
       </section>

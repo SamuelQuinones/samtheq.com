@@ -28,15 +28,10 @@ async function getExperienceItems() {
       where: { active: true },
       orderBy: { start_date: "desc" },
     }),
-  ]).catch(() => [null, null] as [null, null]);
-
-  if (lastUpdated === null && history === null) {
-    return { lastUpdated: new Date(), error: true, experienceItems: [] };
-  }
+  ]);
 
   return {
     lastUpdated: lastUpdated.modified_timestamp,
-    error: false,
     experienceItems: history.map(({ additional_info, ...rest }) => ({
       ...rest,
       additional_info: additional_info.map(({ info }) => info),
@@ -60,28 +55,12 @@ export const metadata = mergeMetadata({
 });
 
 export default async function Experience() {
-  const { lastUpdated, error, experienceItems } = await getExperienceItems();
+  const { lastUpdated, experienceItems } = await getExperienceItems();
   return (
     <>
       <div className="my-3 text-center text-lg">
         <p className="italic">Last updated: {format(lastUpdated, "MMMM do yyyy")}</p>
       </div>
-      {error && (
-        <div className="my-10 text-xl md:text-center lg:text-2xl">
-          <p className="mb-3">Something went wrong when trying to retrieve information</p>
-          <p className="mb-3">Said information is still available in my aforementioned resume</p>
-          <p className="mb-3">
-            Please try again later, or{" "}
-            <a
-              href="https://github.com/SamuelQuinones/samtheq.com/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              open a github issue
-            </a>
-          </p>
-        </div>
-      )}
       <TimelineContainer>
         {experienceItems.map((item) => {
           const theme = getTheme(item.exp_type);

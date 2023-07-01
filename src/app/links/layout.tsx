@@ -6,7 +6,8 @@ export default function LinksLayout({ children }: { children: React.ReactNode })
       id="stq-page-content"
       className="bs-container-md mt-16 w-full max-w-2xl grow scroll-mt-16"
     >
-      <section className="pb-1.5">
+      {/* July 1st, 2023 - This was using padding before */}
+      <section className="my-5">
         <Image
           src="/SamuelQuinonesHeadShot.jpeg"
           alt="Samuel Quinones Headshot"
@@ -17,6 +18,7 @@ export default function LinksLayout({ children }: { children: React.ReactNode })
           quality={100}
         />
       </section>
+      <h1 className="mb-3 text-center text-2xl">Samuel Quinones' Social Links</h1>
       {children}
     </main>
   );

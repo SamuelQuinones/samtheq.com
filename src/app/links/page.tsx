@@ -53,9 +53,7 @@ async function getAllLinks() {
       select: { modified_timestamp: true },
       where: { active: true },
     }),
-  ]).catch(() => [null, null] as [null, null]);
-
-  if (LINKS === null && lastUpdated === null) return { lastUpdated: new Date(), socialLinks: [] };
+  ]);
 
   const socialLinks = await Promise.all(
     LINKS.map(async ({ icon_name, icon_prefix, ...rest }) => {
@@ -88,9 +86,8 @@ export default async function Links() {
   const { socialLinks, lastUpdated } = await getAllLinks();
   return (
     <>
-      <section className="mb-4">
-        <h1 className="mb-3 text-center text-2xl">Samuel Quinones' Social Links</h1>
-        <p className="mb-2 text-center">
+      <section className="mb-4 space-y-3">
+        <p className="text-center">
           <em className="block">Last updated: {format(lastUpdated, "MMMM do, yyyy")}</em>
         </p>
         <p className="text-center">
@@ -98,7 +95,7 @@ export default async function Links() {
         </p>
       </section>
       {socialLinks.length === 0 ? (
-        <p className="text-center text-lg">Unable to get list of links, please try again later.</p>
+        <p className="text-center text-lg">Nothing to see here! (yet).</p>
       ) : (
         <ul className="grid grid-cols-1 gap-y-5 py-2">
           {socialLinks.map(({ ID, ...rest }) => (
