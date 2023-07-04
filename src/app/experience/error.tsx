@@ -37,9 +37,6 @@ export default function Error({ error, reset }: ErrorProps) {
         </p>
       </section>
       <hr />
-      <pre className="rounded-md border border-gray-900 bg-gray-800 p-2 text-center">
-        <code>In the future an error message will go here</code>
-      </pre>
     </div>
   );
 }
