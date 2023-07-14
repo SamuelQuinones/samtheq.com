@@ -16,7 +16,7 @@ function useEventListener<K extends keyof DocumentEventMap>(
 ): void;
 function useEventListener<
   K extends keyof HTMLElementEventMap,
-  T extends HTMLElement = HTMLDivElement
+  T extends HTMLElement = HTMLDivElement,
 >(
   element: T | RefObject<T>,
   eventName: K,
@@ -28,7 +28,7 @@ function useEventListener<
   KW extends keyof WindowEventMap,
   KH extends keyof HTMLElementEventMap,
   KD extends keyof DocumentEventMap,
-  T extends HTMLElement
+  T extends HTMLElement,
 >(
   element: "window" | "document" | T | RefObject<T>,
   eventName: KW | KH | KD,
