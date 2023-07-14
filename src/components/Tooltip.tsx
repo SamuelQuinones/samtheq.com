@@ -6,7 +6,7 @@
 import { useMergedRef } from "@/hooks";
 import { contains } from "@/util/DomHelper";
 import mergeOptionsWithPopperConfig from "@restart/ui/mergeOptionsWithPopperConfig";
-import { PortalProps, Portal, useRootClose } from "@restart/ui";
+import { type PortalProps, Portal, useRootClose } from "@restart/ui";
 import usePopper, { type Placement } from "@restart/ui/usePopper";
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";

@@ -1,5 +1,5 @@
 import { resolveElement } from "@/util/ReactHelper";
-import { RefObject, useEffect, useRef } from "react";
+import { type RefObject, useEffect, useRef } from "react";
 import useIsomorphicLayoutEffect from "./use-isomorphic-layout-effect";
 
 function useEventListener<K extends keyof WindowEventMap>(

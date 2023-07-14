@@ -33,6 +33,10 @@ module.exports = {
         ],
         "no-empty-function": "off",
         "@typescript-eslint/no-empty-function": ["warn"],
+        "@typescript-eslint/consistent-type-imports": [
+          "error",
+          { fixStyle: "inline-type-imports" },
+        ],
         "@typescript-eslint/ban-ts-comment": [
           "error",
           {

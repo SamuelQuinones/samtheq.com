@@ -1,4 +1,4 @@
-import { MutableRefObject, Ref, RefCallback, useCallback } from "react";
+import { type MutableRefObject, type Ref, type RefCallback, useCallback } from "react";
 
 /**
  * More efficient version of a mergeRefs function as a hook
