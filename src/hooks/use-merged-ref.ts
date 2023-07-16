@@ -5,8 +5,7 @@ import { type MutableRefObject, type Ref, type RefCallback, useCallback } from "
  */
 function useMergedRef<T = any>(...refs: Ref<T>[]): RefCallback<T> {
   return useCallback((value) => {
-    for (let i = 0; i < refs.length; i++) {
-      const ref = refs[i];
+    for (const ref of refs) {
       if (typeof ref === "function") {
         ref(value);
       } else if (ref && typeof ref === "object") {

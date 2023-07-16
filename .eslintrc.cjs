@@ -23,9 +23,10 @@ module.exports = {
         project: true,
         tsconfigRootDir: __dirname,
       },
-      extends: ["plugin:@typescript-eslint/recommended"],
+      extends: ["plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/stylistic"],
       rules: {
         "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/prefer-for-of": "warn",
         // "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": [
           "warn",
