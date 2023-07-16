@@ -27,13 +27,11 @@ module.exports = {
       rules: {
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/prefer-for-of": "warn",
-        // "no-unused-vars": "off",
+        "@typescript-eslint/no-empty-function": ["warn"],
         "@typescript-eslint/no-unused-vars": [
           "warn",
           { varsIgnorePattern: "^_", argsIgnorePattern: "^_" },
         ],
-        "no-empty-function": "off",
-        "@typescript-eslint/no-empty-function": ["warn"],
         "@typescript-eslint/consistent-type-imports": [
           "error",
           { fixStyle: "inline-type-imports" },
