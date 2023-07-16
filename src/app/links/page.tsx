@@ -4,6 +4,8 @@ import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { format } from "date-fns";
 import SocialLink from "./SocialLink";
+import Image from "next/image";
+import { Suspense } from "react";
 
 /**
  * April 8th 2023
@@ -53,7 +55,9 @@ async function getAllLinks() {
       select: { modified_timestamp: true },
       where: { active: true },
     }),
-  ]);
+  ]).catch(() => [null, null] as [null, null]);
+
+  if (LINKS === null && lastUpdated === null) return { lastUpdated: new Date(), socialLinks: [] };
 
   const socialLinks = await Promise.all(
     LINKS.map(async ({ icon_name, icon_prefix, ...rest }) => {
@@ -68,22 +72,34 @@ async function getAllLinks() {
   return { lastUpdated: lastUpdated.modified_timestamp, socialLinks };
 }
 
-export const revalidate = 0; //* ensures page is always dynamically rendered
+function Skeleton() {
+  return (
+    <>
+      <section className="mb-4 space-y-3">
+        <p className="text-center">
+          <em className="block">Loading...</em>
+        </p>
+      </section>
+      <ul className="grid grid-cols-1 gap-y-5 py-2">
+        {[...Array(5)].map((_, i) => (
+          <li key={i}>
+            <span
+              className="btn btn-primary pointer-events-none flex animate-pulse cursor-wait items-center justify-center gap-x-2 rounded-lg border-2 p-2"
+              style={{ animationDelay: `${i * 0.05}s`, animationDuration: "1s" }}
+            >
+              <span className="inline-block h-6 min-h-[1em] w-6 rounded-full bg-current align-middle opacity-50" />
+              <span className="inline-block h-6 min-h-[1em] w-44 rounded-full bg-current align-middle opacity-50" />
+            </span>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
 
-const title = "Links";
-const description = "A collection of social platform links on which Samuel Quinones is active";
-const canonical = "/links";
-const extra = { title, description, url: canonical };
-export const metadata = mergeMetadata({
-  title,
-  description,
-  alternates: { canonical },
-  openGraph: extra,
-  twitter: extra,
-});
-
-export default async function Links() {
+async function LinkList() {
   const { socialLinks, lastUpdated } = await getAllLinks();
+
   return (
     <>
       <section className="mb-4 space-y-3">
@@ -106,5 +122,47 @@ export default async function Links() {
         </ul>
       )}
     </>
+  );
+}
+
+export const revalidate = 0; //* ensures page is always dynamically rendered
+
+const title = "Links";
+const description = "A collection of social platform links on which Samuel Quinones is active";
+const canonical = "/links";
+const extra = { title, description, url: canonical };
+export const metadata = mergeMetadata({
+  title,
+  description,
+  alternates: { canonical },
+  openGraph: extra,
+  twitter: extra,
+});
+
+export default async function Links() {
+  return (
+    <main
+      id="stq-page-content"
+      className="bs-container-md mt-16 w-full max-w-2xl grow scroll-mt-16"
+    >
+      {/* July 1st, 2023 - This was using padding before */}
+      <section className="my-5">
+        <Image
+          src="/SamuelQuinonesHeadShot.jpeg"
+          alt="Samuel Quinones Headshot"
+          height={120}
+          width={120}
+          className="mx-auto rounded-full"
+          priority
+          quality={100}
+        />
+      </section>
+      <h1 className="mb-3 text-center text-2xl">Samuel Quinones' Social Links</h1>
+
+      <Suspense fallback={<Skeleton />}>
+        {/* @ts-expect-error react server component */}
+        <LinkList />
+      </Suspense>
+    </main>
   );
 }
