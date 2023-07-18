@@ -34,12 +34,9 @@ async function getExperienceItems() {
     //* unique exp types
     prisma.experienceHistory.groupBy({
       by: ["exp_type"],
-      _count: {
-        exp_type: true,
-      },
-      orderBy: {
-        exp_type: "asc",
-      },
+      where: { active: true },
+      _count: { exp_type: true },
+      orderBy: { exp_type: "asc" },
     }),
   ]).catch(() => [null, null, null] as [null, null, null]);
 
