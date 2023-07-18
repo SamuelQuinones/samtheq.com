@@ -139,7 +139,7 @@ export const metadata = mergeMetadata({
   twitter: extra,
 });
 
-export default async function Links() {
+export default function Links() {
   return (
     <main
       id="stq-page-content"
