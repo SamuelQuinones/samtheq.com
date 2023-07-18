@@ -49,6 +49,7 @@ async function getExperienceItems() {
 
   return {
     lastUpdated: lastUpdated.modified_timestamp,
+    // TODO: Use this to replace the register category function
     experienceTypes: experienceTypes.map(({ exp_type, _count }) => ({
       exp_type,
       count: _count.exp_type,
