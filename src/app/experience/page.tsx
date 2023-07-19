@@ -3,7 +3,8 @@ import { prisma } from "@/lib/Prisma/db";
 import { format } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import { getTheme } from "./theme";
-import { TimelineContainer, TimelineItem } from "./Timeline";
+// July 18th 2023, dynamic import doesnt seemed to be working with named exports
+import { TimelineContainer, TimelineFilter, TimelineItem } from "./Timeline";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload, faRotate } from "@fortawesome/free-solid-svg-icons";
 import { Suspense } from "react";
@@ -41,12 +42,11 @@ async function getExperienceItems() {
   ]).catch(() => [null, null, null] as [null, null, null]);
 
   if (lastUpdated === null && history === null && experienceTypes === null) {
-    return { error: true as const };
+    return { lastUpdated: new Date(), experienceTypes: [], experienceItems: [] };
   }
 
   return {
     lastUpdated: lastUpdated.modified_timestamp,
-    // TODO: Use this to replace the register category function
     experienceTypes: experienceTypes.map(({ exp_type, _count }) => ({
       exp_type,
       count: _count.exp_type,
@@ -74,55 +74,47 @@ function Skeleton() {
 }
 
 async function ExperienceTimeline() {
-  const { lastUpdated, experienceItems, error } = await getExperienceItems();
-  return error ? (
-    <div className="my-10 space-y-4">
-      <section className="space-y-4 text-xl md:text-center">
-        <p>Something went wrong when trying to retrieve information</p>
-        <p>Said information is still available in my aforementioned resume</p>
-        <p>
-          Please try again later, or{" "}
-          <a
-            className="text-blue-500 hocus:text-blue-700"
-            href="https://github.com/SamuelQuinones/samtheq.com/issues"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            open a github issue
-          </a>
-        </p>
-      </section>
-      <hr />
-    </div>
-  ) : (
+  const { lastUpdated, experienceItems, experienceTypes } = await getExperienceItems();
+  return (
     <>
-      <div className="my-3 text-center text-lg">
-        <p className="italic">Last updated: {format(lastUpdated, "MMMM do yyyy")}</p>
-      </div>
-      <TimelineContainer>
-        {experienceItems.map((item) => {
-          const theme = getTheme(item.exp_type);
-          //? should this happen on the server?
-          const startDate = formatInTimeZone(item.start_date, "UTC", "MMMM yyyy");
-          //? should this happen on the server?
-          const endDate = item.end_date
-            ? formatInTimeZone(item.end_date, "UTC", "MMMM yyyy")
-            : null;
-          return (
-            <TimelineItem
-              {...theme}
-              expType={item.exp_type}
-              description={item.description}
-              title={item.signifier}
-              additionalInfo={item.additional_info}
-              place={item.place}
-              startDate={startDate}
-              endDate={endDate}
-              key={`${item.exp_type}${item.ID}`}
-            />
-          );
-        })}
-      </TimelineContainer>
+      <p className="my-3 text-center text-lg italic">
+        Last updated: {format(lastUpdated, "MMMM do yyyy")}
+      </p>
+      {experienceItems.length === 0 ? (
+        <p className="my-3 text-center text-lg">
+          Timeline not available, please be sure to see my resume!
+        </p>
+      ) : (
+        <TimelineContainer>
+          <TimelineFilter experienceTypes={experienceTypes} />
+          <div className="overflow-x-hidden">
+            <ul className="timeline-list overflow-visible p-3">
+              {experienceItems.map((item) => {
+                const theme = getTheme(item.exp_type);
+                //? should this happen on the server?
+                const startDate = formatInTimeZone(item.start_date, "UTC", "MMMM yyyy");
+                //? should this happen on the server?
+                const endDate = item.end_date
+                  ? formatInTimeZone(item.end_date, "UTC", "MMMM yyyy")
+                  : null;
+                return (
+                  <TimelineItem
+                    {...theme}
+                    expType={item.exp_type}
+                    description={item.description}
+                    title={item.signifier}
+                    additionalInfo={item.additional_info}
+                    place={item.place}
+                    startDate={startDate}
+                    endDate={endDate}
+                    key={`${item.exp_type}${item.ID}`}
+                  />
+                );
+              })}
+            </ul>
+          </div>
+        </TimelineContainer>
+      )}
     </>
   );
 }

@@ -6,15 +6,7 @@ import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 import { m } from "framer-motion";
-import {
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  createContext,
-  useContext,
-} from "react";
+import { type ReactNode, useCallback, useMemo, useState, createContext, useContext } from "react";
 
 interface PrepareModalArgs {
   additionalInfo: string[];
@@ -22,21 +14,7 @@ interface PrepareModalArgs {
 }
 
 interface TimelineContextValue {
-  registerCategory: (c: string) => void;
   prepareModal: (args: PrepareModalArgs) => void;
-}
-
-interface TimelineItemProps {
-  contentClassName: string;
-  arrowClassName: string;
-  icon: IconDefinition;
-  title: string;
-  description: string;
-  additionalInfo?: string[];
-  place?: string;
-  expType: string;
-  startDate: string;
-  endDate: string | null;
 }
 
 const TimelineContext = createContext<TimelineContextValue | null>(null);
@@ -50,35 +28,22 @@ const useTimeline = () => {
   }
 };
 
-export function TimelineContainer({ children }: { children: ReactNode }) {
-  const [categories, setCategories] = useState<string>("");
+interface TimelineContainerProps {
+  children: ReactNode;
+}
+
+export function TimelineContainer({ children }: TimelineContainerProps) {
   const [paragraphs, setParagraphs] = useState<string[]>([]);
   const [title, setTitle] = useState("");
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (process.env.NODE_ENV !== "production") console.log(categories);
-  }, [categories]);
 
   const prepareModal = useCallback(({ additionalInfo, title }: PrepareModalArgs) => {
     setParagraphs(additionalInfo);
     setTitle(title);
     setOpen(true);
   }, []);
-  const registerCategory = useCallback(
-    (c: string) =>
-      setCategories((current) => {
-        if (current.includes(c)) return current.toLowerCase();
-        if (current === "") return c.toLowerCase();
-        return `${current}|${c}`.toLowerCase();
-      }),
-    []
-  );
 
-  const timelineValue = useMemo(
-    () => ({ registerCategory, prepareModal }),
-    [prepareModal, registerCategory]
-  );
+  const timelineValue = useMemo(() => ({ prepareModal }), [prepareModal]);
 
   return (
     <TimelineContext.Provider value={timelineValue}>
@@ -95,11 +60,34 @@ export function TimelineContainer({ children }: { children: ReactNode }) {
           ))}
         </ul>
       </Modal>
-      <div className="timeline-container overflow-x-hidden">
-        <ul className="timeline-list overflow-visible p-3">{children}</ul>
-      </div>
+      {children}
     </TimelineContext.Provider>
   );
+}
+
+interface TimelineFilterProps {
+  experienceTypes: { exp_type: string; count: number }[];
+}
+// TODO: Implement
+// This will take in the experience types gotten by groupBy
+// use a not-yet-made function from context that handles toggling the visibility of nodes
+// add more cool stuff
+//? use query params
+export function TimelineFilter({ experienceTypes: _ }: TimelineFilterProps) {
+  return <></>;
+}
+
+interface TimelineItemProps {
+  contentClassName: string;
+  arrowClassName: string;
+  icon: IconDefinition;
+  title: string;
+  description: string;
+  additionalInfo?: string[];
+  place?: string;
+  expType: string;
+  startDate: string;
+  endDate: string | null;
 }
 
 export function TimelineItem({
@@ -114,13 +102,9 @@ export function TimelineItem({
   startDate,
   endDate,
 }: TimelineItemProps) {
-  const { prepareModal, registerCategory } = useTimeline();
+  const { prepareModal } = useTimeline();
+  //? Is this necesarry
   const handlePrepare = () => prepareModal({ title, additionalInfo });
-
-  useEffect(() => {
-    registerCategory(expType);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [expType]);
 
   const sideText = `${startDate} - ${endDate || "Present"}`;
 
@@ -136,7 +120,10 @@ export function TimelineItem({
   );
 
   return (
-    <li className="group relative even:text-right odd:max-md:text-right">
+    <li
+      data-experience-type={expType}
+      className="group relative even:text-right odd:max-md:text-right"
+    >
       <m.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -146,6 +133,7 @@ export function TimelineItem({
       >
         {sideText}
       </m.p>
+      {/* Should I animate this span tag's opacity? */}
       <span className="absolute bottom-0 left-[calc(1.25rem-.125rem)] top-0 w-1 bg-white group-last:top-[unset] md:left-[calc(50%-0.125rem)]" />
       <m.span
         initial={{ scale: 0 }}
