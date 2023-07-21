@@ -1,33 +1,28 @@
-"use client";
-
 import Button from "@/components/Button";
 import Tooltip from "@/components/Tooltip";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+
+// July 21st 2023, Metadata now works in not-found files, but only if rendered on the server
+export const metadata = {
+  title: "404: Not Found",
+};
 
 export default function Notfound() {
-  const { back } = useRouter();
   return (
     <main
       id="stq-page-content"
       className="bs-container-md mt-16 flex w-full grow scroll-mt-16 flex-col items-center justify-center"
     >
-      {/*
-        April 7th 2023 - No support for metadata in not-found.tsx yet
-        https://github.com/vercel/next.js/pull/47328#issuecomment-1488933262 
-      */}
-      <title>404: Not Found</title>
-      <h1 className="text-center text-6xl">404</h1>
+      <Image src="/Logo_866.png" alt="Large site logo" height={220} width={220} />
+      <h1 className="text-center text-7xl font-semibold">404</h1>
       <p className="mt-5 text-center">The page you requested could not be found</p>
-      <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Link href="/" passHref legacyBehavior>
           <Button data-next-legacy-link="">Go to the Home Page</Button>
         </Link>
-        <Button variant="secondary" onClick={back}>
-          Go Back
-        </Button>
         <Tooltip placement="bottom" tooltipText="Open a GitHub Issue">
           <Button
             variant="blue"
