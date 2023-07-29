@@ -14,6 +14,11 @@ const nextConfig = {
         destination: "/links/:link*",
         permanent: true,
       },
+      {
+        source: "/coding",
+        destination: "/code",
+        permanent: true,
+      },
     ];
   },
 };
