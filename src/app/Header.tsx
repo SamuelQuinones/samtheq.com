@@ -8,6 +8,8 @@ import clsx from "clsx";
 import Image from "next/image";
 import { DropLink, NavLink } from "./NavLink";
 import DropmenuItem from "@/components/DropMenu/Item";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCode, faFilm } from "@fortawesome/free-solid-svg-icons";
 
 /** h-8 = 2rem, py-3 is .75 rem on both sides, should total 3.5rem or 56px */
 const NAVBAR_BASE_HEIGHT = 2 + 2 * 0.75;
@@ -102,10 +104,10 @@ export default function Header() {
           <NavLink href="/blog">Blog</NavLink>
           <DropLink id="content-drop-down" label="Projects">
             <DropmenuItem as={NavLink} href="/code">
-              Code
+              <FontAwesomeIcon icon={faCode} height="1em" width="1em" className="mr-2" /> Code
             </DropmenuItem>
             <DropmenuItem as={NavLink} href="/media">
-              Media
+              <FontAwesomeIcon icon={faFilm} height="1em" width="1em" className="mr-2" /> Media
             </DropmenuItem>
           </DropLink>
         </section>

@@ -8,7 +8,7 @@
 }
 
 .nav-item .drop-toggle + .popper-nav-menu .nav-link {
-  @apply m-0 rounded-none py-1 active:bg-info-700 hocus:bg-gray-600 md:justify-center;
+  @apply m-0 rounded-none py-1 active:bg-info-700 hocus:bg-gray-600 items-center px-4;
 }
 .nav-item .drop-toggle + .popper-nav-menu .nav-link.active {
   @apply bg-info-700;
