@@ -22,7 +22,11 @@ export async function GET(req: Request, { params }: Context) {
     })
     .catch(() => null);
   if (SOCIAL_LINK === null) {
-    // July 30th 2023, for some reason using notFound here does not work
+    //* July 30th 2023 - this can be usedto set cookies and redirect, idea is to show a banner saying the passed param was bad. Specify domain in prod to prevent subdomain access
+    // const response = NextResponse.redirect(new URL("/links", req.url), { status: 302 });
+    // response.cookies.set("<KEY>", "VAL", { httpOnly: true, path: "/links", maxAge: 60 * 15 });
+    // return response;
+    //* July 30th 2023, for some reason using notFound here does not work
     redirect("/links");
   }
   redirect(SOCIAL_LINK.target);
