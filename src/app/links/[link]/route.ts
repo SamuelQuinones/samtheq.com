@@ -22,6 +22,7 @@ export async function GET(req: Request, { params }: Context) {
     })
     .catch(() => null);
   if (SOCIAL_LINK === null) {
+    // July 30th 2023, for some reason using notFound here does not work
     redirect("/links");
   }
   redirect(SOCIAL_LINK.target);
