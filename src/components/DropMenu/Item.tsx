@@ -17,6 +17,7 @@ export interface DropmenuItemProps extends DropdownItemProps, HTMLAttributes<HTM
   children?: ReactNode;
 }
 
+// @ts-expect-error TS 5.2, this is a false positive I think
 const DropmenuItem: DynamicRefForwardingComponent<"button", DropmenuItemProps> = forwardRef<
   HTMLElement,
   DropmenuItemProps

@@ -160,7 +160,6 @@ export default function Links() {
       <h1 className="mb-3 text-center text-2xl">Samuel Quinones' Social Links</h1>
 
       <Suspense fallback={<Skeleton />}>
-        {/* @ts-expect-error react server component */}
         <LinkList />
       </Suspense>
     </main>

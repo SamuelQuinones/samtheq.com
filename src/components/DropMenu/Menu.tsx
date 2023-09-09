@@ -16,6 +16,7 @@ export interface DropmenuMenuProps extends UseDropdownMenuOptions, HTMLAttribute
   children?: ReactNode;
 }
 
+// @ts-expect-error TS 5.2, this is a false positive I think
 const DropmenuMenu: DynamicRefForwardingComponent<"div", DropmenuMenuProps> = forwardRef<
   HTMLElement,
   DropmenuMenuProps

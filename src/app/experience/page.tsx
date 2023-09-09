@@ -159,7 +159,6 @@ export default function Experience() {
         </section>
       </div>
       <Suspense fallback={<Skeleton />}>
-        {/* @ts-expect-error react server component */}
         <ExperienceTimeline />
       </Suspense>
       <section className="grid gap-6 p-3 sm:grid-cols-2">

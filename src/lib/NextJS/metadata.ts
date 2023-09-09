@@ -1,5 +1,5 @@
 import deepmerge from "deepmerge";
-import { isPlainObject } from "is-plain-object";
+import isPlainObject from "@/util/is-plain-object";
 import type { Metadata } from "next";
 
 const title = {

@@ -99,7 +99,6 @@ export default function CodeProjects() {
         Development Projects
       </h1>
       <Suspense fallback={<Skeleton />}>
-        {/* @ts-expect-error react server component */}
         <GitHubRepos />
       </Suspense>
     </main>

@@ -9,6 +9,7 @@ interface DropmenuToggleProps extends HTMLAttributes<HTMLElement> {
   as?: ElementType;
 }
 
+// @ts-expect-error TS 5.2, this is a false positive I think
 const DropmenuToggle: DynamicRefForwardingComponent<"button", DropmenuToggleProps> = forwardRef<
   HTMLElement,
   DropmenuToggleProps
