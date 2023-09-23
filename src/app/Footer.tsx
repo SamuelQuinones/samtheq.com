@@ -1,6 +1,6 @@
 import Tooltip from "@/components/Tooltip";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { faGithub, faLinkedinIn, faTwitter, faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { faGithub, faLinkedinIn, faXTwitter, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
@@ -51,8 +51,8 @@ export default function Footer() {
           <div className="flex items-center">
             <FooterIcon icon={faYoutube} title="Youtube" url="https://www.youtube.com/@sammy_q" />
             <FooterIcon
-              icon={faTwitter}
-              title="Twitter"
+              icon={faXTwitter}
+              title="X (Formally Twitter)"
               url="https://twitter.com/SamuelQuinones1"
             />
             <FooterIcon icon={faGithub} title="Github" url="https://github.com/SamuelQuinones" />
