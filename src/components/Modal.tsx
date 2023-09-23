@@ -1,7 +1,7 @@
 "use client";
 
 import type { ModalInstance } from "@restart/ui/ModalManager";
-import RRModal from "@restart/ui/Modal";
+import RRModal, { type BaseModalProps } from "@restart/ui/Modal";
 import clsx from "clsx";
 import { m, AnimatePresence } from "framer-motion";
 import { type ReactNode, useRef, useCallback } from "react";
@@ -20,7 +20,7 @@ const dialogVariants = {
   exit: { opacity: 0, y: "-10vh" },
 };
 
-interface ModalProps {
+export interface ModalProps extends Pick<BaseModalProps, "restoreFocus" | "backdrop"> {
   open?: boolean;
   handleClose?: () => void;
   header?: ReactNode;
@@ -29,6 +29,8 @@ interface ModalProps {
   footer?: ReactNode;
   footerClassName?: string;
   children?: ReactNode;
+  restoreFocus?: boolean;
+  onExitComplete?: () => void;
 }
 
 export default function Modal({
@@ -40,6 +42,9 @@ export default function Modal({
   headerClassName,
   bodyClassName,
   footerClassName,
+  onExitComplete,
+  restoreFocus,
+  backdrop,
 }: ModalProps) {
   const waitingForMouseUpRef = useRef(false);
   const ignoreBackdropClickRef = useRef(false);
@@ -117,15 +122,17 @@ export default function Modal({
     []
   );
   return (
-    <AnimatePresence initial={false}>
+    <AnimatePresence initial={false} onExitComplete={onExitComplete}>
       {open && (
         <RRModal
           //@ts-ignore type looks like it is wrong
           ref={modal}
+          backdrop={backdrop}
           show={open}
           onHide={handleClose}
           renderDialog={renderDialog}
           renderBackdrop={renderBackdrop}
+          restoreFocus={restoreFocus}
         />
       )}
     </AnimatePresence>

@@ -1,22 +1,15 @@
+"use client";
+
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
-import { type ReactNode, useCallback } from "react";
+import { useCallback } from "react";
 import RRModal from "@restart/ui/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
+import type { ModalProps } from "./Modal";
 
-interface DrawerProps {
+interface DrawerProps extends ModalProps {
   position?: "left" | "right" | "top" | "bottom";
-  open?: boolean;
-  children?: ReactNode;
-  handleClose: () => void;
-  header?: ReactNode;
-  headerClassName?: string;
-  bodyClassName?: string;
-  footer?: ReactNode;
-  footerClassName?: string;
-  onExitComplete?: () => void;
-  restoreFocus?: boolean;
 }
 
 const backdropVariants = { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } };
@@ -37,6 +30,7 @@ export default function Drawer({
   footerClassName,
   onExitComplete,
   restoreFocus,
+  backdrop,
 }: DrawerProps) {
   const headerClasses = clsx("drawer-header", headerClassName);
   const bodyClasses = clsx("drawer-body", bodyClassName);
@@ -100,6 +94,7 @@ export default function Drawer({
     <AnimatePresence initial={false} onExitComplete={onExitComplete}>
       {open && (
         <RRModal
+          backdrop={backdrop}
           show={open}
           onHide={handleClose}
           renderDialog={renderDialog}
