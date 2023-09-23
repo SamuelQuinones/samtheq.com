@@ -3,7 +3,7 @@ import { prisma } from "@/lib/Prisma/db";
 import { format } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import { getTheme } from "./theme";
-// July 18th 2023, dynamic import doesnt seemed to be working with named exports
+// September 16th 2023, dynamic import doesnt allow for the importing of named client components on to the server I guess?
 import { TimelineContainer, TimelineFilter, TimelineItem } from "./Timeline";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload, faRotate } from "@fortawesome/free-solid-svg-icons";
@@ -81,9 +81,11 @@ async function ExperienceTimeline() {
         Last updated: {format(lastUpdated, "MMMM do yyyy")}
       </p>
       {experienceItems.length === 0 ? (
-        <p className="my-3 text-center text-lg">
-          Timeline not available, please be sure to see my resume!
-        </p>
+        <div className="mx-auto max-w-fit rounded-lg border border-yellow-400 border-opacity-60 bg-yellow-950 p-3 text-yellow-400">
+          <p className="text-center text-lg">
+            Timeline not available, please be sure to see my resume!
+          </p>
+        </div>
       ) : (
         <TimelineContainer>
           <TimelineFilter experienceTypes={experienceTypes} />

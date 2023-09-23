@@ -222,11 +222,11 @@ export default function UpdateFeedContainer() {
             initial="hidden"
             animate="show"
             exit="hidden"
-            className="mb-3 mt-24 flex w-full max-w-xl flex-col rounded-md border border-black border-opacity-5 bg-yellow-500 p-4 text-black shadow-md"
+            className="mb-3 mt-24 flex w-full max-w-xl flex-col rounded-md border border-yellow-400 border-opacity-60 bg-yellow-950 p-4 text-yellow-400 shadow-md"
           >
             <h3 className="mb-3 text-2xl font-bold">Unable to fetch data</h3>
             <p>Unable to fetch data to populates update cards</p>
-            <pre className="overflow-x-auto whitespace-pre-wrap rounded-md border border-yellow-700 bg-yellow-600 p-2">
+            <pre className="overflow-x-auto whitespace-pre-wrap rounded-md bg-yellow-900 p-2">
               <code>{isError.message}</code>
             </pre>
           </m.div>

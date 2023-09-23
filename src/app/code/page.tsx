@@ -2,6 +2,8 @@ import { mergeMetadata } from "@/lib/NextJS/metadata";
 import GithubCodeCard from "./GithubCodeCard";
 import { Suspense } from "react";
 import { getGithubReposByUser } from "@/lib/Github/api";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWarning } from "@fortawesome/free-solid-svg-icons";
 
 function Skeleton() {
   return (
@@ -55,7 +57,10 @@ function Skeleton() {
 }
 
 async function GitHubRepos() {
-  const test = await getGithubReposByUser("SamuelQuinones");
+  const myRepos = await getGithubReposByUser("SamuelQuinones").catch((e) => {
+    process.env.NODE_ENV === "development" && console.error(e);
+    return null;
+  });
   return (
     <section data-code-source="github" className="space-y-3.5">
       <h2
@@ -69,11 +74,35 @@ async function GitHubRepos() {
         perspiciatis, voluptate, sit maiores libero minus nam, molestias quibusdam placeat hic
         asperiores. Fuga optio corrupti iure eum!
       </p>
-      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {test.map((repo) => (
-          <GithubCodeCard key={repo.id} {...repo} />
-        ))}
-      </div>
+      {myRepos === null ? (
+        <div className="mx-auto flex max-w-fit items-center gap-x-3 rounded-lg border border-yellow-400 border-opacity-60 bg-yellow-950 p-3 text-yellow-400 shadow-md">
+          <FontAwesomeIcon icon={faWarning} height="1em" width="1em" className="h-full w-12" />
+          <div>
+            <h3 className="mb-3 text-xl/none">An Error Occured</h3>
+            <p className="italic">
+              Unable to fetch Github repositories at this time, please try again later.
+            </p>
+            <p>
+              Alternatively, check out my{" "}
+              <a
+                href="https://github.com/SamuelQuinones?tab=repositories"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold underline transition-colors hocus:text-yellow-500"
+              >
+                Github Repositories
+              </a>{" "}
+              directly.
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {myRepos.map((repo) => (
+            <GithubCodeCard key={repo.id} {...repo} />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
