@@ -35,5 +35,5 @@
   @apply fixed bottom-0 top-0 flex h-full w-full max-w-full flex-col bg-gray-800 bg-clip-padding shadow-lg sm:w-96;
 }
 .drawer-dialog.dir-vertical {
-  @apply left-0 right-0 h-auto sm:w-full;
+  @apply left-0 right-0 h-auto max-h-full sm:w-full;
 }
