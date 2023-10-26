@@ -88,7 +88,9 @@ async function ExperienceTimeline() {
         </div>
       ) : (
         <TimelineContainer>
-          <TimelineFilter experienceTypes={experienceTypes} />
+          <Suspense fallback={<div className="btn btn-primary disabled">Loading...</div>}>
+            <TimelineFilter experienceTypes={experienceTypes} />
+          </Suspense>
           <div className="overflow-x-hidden">
             <ul className="timeline-list overflow-visible p-3">
               {experienceItems.map((item) => {

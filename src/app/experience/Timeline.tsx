@@ -1,11 +1,13 @@
 "use client";
 
 import Button from "@/components/Button";
+import Drawer from "@/components/Drawer";
 import Modal from "@/components/Modal";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 import { m } from "framer-motion";
+import { useSearchParams } from "next/navigation";
 import { type ReactNode, useCallback, useMemo, useState, createContext, useContext } from "react";
 
 interface PrepareModalArgs {
@@ -73,8 +75,45 @@ interface TimelineFilterProps {
 // use a not-yet-made function from context that handles toggling the visibility of nodes
 // add more cool stuff
 //? use query params
-export function TimelineFilter({ experienceTypes: _ }: TimelineFilterProps) {
-  return <></>;
+export function TimelineFilter({ experienceTypes }: TimelineFilterProps) {
+  const [open, setOpen] = useState(false);
+  const searchParams = useSearchParams();
+
+  const _createQueryString = useCallback(
+    (key: string, value: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(key, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
+  return (
+    <>
+      <Drawer
+        open={open}
+        handleClose={() => setOpen(false)}
+        position="top"
+        header={<h1 className="text-center text-xl lg:text-3xl">Filter timeline</h1>}
+        bodyClassName="container mx-auto"
+      >
+        <select defaultValue="selectType">
+          <option disabled value="selectType">
+            Select Type...
+          </option>
+          {experienceTypes.map(({ exp_type, count }) => (
+            <option value={exp_type} key={exp_type}>
+              {exp_type} ({count})
+            </option>
+          ))}
+        </select>
+      </Drawer>
+      <div className="flex flex-wrap gap-1 px-3">
+        <Button onClick={() => setOpen(true)}>Filter Timeline</Button>
+      </div>
+    </>
+  );
 }
 
 interface TimelineItemProps {
