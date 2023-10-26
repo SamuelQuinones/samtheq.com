@@ -23,10 +23,19 @@ module.exports = {
         project: true,
         tsconfigRootDir: __dirname,
       },
-      extends: ["plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/stylistic"],
+      extends: [
+        "plugin:@typescript-eslint/recommended-type-checked",
+        "plugin:@typescript-eslint/stylistic-type-checked",
+      ],
       rules: {
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/prefer-for-of": "warn",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/restrict-template-expressions": "warn",
+        "@typescript-eslint/restrict-plus-operands": "warn",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
         "@typescript-eslint/no-empty-function": ["warn"],
         "@typescript-eslint/no-unused-vars": [
           "warn",
@@ -44,6 +53,7 @@ module.exports = {
             minimumDescriptionLength: 10,
           },
         ],
+        "@typescript-eslint/prefer-nullish-coalescing": "off",
       },
     },
   ],

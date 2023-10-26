@@ -3,7 +3,13 @@
 import { useMergedRef } from "@/hooks";
 import { useDropdownToggle } from "@restart/ui/DropdownToggle";
 import type { DynamicRefForwardingComponent } from "@restart/ui/types";
-import { type ElementType, forwardRef, type HTMLAttributes, useCallback } from "react";
+import {
+  type ElementType,
+  forwardRef,
+  type HTMLAttributes,
+  useCallback,
+  type MouseEventHandler,
+} from "react";
 
 interface DropmenuToggleProps extends HTMLAttributes<HTMLElement> {
   as?: ElementType;
@@ -16,8 +22,8 @@ const DropmenuToggle: DynamicRefForwardingComponent<"button", DropmenuToggleProp
 >(({ as: Component = "button", onClick: nativeOnClick, ...props }, ref) => {
   const [{ ref: ddRef, onClick, ...toggleProps }] = useDropdownToggle();
   const newRef = useMergedRef(ddRef, ref);
-  const handleClick = useCallback(
-    (e: any) => {
+  const handleClick: MouseEventHandler<HTMLElement> = useCallback(
+    (e) => {
       onClick(e);
       nativeOnClick?.(e);
     },

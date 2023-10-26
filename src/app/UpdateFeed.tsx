@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-floating-promises */
 "use client";
 
 import Button from "@/components/Button";
@@ -18,12 +20,7 @@ const UPDATE_FEED_HOME_AMOUNT = 3;
 //#region FetchData
 type Updates = Omit<
   UpdateFeed,
-  | "preview_text"
-  | "check_it_out_link"
-  | "inactive_timestamp"
-  | "active"
-  | "preview_text"
-  | "update_card_time"
+  "preview_text" | "check_it_out_link" | "inactive_timestamp" | "active" | "update_card_time"
 > & {
   preview_text?: string;
   check_it_out_link?: string;
@@ -85,7 +82,7 @@ const useUpdateCard = () => {
   if (!context && process.env.NODE_ENV === "development") {
     throw Error("Please make sure this component is contained within the Update Feed Container");
   } else {
-    return context as UpdateContextValue;
+    return context!;
   }
 };
 //#endregion UpdateContext

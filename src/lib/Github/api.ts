@@ -19,7 +19,7 @@ export async function getGithubReposByUser(username: string): Promise<Repository
       const error = await data.json();
       throw error;
     }
-    return data.json();
+    return (await data.json()) as Repository[];
   } catch (error) {
     throw error;
   }

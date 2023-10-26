@@ -125,7 +125,7 @@ function catchPrismaErrors(error: any) {
   }
   return {
     type: "ServerError",
-    message: (error?.message as string) || "Something unexpected occured",
+    message: (error as Error).message || "Something unexpected occured",
     statusCode: 500,
   };
 }

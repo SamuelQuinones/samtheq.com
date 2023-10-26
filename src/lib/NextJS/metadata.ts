@@ -65,6 +65,7 @@ const SEO: Metadata = {
  */
 export function mergeMetadata<T extends Metadata>(metadata: T) {
   return deepmerge(SEO, metadata, {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     arrayMerge: (dest, source) => [...dest, ...source],
     isMergeableObject: isPlainObject,
   });
