@@ -22,7 +22,6 @@ export const themeConfig = new Map([
 ]);
 
 export const getTheme = (key: string) => {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   if (themeConfig.has(key)) return themeConfig.get(key)!;
   return {
     contentClassName: "bg-black",

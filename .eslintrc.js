@@ -37,6 +37,8 @@ module.exports = {
         "@typescript-eslint/no-unsafe-call": "off",
         "@typescript-eslint/no-unsafe-argument": "off",
         "@typescript-eslint/no-empty-function": ["warn"],
+        "@typescript-eslint/no-misused-promises": ["error", { checksVoidReturn: false }],
+        "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/no-unused-vars": [
           "warn",
           { varsIgnorePattern: "^_", argsIgnorePattern: "^_" },
