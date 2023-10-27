@@ -13,13 +13,10 @@ const description =
 const SEO: Metadata = {
   title,
   creator: "Samuel Quinones",
-  colorScheme: "dark",
   generator: "Next.js",
-  viewport: { width: "device-width", initialScale: 1 }, //* Default value, here just in case
   alternates: {
     canonical: "/",
   },
-  themeColor: "#371b36",
   icons: [
     {
       rel: "icon",

@@ -8,6 +8,7 @@ import Header from "./Header";
 import ClientLayout from "./_client";
 import { mergeMetadata } from "@/lib/NextJS/metadata";
 import { config } from "@fortawesome/fontawesome-svg-core";
+import type { Viewport } from "next";
 
 config.autoAddCss = false;
 
@@ -30,6 +31,13 @@ const FiraCode = localFont({
   weight: "300 700",
   variable: "--font-fira-code",
 });
+
+export const viewport: Viewport = {
+  colorScheme: "dark",
+  themeColor: "#371b36",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata = mergeMetadata({
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? ""),
