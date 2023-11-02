@@ -20,12 +20,21 @@ interface DropLinkProps {
   children: ReactNode;
 }
 
-export function NavLink({ href: to, highlightNested, children, className, ...rest }: NavLinkProps) {
+function isActiveNested(href: string, pathname: string) {
+  const splitHref = href.split("/");
+  const splitPathname = pathname.split("/");
+  for (let i = 0; i < splitHref.length; i++) {
+    if (splitHref[i] !== splitPathname[i]) return false;
+  }
+  return true;
+}
+
+export function NavLink({ href, highlightNested, children, className, ...rest }: NavLinkProps) {
   const pathname = usePathname();
-  const isActive = highlightNested ? `/${pathname.split("/")[1]}` === to : pathname === to;
+  const isActive = highlightNested ? isActiveNested(href, pathname) : pathname === href;
   const classList = clsx("nav-link", { active: isActive }, className);
   return (
-    <Link {...rest} href={to} className={classList}>
+    <Link {...rest} href={href} className={classList}>
       {children}
     </Link>
   );
