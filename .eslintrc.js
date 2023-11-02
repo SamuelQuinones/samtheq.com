@@ -30,15 +30,15 @@ module.exports = {
       rules: {
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/prefer-for-of": "warn",
-        "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/restrict-template-expressions": "warn",
         "@typescript-eslint/restrict-plus-operands": "warn",
+        "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
         "@typescript-eslint/no-unsafe-call": "off",
         "@typescript-eslint/no-unsafe-argument": "off",
         "@typescript-eslint/no-empty-function": ["warn"],
         "@typescript-eslint/no-misused-promises": ["error", { checksVoidReturn: false }],
-        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/no-floating-promises": ["warn", { ignoreVoid: true, ignoreIIFE: true }],
         "@typescript-eslint/no-unused-vars": [
           "warn",
           { varsIgnorePattern: "^_", argsIgnorePattern: "^_" },

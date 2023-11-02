@@ -195,7 +195,7 @@ export default function UpdateFeedContainer() {
 
   const handleViewMore = useCallback(() => {
     setDrawerOpen(true);
-    if (additionalUpdates.length === 0 && !loadMoreError) setSize(2);
+    if (additionalUpdates.length === 0 && !loadMoreError) void setSize(2);
   }, [additionalUpdates.length, loadMoreError, setSize]);
 
   return (
