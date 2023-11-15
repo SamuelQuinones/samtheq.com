@@ -46,10 +46,10 @@ export default function Drawer({
     position === "left"
       ? dialogVariantsLeft
       : position === "right"
-      ? dialogVariantsRight
-      : position === "top"
-      ? dialogVariantsTop
-      : dialogVariantsBottom;
+        ? dialogVariantsRight
+        : position === "top"
+          ? dialogVariantsTop
+          : dialogVariantsBottom;
 
   const renderBackdrop = useCallback(
     (backdropProps: any) => (
