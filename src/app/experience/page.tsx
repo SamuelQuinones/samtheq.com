@@ -1,6 +1,6 @@
 import { mergeMetadata } from "@/lib/NextJS/metadata";
 import { prisma } from "@/lib/Prisma/db";
-import { format } from "date-fns";
+import format from "date-fns/format";
 import { formatInTimeZone } from "date-fns-tz";
 import { getTheme } from "./theme";
 // September 16th 2023, dynamic import doesnt allow for the importing of named client components on to the server I guess?

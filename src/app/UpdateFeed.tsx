@@ -8,7 +8,7 @@ import { fetcherGET } from "@/lib/SWR/fetcher";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { UpdateFeed } from "@prisma/client";
-import { format } from "date-fns";
+import format from "date-fns/format";
 import { AnimatePresence, m } from "framer-motion";
 import { useState, useCallback, useRef, useContext, createContext, useMemo, Fragment } from "react";
 import useSWRInfinite from "swr/infinite";
