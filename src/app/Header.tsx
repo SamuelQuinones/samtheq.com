@@ -101,7 +101,9 @@ export default function Header() {
           <NavLink href="/">Home</NavLink>
           <NavLink href="/about">About</NavLink>
           <NavLink href="/experience">Experience</NavLink>
-          <NavLink href="/blog">Blog</NavLink>
+          <a className="nav-link" href={process.env.NEXT_PUBLIC_BLOG_URL}>
+            Blog
+          </a>
           <DropLink id="content-drop-down" label="Projects">
             <DropmenuItem as={NavLink} href="/code">
               <FontAwesomeIcon icon={faCode} height="1em" width="1em" className="mr-2" /> Code
