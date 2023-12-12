@@ -136,7 +136,7 @@ export default function CodeProjects() {
           rest of the site!
         </p>
         <p className="text-center md:text-lg lg:text-xl">
-          Additionally, you can check out my YouTube Channel.
+          Additionally, you can check out my Github Page.
         </p>
       </main>
     );
