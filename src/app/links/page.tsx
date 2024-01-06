@@ -8,19 +8,6 @@ import Image from "next/image";
 import { Suspense } from "react";
 
 /**
- * April 8th 2023
- * In order to make the recent changes in `cbac1eb01d4f2bdb369f0e5a81ae7cd946753a04` compatible with prod,
- * This function will convert IconNames to the name of the exported inon definition
- * TODO: Update the database to use the named export strings so that this is not necesarry
- */
-function stringToIconName(str?: string | null) {
-  if (str == null) return "faGlobe";
-  if (/^fa[A-Z]/gm.test(str)) return str;
-  const fixedName = str.replace(/-./g, (x) => x[1].toUpperCase());
-  return "fa" + fixedName.charAt(0).toUpperCase() + fixedName.slice(1);
-}
-
-/**
  * April 8th 2023 - no longer am I using the library, instead I'll dynamically import the icons on the server
  */
 async function importIcon(prefix: string | null, icon: string): Promise<IconDefinition> {
@@ -61,7 +48,7 @@ async function getAllLinks() {
 
   const socialLinks = await Promise.all(
     LINKS.map(async ({ icon_name, icon_prefix, ...rest }) => {
-      const icon = await importIcon(icon_prefix, stringToIconName(icon_name)).catch(() => faGlobe);
+      const icon = await importIcon(icon_prefix, icon_name ?? "faGlobe").catch(() => faGlobe);
       return {
         icon,
         ...rest,
@@ -87,7 +74,7 @@ function Skeleton() {
               className="btn btn-primary pointer-events-none flex animate-pulse cursor-wait items-center justify-center gap-x-2 rounded-lg border-2 p-2"
               style={{ animationDelay: `${i * 0.05}s`, animationDuration: "1s" }}
             >
-              <span className="inline-block h-6 min-h-[1em] w-6 rounded-full bg-current align-middle opacity-50" />
+              <span className="inline-block size-6 min-h-[1em] rounded-full bg-current align-middle opacity-50" />
               <span className="inline-block h-6 min-h-[1em] w-44 rounded-full bg-current align-middle opacity-50" />
             </span>
           </li>

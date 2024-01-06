@@ -25,7 +25,7 @@ function Skeleton() {
             className="flex flex-col gap-y-3 rounded-md border-2 border-primary-700/70 bg-gray-900 p-3 shadow-lg"
           >
             <h3 className="text-lg">
-              <span className="inline-block h-5 w-5 rounded-full bg-current align-middle opacity-50" />{" "}
+              <span className="inline-block size-5 rounded-full bg-current align-middle opacity-50" />{" "}
               <span className="inline-block h-5 min-h-[1em] w-3/5 cursor-wait bg-current align-middle opacity-50" />
             </h3>
             <div className="flex-auto">
@@ -41,10 +41,10 @@ function Skeleton() {
               {[...Array(3)].map((_, ii) => (
                 <div
                   key={ii}
-                  className="btn btn-primary disabled flex h-full w-full items-center justify-center gap-x-1 rounded-none border-0 first:rounded-bl-sm last:rounded-br-sm"
+                  className="btn btn-primary disabled flex size-full items-center justify-center gap-x-1 rounded-none border-0 first:rounded-bl-sm last:rounded-br-sm"
                 >
                   <p>
-                    <span className="mx-auto inline-block h-4 min-h-[1em] w-4 rounded-full bg-current align-middle opacity-50" />
+                    <span className="mx-auto inline-block size-4 min-h-[1em] rounded-full bg-current align-middle opacity-50" />
                   </p>
                 </div>
               ))}

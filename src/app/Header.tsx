@@ -82,7 +82,7 @@ export default function Header() {
           {/* Toggle Button */}
           <div className="flex sm:hidden">
             <button
-              className="flex h-8 w-8 flex-col items-center justify-around rounded-sm transition-shadow focus:outline-none focus:ring focus:ring-opacity-60"
+              className="flex size-8 flex-col items-center justify-around rounded-sm transition-shadow focus:outline-none focus:ring focus:ring-opacity-60"
               onClick={toggleNavbar}
               aria-label="Toggle Navbar"
             >

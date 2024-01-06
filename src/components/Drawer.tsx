@@ -18,6 +18,19 @@ const dialogVariantsRight = { hidden: { x: "100%" }, visible: { x: "0%" }, exit:
 const dialogVariantsTop = { hidden: { y: "-100%" }, visible: { y: "0%" }, exit: { y: "-100%" } };
 const dialogVariantsBottom = { hidden: { y: "100%" }, visible: { y: "0%" }, exit: { y: "100%" } };
 
+function getDialogVariant(position: DrawerProps["position"]) {
+  switch (position) {
+    case "left":
+      return dialogVariantsLeft;
+    case "right":
+      return dialogVariantsRight;
+    case "top":
+      return dialogVariantsTop;
+    default:
+      return dialogVariantsBottom;
+  }
+}
+
 export default function Drawer({
   position = "left",
   open,
@@ -42,14 +55,7 @@ export default function Drawer({
     "dir-vertical top-auto": position === "bottom",
   });
   //? Should this be memoized
-  const dialogVariants =
-    position === "left"
-      ? dialogVariantsLeft
-      : position === "right"
-        ? dialogVariantsRight
-        : position === "top"
-          ? dialogVariantsTop
-          : dialogVariantsBottom;
+  const dialogVariants = getDialogVariant(position);
 
   const renderBackdrop = useCallback(
     (backdropProps: any) => (

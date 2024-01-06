@@ -31,7 +31,7 @@ const Button = forwardRef<HTMLElement, ButtonProps>(
 
     const classes = clsx(
       "btn",
-      { disabled: disabled },
+      disabled && "disabled",
       { [`btn-${variant}`]: !outline, [`btn-outline-${variant}`]: outline },
       shape === "pill" && "rounded-full",
       shape === "square" && "rounded-none",

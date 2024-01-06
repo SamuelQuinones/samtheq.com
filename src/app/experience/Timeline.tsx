@@ -150,10 +150,10 @@ export function TimelineItem({
   const contentClasses = clsx(contentClassName, "rounded-md p-2 text-left");
   const arrowClasses = clsx(
     arrowClassName,
-    "absolute top-3 h-0 w-0 border-8 border-transparent group-even:-translate-x-full group-odd:max-md:-translate-x-full"
+    "absolute top-3 size-0 border-8 border-transparent group-even:-translate-x-full group-odd:max-md:-translate-x-full"
   );
   const iconWrapperClasses = clsx(
-    "absolute flex h-10 w-10 items-center justify-center rounded-full",
+    "absolute flex size-10 items-center justify-center rounded-full",
     contentClassName,
     "custom-outline md:left-[calc(50%-1.25rem)]"
   );
@@ -181,7 +181,7 @@ export function TimelineItem({
         transition={{ type: "spring", bounce: 0.5, stiffness: 125 }}
         className={iconWrapperClasses}
       >
-        <FontAwesomeIcon icon={icon} height="24" className="h-6 w-6" />
+        <FontAwesomeIcon icon={icon} height="24" className="size-6" />
       </m.span>
       <m.div
         initial={{ opacity: 0, scale: 0.7 }}

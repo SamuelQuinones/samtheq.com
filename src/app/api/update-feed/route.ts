@@ -52,7 +52,7 @@ export async function GET(req: Request) {
       }),
     ]);
     const nextCursor = updates?.at(-1)?.ID;
-    const oldestId = oldestActive?.ID ?? 1;
+    const oldestId = oldestActive?.ID || 1;
     return NextResponse.json(
       {
         nextCursor: nextCursor !== oldestId ? nextCursor : undefined,

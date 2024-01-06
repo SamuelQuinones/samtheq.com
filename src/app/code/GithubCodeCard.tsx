@@ -8,7 +8,7 @@ import type { ReactNode } from "react";
 const ActionItem = ({ children, href }: { children: ReactNode; href: string }) => (
   <Button
     shape="square"
-    className="flex h-full w-full items-center justify-center gap-x-1 border-0 first:rounded-bl-sm last:rounded-br-sm focus:ring-0"
+    className="flex size-full items-center justify-center gap-x-1 border-0 first:rounded-bl-sm last:rounded-br-sm focus:ring-0"
     href={href}
     target="_blank"
     rel="noopener noreferrer"

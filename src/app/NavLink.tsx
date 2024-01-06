@@ -32,7 +32,7 @@ function isActiveNested(href: string, pathname: string) {
 export function NavLink({ href, highlightNested, children, className, ...rest }: NavLinkProps) {
   const pathname = usePathname();
   const isActive = highlightNested ? isActiveNested(href, pathname) : pathname === href;
-  const classList = clsx("nav-link", { active: isActive }, className);
+  const classList = clsx("nav-link", isActive && "active", className);
   return (
     <Link {...rest} href={href} className={classList}>
       {children}
