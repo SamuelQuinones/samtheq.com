@@ -6,6 +6,7 @@ import format from "date-fns/format";
 import SocialLink from "./SocialLink";
 import Image from "next/image";
 import { Suspense } from "react";
+import Button from "@/components/Button";
 
 /**
  * April 8th 2023 - no longer am I using the library, instead I'll dynamically import the icons on the server
@@ -50,7 +51,7 @@ async function getAllLinks() {
     LINKS.map(async ({ icon_name, icon_prefix, ...rest }) => {
       const icon = await importIcon(icon_prefix, icon_name ?? "faGlobe").catch(() => faGlobe);
       return {
-        icon,
+        icon: icon || faGlobe,
         ...rest,
       };
     })
@@ -70,13 +71,14 @@ function Skeleton() {
       <ul className="grid grid-cols-1 gap-y-5 py-2">
         {[...Array(5)].map((_, i) => (
           <li key={i}>
-            <span
-              className="btn btn-primary pointer-events-none flex animate-pulse cursor-wait items-center justify-center gap-x-2 rounded-lg border-2 p-2"
+            <Button
+              disabled
+              className="flex w-full animate-pulse cursor-wait items-center justify-center gap-x-2 rounded-lg border-2 p-2"
               style={{ animationDelay: `${i * 0.05}s`, animationDuration: "1s" }}
             >
               <span className="inline-block size-6 min-h-[1em] rounded-full bg-current align-middle opacity-50" />
               <span className="inline-block h-6 min-h-[1em] w-44 rounded-full bg-current align-middle opacity-50" />
-            </span>
+            </Button>
           </li>
         ))}
       </ul>

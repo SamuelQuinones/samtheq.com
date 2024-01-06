@@ -15,7 +15,7 @@ function FooterIcon({ icon, title, url }: FooterIconProps) {
     <Tooltip tooltipText={title} placement="top">
       <a
         href={url}
-        className="mx-2 text-white transition-colors duration-200 active:text-secondary-300 hocus:text-secondary-300"
+        className="mx-2 transition-colors duration-200 active:text-accent hocus:text-accent"
         title={title}
         target="_blank"
         rel="noopener noreferrer"
@@ -41,7 +41,7 @@ export default function Footer() {
               href="https://twitter.com/untamabletablez"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-secondary-300 hocus:text-secondary-400 hocus:underline"
+              className="text-accent hocus:text-accent-darker-10 hocus:underline"
             >
               UntamableTablez
             </a>
@@ -63,10 +63,7 @@ export default function Footer() {
             />
           </div>
           <div className="flex items-center justify-center">
-            <Link
-              href="/links"
-              className="text-secondary-300 hocus:text-secondary-400 hocus:underline"
-            >
+            <Link href="/links" className="text-accent hocus:text-accent-darker-10 hocus:underline">
               Additional Links
             </Link>
           </div>

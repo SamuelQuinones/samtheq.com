@@ -118,7 +118,7 @@ export function UpdateFeedItem({ title, message, link, feedDate }: UpdateItemPro
   return (
     <m.div
       variants={cardVariants}
-      className="flex flex-col rounded-md border border-black border-opacity-5 bg-gray-900 p-4 text-white shadow-md"
+      className="flex flex-col rounded-md border border-black border-opacity-5 bg-gray-900 p-4 shadow-md"
     >
       <section>
         <h4 className="mb-2 line-clamp-1 text-xl italic">{title}</h4>
@@ -136,14 +136,13 @@ export function UpdateFeedItem({ title, message, link, feedDate }: UpdateItemPro
         </Button>
         {link && (
           <Button
-            href={link}
-            outline
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="secondary"
+            asChild
+            variant="secondary" /* TODO: Make this outline */
             className="overflow-hidden text-ellipsis whitespace-nowrap"
           >
-            Check it Out
+            <a href={link} target="_blank" rel="noopener noreferrer">
+              Check it Out
+            </a>
           </Button>
         )}
       </section>
@@ -232,10 +231,11 @@ export default function UpdateFeedContainer() {
               <h2 className="w-1/6 text-xl">
                 <span className="inline-block min-h-[1em] w-full cursor-wait bg-current align-middle opacity-50" />
               </h2>
-              <button
+              <Button
+                variant="accent"
                 tabIndex={-1}
                 disabled
-                className="btn btn-info inline-block min-h-[1em] w-1/6 cursor-wait bg-current align-middle opacity-50 before:inline-block before:content-['']"
+                className="min-h-[1em] w-1/6 cursor-wait align-middle opacity-50 before:inline-block before:content-['']"
                 aria-hidden="true"
               />
             </section>
@@ -243,7 +243,7 @@ export default function UpdateFeedContainer() {
               {[...Array(UPDATE_FEED_HOME_AMOUNT)].map((_, i) => (
                 <div
                   key={i}
-                  className="rounded-md border border-black border-opacity-5 bg-gray-900 p-4 text-white shadow-md"
+                  className="rounded-md border border-black border-opacity-5 bg-gray-900 p-4 shadow-md"
                 >
                   <div className="flex animate-pulse flex-col justify-between">
                     <h4 className="mb-2">
@@ -257,10 +257,10 @@ export default function UpdateFeedContainer() {
                       <span className="inline-block min-h-[1em] w-1/3 cursor-wait bg-current align-middle opacity-50" />
                     </p>
                     <div className="-m-4 mt-4 flex justify-end rounded-b-md px-4 py-2">
-                      <button
+                      <Button
                         tabIndex={-1}
                         disabled
-                        className="btn btn-primary inline-block min-h-[1em] w-1/3 cursor-wait bg-current align-middle opacity-50 before:inline-block before:content-['']"
+                        className="min-h-[1em] w-1/3 cursor-wait align-middle opacity-50 before:inline-block before:content-['']"
                         aria-hidden="true"
                       />
                     </div>
@@ -285,13 +285,13 @@ export default function UpdateFeedContainer() {
               <h2 className="text-2xl">Update Feed</h2>
               <Button
                 className="relative flex items-center gap-x-1.5"
-                variant="info"
+                variant="accent"
                 onClick={handleViewMore}
               >
                 <span>View History</span>
                 <FontAwesomeIcon height="16" icon={faClockRotateLeft} />
                 {total - UPDATE_FEED_HOME_AMOUNT > 0 && (
-                  <span className="absolute right-0 top-0 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center rounded-full bg-primary-600 px-2 py-1 text-xs/none font-bold">
+                  <span className="absolute right-0 top-0 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center rounded-full bg-rose-600 px-2 py-1 text-xs/none font-bold text-white">
                     {total - UPDATE_FEED_HOME_AMOUNT}{" "}
                     <span className="sr-only">Additional updates</span>
                   </span>
@@ -325,13 +325,13 @@ export default function UpdateFeedContainer() {
         footer={
           <>
             <Button
-              variant="blue"
+              variant="secondary"
               onClick={() => setSize((size) => size + 1)}
               disabled={isLoadingMore || isReachingEnd}
             >
               {isLoadingMore ? "loading..." : isReachingEnd ? "no more updates" : "load more"}
             </Button>
-            <Button variant="secondary" disabled={isRefreshing} onClick={() => mutate()}>
+            <Button disabled={isRefreshing} onClick={() => mutate()}>
               {isRefreshing ? "refreshing..." : "refresh"}
             </Button>
           </>
@@ -372,9 +372,9 @@ export default function UpdateFeedContainer() {
               initial="hidden"
               animate="show"
               exit="hidden"
-              className="absolute inset-0 flex items-center justify-center bg-info-800/75"
+              className="absolute inset-0 flex items-center justify-center bg-cyan-800/75"
             >
-              <h2 className="text-3xl font-bold text-white">Loading...</h2>
+              <h2 className="text-3xl font-bold">Loading...</h2>
             </m.div>
           )}
         </AnimatePresence>

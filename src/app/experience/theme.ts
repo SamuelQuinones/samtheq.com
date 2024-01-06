@@ -4,18 +4,18 @@ export const themeConfig = new Map([
   [
     "work",
     {
-      contentClassName: "bg-primary-600",
+      contentClassName: "bg-rose-600",
       arrowClassName:
-        "group-even:border-r-primary-600 group-odd:md:border-l-primary-600 group-odd:max-md:border-r-primary-600",
+        "group-even:border-r-rose-600 group-odd:md:border-l-rose-600 group-odd:max-md:border-r-rose-600",
       icon: faBriefcase,
     },
   ],
   [
     "education",
     {
-      contentClassName: "bg-info-700",
+      contentClassName: "bg-cyan-700",
       arrowClassName:
-        "group-even:border-r-info-700 group-odd:md:border-l-info-700 group-odd:max-md:border-r-info-700",
+        "group-even:border-r-cyan-700 group-odd:md:border-l-cyan-700 group-odd:max-md:border-r-cyan-700",
       icon: faGraduationCap,
     },
   ],

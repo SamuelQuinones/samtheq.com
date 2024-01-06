@@ -8,6 +8,7 @@ import { TimelineContainer, TimelineFilter, TimelineItem } from "./Timeline";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload, faRotate } from "@fortawesome/free-solid-svg-icons";
 import { Suspense } from "react";
+import Button from "@/components/Button";
 
 async function getExperienceItems() {
   const [lastUpdated, history, experienceTypes] = await Promise.all([
@@ -88,7 +89,7 @@ async function ExperienceTimeline() {
         </div>
       ) : (
         <TimelineContainer>
-          <Suspense fallback={<div className="btn btn-primary disabled">Loading...</div>}>
+          <Suspense fallback={<Button disabled>Loading...</Button>}>
             <TimelineFilter experienceTypes={experienceTypes} />
           </Suspense>
           <div className="overflow-x-hidden">
@@ -166,22 +167,24 @@ export default function Experience() {
         <ExperienceTimeline />
       </Suspense>
       <section className="grid gap-6 p-3 sm:grid-cols-2">
-        <a
-          className="btn btn-blue flex items-center justify-center gap-x-1 rounded-none py-3 text-xl/none"
-          href="/SamuelQuinonesResume.pdf"
-          target="_blank"
-          download
+        <Button
+          asChild
+          className="flex items-center justify-center gap-x-1 rounded-none py-3 text-xl/none"
         >
-          <FontAwesomeIcon icon={faDownload} width="1em" height="1em" />
-          Download My Resume
-        </a>
-        <a
-          className="btn btn-secondary flex items-center justify-center gap-x-1 rounded-none py-3 text-xl/none"
-          href="/SamuelQuinonesResume.pdf"
-          target="_blank"
+          <a href="/SamuelQuinonesResume.pdf" target="_blank" download>
+            <FontAwesomeIcon icon={faDownload} width="1em" height="1em" />
+            Download My Resume
+          </a>
+        </Button>
+        <Button
+          asChild
+          variant="secondary"
+          className="flex items-center justify-center gap-x-1 rounded-none py-3 text-xl/none"
         >
-          View My Resume
-        </a>
+          <a href="/SamuelQuinonesResume.pdf" target="_blank">
+            View My Resume
+          </a>
+        </Button>
       </section>
     </main>
   );

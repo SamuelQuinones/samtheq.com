@@ -20,19 +20,19 @@ export default function Notfound() {
       <h1 className="text-center text-7xl font-semibold">404</h1>
       <p className="mt-5 text-center">The page you requested could not be found</p>
       <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <Link href="/" passHref legacyBehavior>
-          <Button data-next-legacy-link="">Go to the Home Page</Button>
-        </Link>
+        <Button asChild>
+          <Link href="/">Go to the Home Page</Link>
+        </Button>
         <Tooltip placement="bottom" tooltipText="Open a GitHub Issue">
-          <Button
-            variant="blue"
-            href="https://github.com/SamuelQuinones/samtheq.com/issues"
-            target="_blank"
-            className="flex items-center justify-center gap-1"
-            rel="noopener noreferrer"
-          >
-            <span>Report a Problem</span>
-            <FontAwesomeIcon height="1em" width="1em" icon={faGithub} />
+          <Button asChild variant="secondary" className="flex items-center justify-center gap-1">
+            <a
+              href="https://github.com/SamuelQuinones/samtheq.com/issues"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>Report a Problem</span>
+              <FontAwesomeIcon height="1em" width="1em" icon={faGithub} />
+            </a>
           </Button>
         </Tooltip>
       </div>

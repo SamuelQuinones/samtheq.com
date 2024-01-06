@@ -4,11 +4,12 @@ import { Suspense } from "react";
 import { getGithubReposByUser } from "@/lib/Github/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTools, faWarning } from "@fortawesome/free-solid-svg-icons";
+import Button from "@/components/Button";
 
 function Skeleton() {
   return (
     <section data-code-source="loading" className="animate-pulse cursor-not-allowed space-y-3.5">
-      <h2 className="text-2xl/none font-semibold text-secondary-300">
+      <h2 className="text-2xl/none font-semibold text-accent">
         <span className="inline-block min-h-[1em] w-32 cursor-wait bg-current align-middle opacity-50" />
       </h2>
       <p>
@@ -22,7 +23,7 @@ function Skeleton() {
         {[...Array(10)].map((_, i) => (
           <div
             key={i}
-            className="flex flex-col gap-y-3 rounded-md border-2 border-primary-700/70 bg-gray-900 p-3 shadow-lg"
+            className="flex flex-col gap-y-3 rounded-md border-2 border-primary bg-gray-900 p-3 shadow-lg"
           >
             <h3 className="text-lg">
               <span className="inline-block size-5 rounded-full bg-current align-middle opacity-50" />{" "}
@@ -37,16 +38,17 @@ function Skeleton() {
                 <span className="inline-block min-h-[1em] w-1/3 cursor-wait bg-current align-middle opacity-50" />
               </p>
             </div>
-            <div className="-mx-3 -mb-3 grid grid-cols-3 items-center divide-x-2 divide-gray-900 rounded-b-md border-t border-primary-700/70">
+            <div className="-mx-3 -mb-3 grid grid-cols-3 items-center divide-x-2 divide-gray-900 rounded-b-md border-t border-primary">
               {[...Array(3)].map((_, ii) => (
-                <div
+                <Button
+                  className="flex size-full items-center justify-center gap-x-1 rounded-none border-0 first:rounded-bl-sm last:rounded-br-sm"
                   key={ii}
-                  className="btn btn-primary disabled flex size-full items-center justify-center gap-x-1 rounded-none border-0 first:rounded-bl-sm last:rounded-br-sm"
+                  disabled
                 >
                   <p>
                     <span className="mx-auto inline-block size-4 min-h-[1em] rounded-full bg-current align-middle opacity-50" />
                   </p>
-                </div>
+                </Button>
               ))}
             </div>
           </div>
@@ -65,7 +67,7 @@ async function GitHubRepos() {
     <section data-code-source="github" className="space-y-3.5">
       <h2
         id="github-projects"
-        className="scroll-mt-16 text-2xl/none font-semibold text-secondary-300 transition-colors hocus:text-secondary-400"
+        className="scroll-mt-16 text-2xl/none font-semibold text-accent transition-colors hocus:text-accent-lighter-10"
       >
         <a href="#github-projects">Github</a>
       </h2>
@@ -128,7 +130,7 @@ export default function CodeProjects() {
         <h1 className="mb-10 mt-4 text-center text-3xl sm:text-5xl lg:text-6xl">
           Development Projects
         </h1>
-        <div className="my-10 text-center text-secondary-400">
+        <div className="my-10 text-center">
           <FontAwesomeIcon height="1em" size="10x" icon={faTools} />
         </div>
         <p className="mb-5 text-center md:text-lg lg:text-xl">

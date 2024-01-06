@@ -19,7 +19,7 @@ export default function About() {
     return (
       <main id="stq-page-content" className="bs-container-md mt-16 w-full grow scroll-mt-16">
         <h1 className="my-4 text-center text-4xl sm:text-5xl lg:text-6xl">About Me</h1>
-        <div className="my-10 text-center text-secondary-400">
+        <div className="my-10 text-center">
           <FontAwesomeIcon height="1em" size="10x" icon={faTools} />
         </div>
         <p className="mb-5 text-center md:text-lg lg:text-xl">

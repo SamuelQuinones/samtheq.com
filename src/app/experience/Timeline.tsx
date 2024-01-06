@@ -200,7 +200,7 @@ export function TimelineItem({
             <section className="mt-3 text-right">
               <Button
                 aria-label={`Read more about ${title} at ${place}`}
-                variant="secondary"
+                variant="accent"
                 onClick={handlePrepare}
               >
                 Read More
