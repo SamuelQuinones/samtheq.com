@@ -5,9 +5,9 @@
     "*.css": "tailwindcss"
   },
   "tailwindCSS.experimental.classRegex": [
-    ["(?:classnames|classNames|cx|clsx)\\(([^)]*)\\)", "(?:')((?:\\'|[^'])*)(?:')"],
-    ["(?:classnames|classNames|cx|clsx)\\(([^)]*)\\)", "(?:\")((?:\\\"|[^\"])*)(?:\")"],
-    ["(?:classnames|classNames|cx|clsx)\\(([^)]*)\\)", "(?:`)((?:\\`|[^`])*)(?:`)"]
+    ["(?:classnames|classNames|cx|clsx|twClsx)\\(([^)]*)\\)", "(?:')((?:\\'|[^'])*)(?:')"],
+    ["(?:classnames|classNames|cx|clsx|twClsx)\\(([^)]*)\\)", "(?:\")((?:\\\"|[^\"])*)(?:\")"],
+    ["(?:classnames|classNames|cx|clsx|twClsx)\\(([^)]*)\\)", "(?:`)((?:\\`|[^`])*)(?:`)"]
   ],
   "dotenv.enableAutocloaking": false
 }

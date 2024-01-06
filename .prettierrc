@@ -4,6 +4,6 @@
   "useTabs": false,
   "endOfLine": "auto",
   "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindFunctions": ["clsx"],
+  "tailwindFunctions": ["clsx", "twClsx"],
   "trailingComma": "es5"
 }
