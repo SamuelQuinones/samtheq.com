@@ -8,8 +8,27 @@ module.exports = {
     extend: {
       colors: {
         info: colors.cyan,
-        primary: colors.rose,
-        secondary: colors.slate,
+        text: {
+          DEFAULT: "hsl(var(--text) / <alpha-value>)",
+        },
+        background: {
+          DEFAULT: "hsl(var(--background) / <alpha-value>)",
+        },
+        primary: {
+          "lighter-10": "hsl(var(--primary-lighter-10) / <alpha-value>)",
+          DEFAULT: "hsl(var(--primary) / <alpha-value>)",
+          "darker-10": "hsl(var(--primary-darker-10) / <alpha-value>)",
+        },
+        secondary: {
+          "lighter-10": "hsl(var(--secondary-lighter-10) / <alpha-value>)",
+          DEFAULT: "hsl(var(--secondary) / <alpha-value>)",
+          "darker-10": "hsl(var(--secondary-darker-10) / <alpha-value>)",
+        },
+        accent: {
+          "lighter-10": "hsl(var(--accent-lighter-10) / <alpha-value>)",
+          DEFAULT: "hsl(var(--accent) / <alpha-value>)",
+          "darker-10": "hsl(var(--accent-darker-10) / <alpha-value>)",
+        },
       },
       fontFamily: {
         sans: ["var(--font-inter)"],
@@ -20,7 +39,7 @@ module.exports = {
   plugins: [
     plugin(({ addVariant }) => {
       addVariant("hocus", ["&:hover", "&:focus"]);
-      addVariant("disabled-class", ["&.disabled", "&:disabled"]);
+      addVariant("disabled", ["&:disabled", "&.disabled"]);
     }),
   ],
 };

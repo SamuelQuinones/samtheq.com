@@ -8,8 +8,8 @@
 }
 
 .nav-item .drop-toggle + .popper-nav-menu .nav-link {
-  @apply m-0 items-center rounded-none px-4 py-1 active:bg-info-700 hocus:bg-gray-600;
+  @apply m-0 items-center rounded-none px-4 py-1 active:bg-cyan-700 hocus:bg-gray-600;
 }
 .nav-item .drop-toggle + .popper-nav-menu .nav-link.active {
-  @apply bg-info-700;
+  @apply bg-cyan-700;
 }

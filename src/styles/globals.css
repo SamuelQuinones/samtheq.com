@@ -7,8 +7,19 @@
 
 :root {
   color-scheme: dark;
-  --stq-bg-color: #371b36;
-  --stq-text-color: #ffffff;
+  /* --text: 161 86% 94%; */
+  --text: 166 68% 94%;
+  /* --background: 167 85% 8%; */
+  --background: 167 69% 5%;
+  --primary-lighter-10: 165 76% 83%;
+  --primary: 165 76% 73%;
+  --primary-darker-10: 165 76% 63%;
+  --secondary-lighter-10: 270 76% 44%;
+  --secondary: 270 76% 34%;
+  --secondary-darker-10: 270 76% 24%;
+  --accent-lighter-10: 52 49% 69%;
+  --accent: 52 49% 59%;
+  --accent-darker-10: 52 49% 49%;
 }
 
 *,
@@ -19,8 +30,8 @@
 
 html,
 body {
-  background-color: var(--stq-bg-color);
-  color: var(--stq-text-color);
+  background-color: hsl(var(--background));
+  color: hsl(var(--text));
   padding: 0;
   margin: 0;
 }
