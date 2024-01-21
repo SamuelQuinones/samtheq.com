@@ -2,11 +2,23 @@
 
 import clsx from "clsx";
 import { AnimatePresence, m } from "framer-motion";
-import { useCallback } from "react";
-import RRModal from "@restart/ui/Modal";
+import { useCallback, type ReactNode } from "react";
+import RRModal, { type BaseModalProps } from "@restart/ui/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
-import type { ModalProps } from "./Modal";
+
+interface ModalProps extends Pick<BaseModalProps, "restoreFocus" | "backdrop"> {
+  open?: boolean;
+  handleClose?: () => void;
+  header?: ReactNode;
+  headerClassName?: string;
+  bodyClassName?: string;
+  footer?: ReactNode;
+  footerClassName?: string;
+  children?: ReactNode;
+  restoreFocus?: boolean;
+  onExitComplete?: () => void;
+}
 
 interface DrawerProps extends ModalProps {
   position?: "left" | "right" | "top" | "bottom";

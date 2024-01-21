@@ -1,71 +1,21 @@
 "use client";
 
-import Button from "@/components/Button";
-import Drawer from "@/components/Drawer";
-import Modal from "@/components/Modal";
+import { useCallback, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { m } from "framer-motion";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
-import { m } from "framer-motion";
-import { useSearchParams } from "next/navigation";
-import { type ReactNode, useCallback, useMemo, useState, createContext, useContext } from "react";
-
-interface PrepareModalArgs {
-  additionalInfo: string[];
-  title: string;
-}
-
-interface TimelineContextValue {
-  prepareModal: (args: PrepareModalArgs) => void;
-}
-
-const TimelineContext = createContext<TimelineContextValue | null>(null);
-
-const useTimeline = () => {
-  const context = useContext(TimelineContext);
-  if (!context && process.env.NODE_ENV === "development") {
-    throw Error("Please make sure this component is contained within the Timeline Container");
-  } else {
-    return context!;
-  }
-};
-
-interface TimelineContainerProps {
-  children: ReactNode;
-}
-
-export function TimelineContainer({ children }: TimelineContainerProps) {
-  const [paragraphs, setParagraphs] = useState<string[]>([]);
-  const [title, setTitle] = useState("");
-  const [open, setOpen] = useState(false);
-
-  const prepareModal = useCallback(({ additionalInfo, title }: PrepareModalArgs) => {
-    setParagraphs(additionalInfo);
-    setTitle(title);
-    setOpen(true);
-  }, []);
-
-  const timelineValue = useMemo(() => ({ prepareModal }), [prepareModal]);
-
-  return (
-    <TimelineContext.Provider value={timelineValue}>
-      <Modal
-        open={open}
-        handleClose={() => setOpen(false)}
-        header={<h1 className="text-center text-2xl">{title}</h1>}
-      >
-        <ul className="list-disc pl-3">
-          {paragraphs.map((text, index) => (
-            <li className="mb-3" key={index}>
-              {text}
-            </li>
-          ))}
-        </ul>
-      </Modal>
-      {children}
-    </TimelineContext.Provider>
-  );
-}
+import Button from "@/components/Button";
+import {
+  Dialog,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/Dialog";
+import Drawer from "@/components/Drawer";
 
 interface TimelineFilterProps {
   experienceTypes: { exp_type: string; count: number }[];
@@ -141,10 +91,6 @@ export function TimelineItem({
   startDate,
   endDate,
 }: TimelineItemProps) {
-  const { prepareModal } = useTimeline();
-  //? Is this necesarry
-  const handlePrepare = () => prepareModal({ title, additionalInfo });
-
   const sideText = `${startDate} - ${endDate || "Present"}`;
 
   const contentClasses = clsx(contentClassName, "rounded-md p-2 text-left");
@@ -197,15 +143,29 @@ export function TimelineItem({
           <p>{description}</p>
           <p className="mt-2 block font-bold italic md:hidden">{sideText}</p>
           {additionalInfo.length > 0 && (
-            <section className="mt-3 text-right">
-              <Button
-                aria-label={`Read more about ${title} at ${place}`}
-                variant="accent"
-                onClick={handlePrepare}
-              >
-                Read More
-              </Button>
-            </section>
+            <Dialog>
+              <section className="mt-3 text-right">
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>{title}</DialogTitle>
+                  </DialogHeader>
+                  <DialogBody>
+                    <ul className="list-disc pl-3">
+                      {additionalInfo.map((text, index) => (
+                        <li className="mb-3" key={index}>
+                          {text}
+                        </li>
+                      ))}
+                    </ul>
+                  </DialogBody>
+                </DialogContent>
+                <DialogTrigger asChild>
+                  <Button aria-label={`Read more about ${title} at ${place}`} variant="accent">
+                    Read More
+                  </Button>
+                </DialogTrigger>
+              </section>
+            </Dialog>
           )}
         </div>
       </m.div>

@@ -4,7 +4,7 @@ import format from "date-fns/format";
 import { formatInTimeZone } from "date-fns-tz";
 import { getTheme } from "./theme";
 // September 16th 2023, dynamic import doesnt allow for the importing of named client components on to the server I guess?
-import { TimelineContainer, TimelineFilter, TimelineItem } from "./Timeline";
+import { TimelineFilter, TimelineItem } from "./Timeline";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload, faRotate } from "@fortawesome/free-solid-svg-icons";
 import { Suspense } from "react";
@@ -88,7 +88,7 @@ async function ExperienceTimeline() {
           </p>
         </div>
       ) : (
-        <TimelineContainer>
+        <>
           <Suspense fallback={<Button disabled>Loading...</Button>}>
             <TimelineFilter experienceTypes={experienceTypes} />
           </Suspense>
@@ -118,7 +118,7 @@ async function ExperienceTimeline() {
               })}
             </ul>
           </div>
-        </TimelineContainer>
+        </>
       )}
     </>
   );

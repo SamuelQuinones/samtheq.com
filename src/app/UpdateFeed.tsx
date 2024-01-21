@@ -1,17 +1,17 @@
 "use client";
 
-import Button from "@/components/Button";
-import Drawer from "@/components/Drawer";
-import Modal from "@/components/Modal";
-import { useBreakpoints, useIsomorphicLayoutEffect } from "@/hooks";
-import { fetcherGET } from "@/lib/SWR/fetcher";
+import { useState, useCallback, useRef, useMemo, Fragment } from "react";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { UpdateFeed } from "@prisma/client";
-import format from "date-fns/format";
 import { AnimatePresence, m } from "framer-motion";
-import { useState, useCallback, useRef, useContext, createContext, useMemo, Fragment } from "react";
+import format from "date-fns/format";
 import useSWRInfinite from "swr/infinite";
+import Button from "@/components/Button";
+import { Dialog, DialogBody, DialogContent, DialogTrigger } from "@/components/Dialog";
+import Drawer from "@/components/Drawer";
+import { useBreakpoints, useIsomorphicLayoutEffect } from "@/hooks";
+import { fetcherGET } from "@/lib/SWR/fetcher";
 
 const UPDATE_FEED_HOME_AMOUNT = 3;
 
@@ -68,23 +68,6 @@ function useUpdateFeed<E = { message: string }>() {
 }
 //#endregion FetchData
 
-//#region Updatecontext
-interface UpdateContextValue {
-  prepareMessage: (msg: string) => void;
-}
-
-const UpdateContext = createContext<UpdateContextValue | null>(null);
-
-const useUpdateCard = () => {
-  const context = useContext(UpdateContext);
-  if (!context && process.env.NODE_ENV === "development") {
-    throw Error("Please make sure this component is contained within the Update Feed Container");
-  } else {
-    return context!;
-  }
-};
-//#endregion UpdateContext
-
 //#region UpdateFeedItem
 interface UpdateItemProps {
   title: string;
@@ -98,7 +81,6 @@ const cardVariants = { hidden: { opacity: 0, y: 50 }, show: { opacity: 1, y: 0 }
 export function UpdateFeedItem({ title, message, link, feedDate }: UpdateItemProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [disabled, setDisabled] = useState(true);
-  const { prepareMessage } = useUpdateCard();
   const { isExtraSmall, isSmall, isMedium, isLarge, isExtraLarge, isDoubleExtraLarge } =
     useBreakpoints();
 
@@ -127,13 +109,16 @@ export function UpdateFeedItem({ title, message, link, feedDate }: UpdateItemPro
         <p className="line-clamp-2">{message}</p>
       </section>
       <section className="flex justify-end gap-2 peer-[&:not(.is-truncated)]:[&_>_:first-child]:invisible">
-        <Button
-          disabled={disabled}
-          className="overflow-hidden text-ellipsis whitespace-nowrap"
-          onClick={() => prepareMessage(message)}
-        >
-          Read More
-        </Button>
+        <Dialog>
+          <DialogContent>
+            <DialogBody>{message}</DialogBody>
+          </DialogContent>
+          <DialogTrigger asChild>
+            <Button disabled={disabled} className="overflow-hidden text-ellipsis whitespace-nowrap">
+              Read More
+            </Button>
+          </DialogTrigger>
+        </Dialog>
         {link && (
           <Button
             asChild
@@ -160,9 +145,59 @@ const containerVariants = {
   show: { opacity: 1, transition: { staggerChildren: 0.5 } },
 };
 
+function UpdateFeedSkeleton() {
+  return (
+    <div key="loading-initial-updates" className="mb-3 mt-16 w-full">
+      <section className="mb-4 flex w-full animate-pulse items-center justify-between px-3">
+        <h2 className="w-1/6 text-xl">
+          <span className="inline-block min-h-[1em] w-full cursor-wait bg-current align-middle opacity-50" />
+        </h2>
+        <Button
+          variant="accent"
+          tabIndex={-1}
+          disabled
+          className="min-h-[1em] w-1/6 cursor-wait align-middle opacity-50 before:inline-block before:content-['']"
+          aria-hidden="true"
+        />
+      </section>
+      <section className="grid grid-cols-1 gap-5 md:grid-cols-3">
+        {[...Array(UPDATE_FEED_HOME_AMOUNT)].map((_, i) => (
+          <div
+            key={i}
+            className="rounded-md border border-black border-opacity-5 bg-gray-900 p-4 shadow-md"
+          >
+            <div className="flex animate-pulse flex-col justify-between">
+              <h4 className="mb-2">
+                <span className="inline-block min-h-[1em] w-1/2 cursor-wait bg-current align-middle opacity-50" />
+              </h4>
+              <p className="line-clamp-2">
+                <span className="inline-block min-h-[1em] w-7/12 cursor-wait bg-current align-middle opacity-50" />{" "}
+                <span className="inline-block min-h-[1em] w-1/3 cursor-wait bg-current align-middle opacity-50" />{" "}
+                <span className="inline-block min-h-[1em] w-1/4 cursor-wait bg-current align-middle opacity-50" />{" "}
+                <span className="inline-block min-h-[1em] w-1/4 cursor-wait bg-current align-middle opacity-50" />{" "}
+                <span className="inline-block min-h-[1em] w-1/3 cursor-wait bg-current align-middle opacity-50" />
+              </p>
+              <div className="-m-4 mt-4 flex justify-end rounded-b-md px-4 py-2">
+                <Button
+                  tabIndex={-1}
+                  disabled
+                  className="min-h-[1em] w-1/3 cursor-wait align-middle opacity-50 before:inline-block before:content-['']"
+                  aria-hidden="true"
+                />
+              </div>
+              <p className="-m-2 mb-1 mt-4">
+                <span className="inline-block min-h-[1em] w-1/5 cursor-wait bg-current align-middle opacity-50" />{" "}
+                <span className="inline-block min-h-[1em] w-1/5 cursor-wait bg-current align-middle opacity-50" />
+              </p>
+            </div>
+          </div>
+        ))}
+      </section>
+    </div>
+  );
+}
+
 export default function UpdateFeedContainer() {
-  const [message, setMessage] = useState("");
-  const [showModal, setShowModal] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const {
     setSize,
@@ -176,13 +211,6 @@ export default function UpdateFeedContainer() {
     isLoadingInitialData,
     isLoadingMore,
   } = useUpdateFeed();
-
-  const prepareMessage = useCallback((msg: string) => {
-    setMessage(msg);
-    setShowModal(true);
-  }, []);
-
-  const updateValue = useMemo(() => ({ prepareMessage }), [prepareMessage]);
 
   //? Does this need to be memozied?
   const loadMoreError = useMemo(
@@ -198,15 +226,7 @@ export default function UpdateFeedContainer() {
   }, [additionalUpdates.length, loadMoreError, setSize]);
 
   return (
-    <UpdateContext.Provider value={updateValue}>
-      <Modal
-        open={showModal}
-        handleClose={() => setShowModal(false)}
-        footer={<Button onClick={() => setShowModal(false)}>Close</Button>}
-        footerClassName="p-2 text-right"
-      >
-        {message}
-      </Modal>
+    <>
       {/* Main Three Cards */}
       <AnimatePresence mode="wait">
         {isError && !initialUpdates && (
@@ -225,55 +245,7 @@ export default function UpdateFeedContainer() {
             </pre>
           </m.div>
         )}
-        {isLoadingInitialData && (
-          <div key="loading-initial-updates" className="mb-3 mt-16 w-full">
-            <section className="mb-4 flex w-full animate-pulse items-center justify-between px-3">
-              <h2 className="w-1/6 text-xl">
-                <span className="inline-block min-h-[1em] w-full cursor-wait bg-current align-middle opacity-50" />
-              </h2>
-              <Button
-                variant="accent"
-                tabIndex={-1}
-                disabled
-                className="min-h-[1em] w-1/6 cursor-wait align-middle opacity-50 before:inline-block before:content-['']"
-                aria-hidden="true"
-              />
-            </section>
-            <section className="grid grid-cols-1 gap-5 md:grid-cols-3">
-              {[...Array(UPDATE_FEED_HOME_AMOUNT)].map((_, i) => (
-                <div
-                  key={i}
-                  className="rounded-md border border-black border-opacity-5 bg-gray-900 p-4 shadow-md"
-                >
-                  <div className="flex animate-pulse flex-col justify-between">
-                    <h4 className="mb-2">
-                      <span className="inline-block min-h-[1em] w-1/2 cursor-wait bg-current align-middle opacity-50" />
-                    </h4>
-                    <p className="line-clamp-2">
-                      <span className="inline-block min-h-[1em] w-7/12 cursor-wait bg-current align-middle opacity-50" />{" "}
-                      <span className="inline-block min-h-[1em] w-1/3 cursor-wait bg-current align-middle opacity-50" />{" "}
-                      <span className="inline-block min-h-[1em] w-1/4 cursor-wait bg-current align-middle opacity-50" />{" "}
-                      <span className="inline-block min-h-[1em] w-1/4 cursor-wait bg-current align-middle opacity-50" />{" "}
-                      <span className="inline-block min-h-[1em] w-1/3 cursor-wait bg-current align-middle opacity-50" />
-                    </p>
-                    <div className="-m-4 mt-4 flex justify-end rounded-b-md px-4 py-2">
-                      <Button
-                        tabIndex={-1}
-                        disabled
-                        className="min-h-[1em] w-1/3 cursor-wait align-middle opacity-50 before:inline-block before:content-['']"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <p className="-m-2 mb-1 mt-4">
-                      <span className="inline-block min-h-[1em] w-1/5 cursor-wait bg-current align-middle opacity-50" />{" "}
-                      <span className="inline-block min-h-[1em] w-1/5 cursor-wait bg-current align-middle opacity-50" />
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </section>
-          </div>
-        )}
+        {isLoadingInitialData && <UpdateFeedSkeleton />}
         {initialUpdates && (
           <Fragment key="initial-updates">
             <m.section
@@ -379,7 +351,7 @@ export default function UpdateFeedContainer() {
           )}
         </AnimatePresence>
       </Drawer>
-    </UpdateContext.Provider>
+    </>
   );
 }
 //#endregion UpdateFeedContainer
