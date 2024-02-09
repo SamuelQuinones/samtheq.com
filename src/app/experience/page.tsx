@@ -1,7 +1,7 @@
 import { mergeMetadata } from "@/lib/NextJS/metadata";
 import { prisma } from "@/lib/Prisma/db";
-import format from "date-fns/format";
-import { formatInTimeZone } from "date-fns-tz";
+import { format } from "date-fns";
+import { UTCDateMini } from "@date-fns/utc";
 import { getTheme } from "./theme";
 // September 16th 2023, dynamic import doesnt allow for the importing of named client components on to the server I guess?
 import { TimelineFilter, TimelineItem } from "./Timeline";
@@ -97,10 +97,10 @@ async function ExperienceTimeline() {
               {experienceItems.map((item) => {
                 const theme = getTheme(item.exp_type);
                 //? should this happen on the server?
-                const startDate = formatInTimeZone(item.start_date, "UTC", "MMMM yyyy");
+                const startDate = format(new UTCDateMini(item.start_date), "MMMM yyyy");
                 //? should this happen on the server?
                 const endDate = item.end_date
-                  ? formatInTimeZone(item.end_date, "UTC", "MMMM yyyy")
+                  ? format(new UTCDateMini(item.end_date), "MMMM yyyy")
                   : null;
                 return (
                   <TimelineItem

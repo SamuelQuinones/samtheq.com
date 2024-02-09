@@ -2,7 +2,7 @@ import { mergeMetadata } from "@/lib/NextJS/metadata";
 import { prisma } from "@/lib/Prisma/db";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
-import format from "date-fns/format";
+import { format } from "date-fns";
 import SocialLink from "./SocialLink";
 import Image from "next/image";
 import { Suspense } from "react";

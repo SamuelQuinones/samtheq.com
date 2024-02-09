@@ -5,7 +5,7 @@ import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { UpdateFeed } from "@prisma/client";
 import { AnimatePresence, m } from "framer-motion";
-import format from "date-fns/format";
+import { format } from "date-fns";
 import useSWRInfinite from "swr/infinite";
 import Button from "@/components/Button";
 import { Dialog, DialogBody, DialogContent, DialogTrigger } from "@/components/Dialog";
