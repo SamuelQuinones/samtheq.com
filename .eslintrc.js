@@ -1,3 +1,9 @@
+/**
+ * TODO: Flatconfig upgrades:
+ * https://typescript-eslint.io/packages/typescript-eslint/
+ * https://typescript-eslint.io/blog/announcing-typescript-eslint-v7/
+ */
+
 module.exports = {
   root: true,
   ignorePatterns: ["node_modules/*", ".next/*", "out/*", "!.prettierrc"],
