@@ -1,4 +1,11 @@
-import Tooltip from "@/components/Tooltip";
+// import Tooltip from "@/components/Tooltip";
+import {
+  TooltipProvider,
+  TooltipTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipArrow,
+} from "@/components/Tooltip";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { faGithub, faLinkedinIn, faXTwitter, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,16 +19,22 @@ interface FooterIconProps {
 
 function FooterIcon({ icon, title, url }: FooterIconProps) {
   return (
-    <Tooltip tooltipText={title} placement="top">
-      <a
-        href={url}
-        className="mx-2 transition-colors duration-200 active:text-accent hocus:text-accent"
-        title={title}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <FontAwesomeIcon style={{ height: "24px" }} icon={icon} height="1em" />
-      </a>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <a
+          href={url}
+          className="mx-2 transition-colors duration-200 active:text-accent hocus:text-accent"
+          title={title}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FontAwesomeIcon style={{ height: "24px" }} icon={icon} height="1em" />
+        </a>
+      </TooltipTrigger>
+      <TooltipContent>
+        {title}
+        <TooltipArrow height={5} width={10} className="fill-primary" />
+      </TooltipContent>
     </Tooltip>
   );
 }
@@ -48,20 +61,22 @@ export default function Footer() {
           </p>
         </section>
         <section className="my-1 grid auto-cols-max justify-center text-base max-md:gap-y-2 md:my-0 md:justify-end">
-          <div className="flex items-center">
-            <FooterIcon icon={faYoutube} title="Youtube" url="https://www.youtube.com/@sammy_q" />
-            <FooterIcon
-              icon={faXTwitter}
-              title="X (Formally Twitter)"
-              url="https://twitter.com/SamuelQuinones1"
-            />
-            <FooterIcon icon={faGithub} title="Github" url="https://github.com/SamuelQuinones" />
-            <FooterIcon
-              icon={faLinkedinIn}
-              url="https://www.linkedin.com/in/samuelq/"
-              title="linkedin"
-            />
-          </div>
+          <TooltipProvider delayDuration={0}>
+            <div className="flex items-center">
+              <FooterIcon icon={faYoutube} title="Youtube" url="https://www.youtube.com/@sammy_q" />
+              <FooterIcon
+                icon={faXTwitter}
+                title="X (Formally Twitter)"
+                url="https://twitter.com/SamuelQuinones1"
+              />
+              <FooterIcon icon={faGithub} title="Github" url="https://github.com/SamuelQuinones" />
+              <FooterIcon
+                icon={faLinkedinIn}
+                url="https://www.linkedin.com/in/samuelq/"
+                title="linkedin"
+              />
+            </div>
+          </TooltipProvider>
           <div className="flex items-center justify-center">
             <Link href="/links" className="text-accent hocus:text-accent-darker-10 hocus:underline">
               Additional Links

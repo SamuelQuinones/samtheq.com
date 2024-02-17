@@ -71,7 +71,7 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 const DialogContent = forwardRef<
   ElementRef<typeof DialogPrimitive.Content>,
   ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => {
+>(({ className, children, asChild: _a, forceMount: _f, ...props }, ref) => {
   const isOpen = useContext(DialogOpenContext);
   return (
     <AnimatePresence>

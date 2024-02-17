@@ -1,5 +1,12 @@
 import Button from "@/components/Button";
-import Tooltip from "@/components/Tooltip";
+import {
+  Tooltip,
+  TooltipArrow,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/Tooltip";
+// import Tooltip from "@/components/Tooltip";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
@@ -23,18 +30,33 @@ export default function Notfound() {
         <Button asChild>
           <Link href="/">Go to the Home Page</Link>
         </Button>
-        <Tooltip placement="bottom" tooltipText="Open a GitHub Issue">
-          <Button asChild variant="secondary" className="flex items-center justify-center gap-1">
-            <a
-              href="https://github.com/SamuelQuinones/samtheq.com/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span>Report a Problem</span>
-              <FontAwesomeIcon height="1em" width="1em" icon={faGithub} />
-            </a>
-          </Button>
-        </Tooltip>
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                asChild
+                variant="secondary"
+                className="flex items-center justify-center gap-1"
+              >
+                <a
+                  href="https://github.com/SamuelQuinones/samtheq.com/issues"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span>Report a Problem</span>
+                  <FontAwesomeIcon height="1em" width="1em" icon={faGithub} />
+                </a>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">
+              <span>Open a GitHub Issue</span>
+              <TooltipArrow height={5} width={10} className="fill-primary" />
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        {/* <Tooltip placement="bottom" tooltipText="Open a GitHub Issue">
+
+        </Tooltip> */}
       </div>
     </main>
   );
