@@ -12,6 +12,7 @@ module.exports = {
           DEFAULT: "hsl(var(--text) / <alpha-value>)",
         },
         background: {
+          "lighter-10": "hsl(var(--background-lighter-10) / <alpha-value>)",
           DEFAULT: "hsl(var(--background) / <alpha-value>)",
         },
         primary: {

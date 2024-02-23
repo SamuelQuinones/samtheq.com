@@ -100,7 +100,7 @@ export function UpdateFeedItem({ title, message, link, feedDate }: UpdateItemPro
   return (
     <m.div
       variants={cardVariants}
-      className="flex flex-col rounded-md border border-black border-opacity-5 bg-gray-900 p-4 shadow-md"
+      className="flex flex-col rounded-md border border-background-lighter-10 bg-black p-4 shadow-md shadow-white/10"
     >
       <section>
         <h4 className="mb-2 line-clamp-1 text-xl italic">{title}</h4>

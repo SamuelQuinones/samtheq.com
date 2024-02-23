@@ -18,14 +18,14 @@ const ActionItem = ({ children, href }: { children: ReactNode; href: string }) =
 
 export default function GithubCodeCard(props: Repository) {
   return (
-    <div className="flex flex-col gap-y-3 rounded-md border-2 border-primary bg-gray-900 p-3 shadow-lg">
+    <div className="flex flex-col gap-y-3 rounded-md border-2 border-primary bg-primary/20 p-3 shadow-lg shadow-white/50">
       <h3 className="text-lg">
         <FontAwesomeIcon icon={faGithub} height="1em" /> {props.name}
       </h3>
       <div className="flex-auto">
         <p>{props.description}</p>
       </div>
-      <div className="-mx-3 -mb-3 grid grid-cols-3 items-center divide-x-2 divide-gray-900 rounded-b-md border-t border-primary">
+      <div className="-mx-3 -mb-3 grid grid-cols-3 items-center divide-x-2 divide-black rounded-b-md border-t border-primary">
         <ActionItem href={props.html_url + "/stargazers"}>
           <FontAwesomeIcon height="1em" icon={faStar} />{" "}
           {props.stargazers_count !== undefined &&

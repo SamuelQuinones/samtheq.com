@@ -60,7 +60,9 @@ export function TimelineFilter({ experienceTypes }: TimelineFilterProps) {
         </select>
       </Drawer>
       <div className="flex flex-wrap gap-1 px-3">
-        <Button onClick={() => setOpen(true)}>Filter Timeline</Button>
+        <Button variant="accent" onClick={() => setOpen(true)}>
+          Filter Timeline
+        </Button>
       </div>
     </>
   );

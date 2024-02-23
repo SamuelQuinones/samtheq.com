@@ -85,7 +85,7 @@ const DialogContent = forwardRef<
             forceMount
             ref={ref}
             className={clsx(
-              "fixed left-[50%] top-[50%] z-[10015] flex max-h-full w-full max-w-lg flex-col gap-4 overflow-hidden border border-text/30 bg-background p-6 shadow-lg sm:max-h-[calc(100%-3.5rem)] sm:rounded-lg",
+              "fixed left-[50%] top-[50%] z-[10015] flex max-h-full w-full max-w-lg flex-col gap-4 overflow-hidden border border-background-lighter-10 bg-background p-6 shadow-lg sm:max-h-[calc(100%-3.5rem)] sm:rounded-lg",
               className
             )}
             {...props}

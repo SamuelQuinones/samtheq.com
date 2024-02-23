@@ -89,7 +89,13 @@ async function ExperienceTimeline() {
         </div>
       ) : (
         <>
-          <Suspense fallback={<Button disabled>Loading...</Button>}>
+          <Suspense
+            fallback={
+              <Button variant="accent" disabled>
+                Loading...
+              </Button>
+            }
+          >
             <TimelineFilter experienceTypes={experienceTypes} />
           </Suspense>
           <div className="overflow-x-hidden">
