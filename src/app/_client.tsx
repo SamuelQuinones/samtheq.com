@@ -2,6 +2,7 @@
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { LazyMotion } from "framer-motion";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 /**
  * May 9th 2023
@@ -13,10 +14,14 @@ config.autoAddCss = false;
 
 const loadFeatures = async () => (await import("../lib/FramerMotion.js")).default;
 
+const queryClient = new QueryClient();
+
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
-    <LazyMotion strict features={loadFeatures}>
-      {children}
-    </LazyMotion>
+    <QueryClientProvider client={queryClient}>
+      <LazyMotion strict features={loadFeatures}>
+        {children}
+      </LazyMotion>
+    </QueryClientProvider>
   );
 }

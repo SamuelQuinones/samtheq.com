@@ -1,78 +1,24 @@
 "use client";
 
-import { useState, useCallback, useRef, useMemo, Fragment } from "react";
+import { useState, useCallback, useRef, Fragment } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { UpdateFeed } from "@prisma/client";
 import { AnimatePresence, m } from "framer-motion";
 import { format } from "date-fns";
-import useSWRInfinite from "swr/infinite";
 import Button from "@/components/Button";
 import { Dialog, DialogBody, DialogContent, DialogTrigger } from "@/components/Dialog";
 import Drawer from "@/components/Drawer";
 import { useBreakpoints, useIsomorphicLayoutEffect } from "@/hooks";
-import { fetcherGET } from "@/lib/SWR/fetcher";
+import { getUpdates } from "./update-feed-action";
 
 const UPDATE_FEED_HOME_AMOUNT = 3;
-
-//#region FetchData
-type Updates = Omit<
-  UpdateFeed,
-  "preview_text" | "check_it_out_link" | "inactive_timestamp" | "active" | "update_card_time"
-> & {
-  preview_text?: string;
-  check_it_out_link?: string;
-  update_card_time: string;
-};
-
-interface UpdateFeedResponse {
-  nextCursor?: number;
-  count: number;
-  total: number;
-  updates: Updates[];
-}
-
-function getKey(index: number, previousPageData: UpdateFeedResponse | null) {
-  // reached the end
-  if (previousPageData && !previousPageData.nextCursor) return null;
-  // first page, we don't have `previousPageData`
-  if (index === 0) return "/api/update-feed";
-  // add the cursor to the API endpoint
-  return `/api/update-feed?limit=10&cursor=${previousPageData?.nextCursor}`;
-}
-
-function useUpdateFeed<E = { message: string }>() {
-  const { data, error, setSize, mutate, isValidating, isLoading, size } = useSWRInfinite<
-    UpdateFeedResponse,
-    E
-  >(getKey, fetcherGET);
-  const isEmpty = data?.[0].updates.length === 0;
-  const isRefreshing = isValidating && data && data.length === size;
-
-  return {
-    mutate,
-    setSize,
-    total: data?.[0]?.total || 0,
-    isRefreshing,
-    isReachingEnd: isEmpty || (data && !data[data.length - 1]?.nextCursor),
-    isLoadingInitialData: !data && !error && isLoading,
-    isLoadingMore: isLoading || (size > 0 && data && typeof data[size - 1] === "undefined"),
-    initialUpdates: data?.[0]?.updates,
-    additionalUpdates:
-      data
-        ?.slice(1)
-        ?.map(({ updates }) => updates)
-        .flat() ?? [],
-    isError: error,
-  };
-}
-//#endregion FetchData
 
 //#region UpdateFeedItem
 interface UpdateItemProps {
   title: string;
   message: string;
-  link?: string;
+  link?: string | null;
   feedDate: string;
 }
 
@@ -164,7 +110,7 @@ function UpdateFeedSkeleton() {
         {[...Array(UPDATE_FEED_HOME_AMOUNT)].map((_, i) => (
           <div
             key={i}
-            className="rounded-md border border-black border-opacity-5 bg-gray-900 p-4 shadow-md"
+            className="rounded-md border border-background-lighter-10 bg-black p-4 shadow-md"
           >
             <div className="flex animate-pulse flex-col justify-between">
               <h4 className="mb-2">
@@ -199,37 +145,39 @@ function UpdateFeedSkeleton() {
 
 export default function UpdateFeedContainer() {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const {
-    setSize,
-    mutate,
-    total,
-    isError,
-    initialUpdates,
-    additionalUpdates,
-    isRefreshing,
-    isReachingEnd,
-    isLoadingInitialData,
-    isLoadingMore,
-  } = useUpdateFeed();
 
-  //? Does this need to be memozied?
-  const loadMoreError = useMemo(
-    () => isError && additionalUpdates.length === 0 && !isRefreshing,
-    [additionalUpdates.length, isError, isRefreshing]
-  );
-  //? Does this need to be memozied?
-  const loadMoreLoad = useMemo(() => isLoadingMore || isRefreshing, [isLoadingMore, isRefreshing]);
+  const {
+    data,
+    status,
+    fetchNextPage,
+    isFetching,
+    isFetchingNextPage,
+    error,
+    hasNextPage,
+    refetch,
+  } = useInfiniteQuery({
+    queryKey: ["updates"],
+    queryFn: async ({ pageParam }) => {
+      const res = await getUpdates(pageParam);
+      if (!res.ok) throw new Error(res.error);
+      return res;
+    },
+    initialPageParam: undefined as number | undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+  });
 
   const handleViewMore = useCallback(() => {
     setDrawerOpen(true);
-    if (additionalUpdates.length === 0 && !loadMoreError) void setSize(2);
-  }, [additionalUpdates.length, loadMoreError, setSize]);
+    if (data && data?.pages.length <= 1 && status !== "error" && !isFetching) {
+      void fetchNextPage();
+    }
+  }, [data, fetchNextPage, isFetching, status]);
 
   return (
     <>
       {/* Main Three Cards */}
       <AnimatePresence mode="wait">
-        {isError && !initialUpdates && (
+        {status === "error" && !data?.pages && (
           <m.div
             key="initial-error"
             variants={opacityVariants}
@@ -241,12 +189,12 @@ export default function UpdateFeedContainer() {
             <h3 className="mb-3 text-2xl font-bold">Unable to fetch data</h3>
             <p>Unable to fetch data to populates update cards</p>
             <pre className="overflow-x-auto whitespace-pre-wrap rounded-md bg-yellow-900 p-2">
-              <code>{isError.message}</code>
+              <code>{error.message}</code>
             </pre>
           </m.div>
         )}
-        {isLoadingInitialData && <UpdateFeedSkeleton />}
-        {initialUpdates && (
+        {status === "pending" && isFetching && <UpdateFeedSkeleton />}
+        {status === "success" && (
           <Fragment key="initial-updates">
             <m.section
               variants={opacityVariants}
@@ -262,9 +210,9 @@ export default function UpdateFeedContainer() {
               >
                 <span>View History</span>
                 <FontAwesomeIcon height="16" icon={faClockRotateLeft} />
-                {total - UPDATE_FEED_HOME_AMOUNT > 0 && (
+                {data.pages[0].total - UPDATE_FEED_HOME_AMOUNT > 0 && (
                   <span className="absolute right-0 top-0 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center rounded-full bg-rose-600 px-2 py-1 text-xs/none font-bold text-white">
-                    {total - UPDATE_FEED_HOME_AMOUNT}{" "}
+                    {data.pages[0].total - UPDATE_FEED_HOME_AMOUNT}{" "}
                     <span className="sr-only">Additional updates</span>
                   </span>
                 )}
@@ -276,13 +224,13 @@ export default function UpdateFeedContainer() {
               animate="show"
               className="mb-3 grid gap-5 md:grid-cols-3"
             >
-              {initialUpdates.map((update) => (
+              {data.pages[0].updates.map((update) => (
                 <UpdateFeedItem
                   key={`update-${update.ID}`}
                   title={update.title}
                   link={update.check_it_out_link}
                   message={update.message}
-                  feedDate={format(new Date(update.update_card_time), "MMMM do, yyyy")}
+                  feedDate={format(update.update_card_time, "MMMM do, yyyy")}
                 />
               ))}
             </m.div>
@@ -298,34 +246,37 @@ export default function UpdateFeedContainer() {
           <>
             <Button
               variant="secondary"
-              onClick={() => setSize((size) => size + 1)}
-              disabled={isLoadingMore || isReachingEnd}
+              onClick={() => fetchNextPage()}
+              disabled={!hasNextPage || isFetchingNextPage}
             >
-              {isLoadingMore ? "loading..." : isReachingEnd ? "no more updates" : "load more"}
+              {isFetchingNextPage ? "loading..." : hasNextPage ? "load more" : "no more updates"}
             </Button>
-            <Button disabled={isRefreshing} onClick={() => mutate()}>
-              {isRefreshing ? "refreshing..." : "refresh"}
+            <Button disabled={isFetching} onClick={() => refetch()}>
+              {isFetching ? "refreshing..." : "refresh"}
             </Button>
           </>
         }
         open={drawerOpen}
         handleClose={() => setDrawerOpen(false)}
       >
-        {!isError && additionalUpdates.length > 0 && (
+        {status === "success" && data.pages.length > 1 && (
           <m.div initial="hidden" animate="show" className="grid grid-cols-1 gap-5">
-            {additionalUpdates.map((update) => (
-              <UpdateFeedItem
-                key={`update-${update.ID}`}
-                title={update.title}
-                link={update.check_it_out_link}
-                message={update.message}
-                feedDate={format(new Date(update.update_card_time), "MMMM do, yyyy")}
-              />
-            ))}
+            {data.pages.map((page, i) => {
+              if (i === 0) return null;
+              return page.updates.map((update) => (
+                <UpdateFeedItem
+                  key={`update-${update.ID}`}
+                  title={update.title}
+                  link={update.check_it_out_link}
+                  message={update.message}
+                  feedDate={format(update.update_card_time, "MMMM do, yyyy")}
+                />
+              ));
+            })}
           </m.div>
         )}
         <AnimatePresence mode="wait" initial={false}>
-          {loadMoreError && (
+          {status === "error" && !isFetching && (
             <m.div
               key="loading-more-error"
               variants={opacityVariants}
@@ -337,7 +288,7 @@ export default function UpdateFeedContainer() {
               <h2 className="mb-3 text-3xl font-bold text-black">Failed To Fetch More</h2>
             </m.div>
           )}
-          {loadMoreLoad && (
+          {isFetching && (
             <m.div
               key="loading-more"
               variants={opacityVariants}

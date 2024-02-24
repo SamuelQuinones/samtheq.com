@@ -105,6 +105,7 @@ function prismaCodeHelper(code?: string) {
   if (["P2017", "P2023"].includes(code)) {
     return 418;
   }
+  return 500;
 }
 
 function catchPrismaErrors(error: any) {
