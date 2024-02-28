@@ -1,14 +1,23 @@
 "use client";
 
-import { useState, useCallback, useRef, Fragment } from "react";
+import { useState, useCallback, useRef, Fragment, useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import * as Portal from "@radix-ui/react-portal";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, m } from "framer-motion";
 import { format } from "date-fns";
 import Button from "@/components/Button";
-import { Dialog, DialogBody, DialogContent, DialogTrigger } from "@/components/Dialog";
-import Drawer from "@/components/Drawer";
+import {
+  Dialog,
+  DialogBody,
+  DialogContent,
+  DialogContentSheet,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/Dialog";
 import { useBreakpoints, useIsomorphicLayoutEffect } from "@/hooks";
 import { getUpdates } from "./update-feed-action";
 
@@ -144,7 +153,7 @@ function UpdateFeedSkeleton() {
 }
 
 export default function UpdateFeedContainer() {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [ref, setRef] = useState<HTMLDivElement | null>(null);
 
   const {
     data,
@@ -166,8 +175,9 @@ export default function UpdateFeedContainer() {
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 
+  const total = useMemo(() => data?.pages[0].total ?? 0, [data]);
+
   const handleViewMore = useCallback(() => {
-    setDrawerOpen(true);
     if (data && data?.pages.length <= 1 && status !== "error" && !isFetching) {
       void fetchNextPage();
     }
@@ -194,7 +204,7 @@ export default function UpdateFeedContainer() {
           </m.div>
         )}
         {status === "pending" && isFetching && <UpdateFeedSkeleton />}
-        {status === "success" && (
+        {data?.pages[0].updates && (
           <Fragment key="initial-updates">
             <m.section
               variants={opacityVariants}
@@ -203,20 +213,7 @@ export default function UpdateFeedContainer() {
               className="mb-4 mt-16 flex w-full items-center justify-between px-3"
             >
               <h2 className="text-2xl">Update Feed</h2>
-              <Button
-                className="relative flex items-center gap-x-1.5"
-                variant="accent"
-                onClick={handleViewMore}
-              >
-                <span>View History</span>
-                <FontAwesomeIcon height="16" icon={faClockRotateLeft} />
-                {data.pages[0].total - UPDATE_FEED_HOME_AMOUNT > 0 && (
-                  <span className="absolute right-0 top-0 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center rounded-full bg-rose-600 px-2 py-1 text-xs/none font-bold text-white">
-                    {data.pages[0].total - UPDATE_FEED_HOME_AMOUNT}{" "}
-                    <span className="sr-only">Additional updates</span>
-                  </span>
-                )}
-              </Button>
+              <div className="contents" ref={setRef} />
             </m.section>
             <m.div
               variants={containerVariants}
@@ -238,12 +235,56 @@ export default function UpdateFeedContainer() {
         )}
       </AnimatePresence>
       {/* Feed History */}
-      <Drawer
-        headerClassName="z-10"
-        header={<h1 className="max text-center text-xl">Update Feed History</h1>}
-        footerClassName="p-3 grid grid-cols-2 gap-x-2 z-10"
-        footer={
-          <>
+      <Dialog>
+        <DialogContentSheet side="left">
+          <DialogHeader>
+            <DialogTitle>Update Feed History</DialogTitle>
+          </DialogHeader>
+          <DialogBody className="py-6">
+            {status === "success" && data.pages.length > 1 && (
+              <m.div initial="hidden" animate="show" className="grid grid-cols-1 gap-5">
+                {data.pages.map((page, i) => {
+                  if (i === 0) return null;
+                  return page.updates.map((update) => (
+                    <UpdateFeedItem
+                      key={`update-${update.ID}`}
+                      title={update.title}
+                      link={update.check_it_out_link}
+                      message={update.message}
+                      feedDate={format(update.update_card_time, "MMMM do, yyyy")}
+                    />
+                  ));
+                })}
+              </m.div>
+            )}
+            <AnimatePresence mode="wait" initial={false}>
+              {status === "error" && !isFetching && (
+                <m.div
+                  key="loading-more-error"
+                  variants={opacityVariants}
+                  initial="hidden"
+                  animate="show"
+                  exit="hidden"
+                  className="absolute inset-0 flex flex-col items-center justify-center bg-yellow-600/50 px-3"
+                >
+                  <h2 className="mb-3 text-3xl font-bold text-black">Failed To Fetch More</h2>
+                </m.div>
+              )}
+              {isFetching && (
+                <m.div
+                  key="loading-more"
+                  variants={opacityVariants}
+                  initial="hidden"
+                  animate="show"
+                  exit="hidden"
+                  className="absolute inset-0 flex items-center justify-center bg-background/75"
+                >
+                  <h2 className="text-3xl font-bold">Loading...</h2>
+                </m.div>
+              )}
+            </AnimatePresence>
+          </DialogBody>
+          <DialogFooter className="grid grid-cols-2 gap-x-2">
             <Button
               variant="secondary"
               onClick={() => fetchNextPage()}
@@ -254,54 +295,27 @@ export default function UpdateFeedContainer() {
             <Button disabled={isFetching} onClick={() => refetch()}>
               {isFetching ? "refreshing..." : "refresh"}
             </Button>
-          </>
-        }
-        open={drawerOpen}
-        handleClose={() => setDrawerOpen(false)}
-      >
-        {status === "success" && data.pages.length > 1 && (
-          <m.div initial="hidden" animate="show" className="grid grid-cols-1 gap-5">
-            {data.pages.map((page, i) => {
-              if (i === 0) return null;
-              return page.updates.map((update) => (
-                <UpdateFeedItem
-                  key={`update-${update.ID}`}
-                  title={update.title}
-                  link={update.check_it_out_link}
-                  message={update.message}
-                  feedDate={format(update.update_card_time, "MMMM do, yyyy")}
-                />
-              ));
-            })}
-          </m.div>
-        )}
-        <AnimatePresence mode="wait" initial={false}>
-          {status === "error" && !isFetching && (
-            <m.div
-              key="loading-more-error"
-              variants={opacityVariants}
-              initial="hidden"
-              animate="show"
-              exit="hidden"
-              className="absolute inset-0 flex flex-col items-center justify-center bg-yellow-600/50 px-3"
+          </DialogFooter>
+        </DialogContentSheet>
+        <Portal.Root container={ref}>
+          <DialogTrigger asChild>
+            <Button
+              className="relative flex items-center gap-x-1.5"
+              variant="accent"
+              onClick={handleViewMore}
             >
-              <h2 className="mb-3 text-3xl font-bold text-black">Failed To Fetch More</h2>
-            </m.div>
-          )}
-          {isFetching && (
-            <m.div
-              key="loading-more"
-              variants={opacityVariants}
-              initial="hidden"
-              animate="show"
-              exit="hidden"
-              className="absolute inset-0 flex items-center justify-center bg-cyan-800/75"
-            >
-              <h2 className="text-3xl font-bold">Loading...</h2>
-            </m.div>
-          )}
-        </AnimatePresence>
-      </Drawer>
+              <span>View History</span>
+              <FontAwesomeIcon height="16" icon={faClockRotateLeft} />
+              {total - UPDATE_FEED_HOME_AMOUNT > 0 && (
+                <span className="absolute right-0 top-0 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center rounded-full bg-rose-600 px-2 py-1 text-xs/none font-bold text-white">
+                  {total - UPDATE_FEED_HOME_AMOUNT}
+                  <span className="sr-only">Additional updates</span>
+                </span>
+              )}
+            </Button>
+          </DialogTrigger>
+        </Portal.Root>
+      </Dialog>
     </>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { m } from "framer-motion";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
@@ -11,11 +11,11 @@ import {
   Dialog,
   DialogBody,
   DialogContent,
+  DialogContentSheet,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/Dialog";
-import Drawer from "@/components/Drawer";
 
 interface TimelineFilterProps {
   experienceTypes: { exp_type: string; count: number }[];
@@ -26,7 +26,6 @@ interface TimelineFilterProps {
 // add more cool stuff
 //? use query params
 export function TimelineFilter({ experienceTypes }: TimelineFilterProps) {
-  const [open, setOpen] = useState(false);
   const searchParams = useSearchParams();
 
   const _createQueryString = useCallback(
@@ -40,31 +39,30 @@ export function TimelineFilter({ experienceTypes }: TimelineFilterProps) {
   );
 
   return (
-    <>
-      <Drawer
-        open={open}
-        handleClose={() => setOpen(false)}
-        position="top"
-        header={<h1 className="text-center text-xl lg:text-3xl">Filter timeline</h1>}
-        bodyClassName="container mx-auto"
-      >
-        <select defaultValue="selectType">
-          <option disabled value="selectType">
-            Select Type...
-          </option>
-          {experienceTypes.map(({ exp_type, count }) => (
-            <option value={exp_type} key={exp_type}>
-              {exp_type} ({count})
+    <Dialog>
+      <DialogContentSheet side="top">
+        <DialogHeader className="sm:text-center">
+          <DialogTitle className="text-3xl/none">Filter timeline</DialogTitle>
+        </DialogHeader>
+        <DialogBody className="container mx-auto">
+          <select defaultValue="selectType">
+            <option disabled value="selectType">
+              Select Type...
             </option>
-          ))}
-        </select>
-      </Drawer>
+            {experienceTypes.map(({ exp_type, count }) => (
+              <option value={exp_type} key={exp_type}>
+                {exp_type} ({count})
+              </option>
+            ))}
+          </select>
+        </DialogBody>
+      </DialogContentSheet>
       <div className="flex flex-wrap gap-1 px-3">
-        <Button variant="accent" onClick={() => setOpen(true)}>
-          Filter Timeline
-        </Button>
+        <DialogTrigger asChild>
+          <Button variant="accent">Filter Timeline</Button>
+        </DialogTrigger>
       </div>
-    </>
+    </Dialog>
   );
 }
 
