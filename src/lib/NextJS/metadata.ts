@@ -7,9 +7,6 @@ const title = {
   template: "%s | SamTheQ",
 };
 
-const description =
-  "A personal website for Samuel Quinones, to show off projects and a personal portfolio";
-
 const SEO: Metadata = {
   title,
   creator: "Samuel Quinones",
@@ -30,11 +27,11 @@ const SEO: Metadata = {
       type: "image/png",
     },
   ],
-  description,
+  // description,
   twitter: {
     creator: "@SamuelQuinones1",
     card: "summary",
-    description,
+    // description,
     title,
   },
   openGraph: {
@@ -42,7 +39,7 @@ const SEO: Metadata = {
     type: "website",
     siteName: "SamTheQ",
     url: "/",
-    description,
+    // description,
     images: [
       {
         url: `/Logo_866.png`,
@@ -61,6 +58,22 @@ const SEO: Metadata = {
  * @returns a valid NextJS metadata object based on the parameters merged with defaults
  */
 export function mergeMetadata<T extends Metadata>(metadata: T) {
+  metadata.openGraph = metadata.openGraph ?? {};
+  metadata.twitter = metadata.twitter ?? {};
+
+  if (metadata.title) {
+    metadata.openGraph.title ??= metadata.title;
+    metadata.twitter.title ??= metadata.title;
+  }
+  if (metadata.description) {
+    metadata.openGraph.description ??= metadata.description;
+    metadata.twitter.description ??= metadata.description;
+  }
+
+  if (metadata.alternates?.canonical && !metadata.openGraph.url) {
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
+    metadata.openGraph.url = metadata.alternates.canonical.toString();
+  }
   return deepmerge(SEO, metadata, {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     arrayMerge: (dest, source) => [...dest, ...source],

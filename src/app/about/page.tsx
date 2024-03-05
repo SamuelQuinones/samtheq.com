@@ -5,14 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const title = "About";
 const description = "About Samuel Quinones and this site";
 const canonical = "/about";
-const extra = { title, description, url: canonical };
-export const metadata = mergeMetadata({
-  title,
-  description,
-  alternates: { canonical },
-  openGraph: extra,
-  twitter: extra,
-});
+export const metadata = mergeMetadata({ title, description, alternates: { canonical } });
 
 export default function About() {
   if (process.env.NODE_ENV === "production") {

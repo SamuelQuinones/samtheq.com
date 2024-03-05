@@ -5,14 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const title = "Media Projects";
 const description = "A collection of Samuel Quinones' media projects";
 const canonical = "/media";
-const extra = { title, description, url: canonical };
-export const metadata = mergeMetadata({
-  title,
-  description,
-  alternates: { canonical },
-  openGraph: extra,
-  twitter: extra,
-});
+export const metadata = mergeMetadata({ title, description, alternates: { canonical } });
 
 export default function MediaProjects() {
   return (

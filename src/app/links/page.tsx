@@ -119,15 +119,7 @@ export const revalidate = 0; //* ensures page is always dynamically rendered
 const title = "Links";
 const description = "A collection of social platform links on which Samuel Quinones is active";
 const canonical = "/links";
-const extra = { title, description, url: canonical };
-export const metadata = mergeMetadata({
-  title,
-  description,
-  alternates: { canonical },
-  openGraph: extra,
-  twitter: extra,
-});
-
+export const metadata = mergeMetadata({ title, description, alternates: { canonical } });
 export default function Links() {
   return (
     <main

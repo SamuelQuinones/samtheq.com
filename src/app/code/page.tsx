@@ -114,14 +114,7 @@ export const revalidate = 1800;
 const title = "Code Projects";
 const description = "A collection of Samuel Quinones' development projects";
 const canonical = "/code";
-const extra = { title, description, url: canonical };
-export const metadata = mergeMetadata({
-  title,
-  description,
-  alternates: { canonical },
-  openGraph: extra,
-  twitter: extra,
-});
+export const metadata = mergeMetadata({ title, description, alternates: { canonical } });
 
 export default function CodeProjects() {
   if (process.env.NODE_ENV === "production") {

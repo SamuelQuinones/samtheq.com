@@ -136,14 +136,7 @@ const title = "Experience";
 const description =
   "The work and educational experience of Samuel Quinones presented in timeline form";
 const canonical = "/experience";
-const extra = { title, description, url: canonical };
-export const metadata = mergeMetadata({
-  title,
-  description,
-  alternates: { canonical },
-  openGraph: extra,
-  twitter: extra,
-});
+export const metadata = mergeMetadata({ title, description, alternates: { canonical } });
 
 export default function Experience() {
   return (
