@@ -1,6 +1,6 @@
 import DropmenuMenu from "@/components/DropMenu/Menu";
 import DropmenuToggle from "@/components/DropMenu/Toggle";
-import { useMediaQuery } from "@/hooks";
+import useMediaQuery from "@/hooks/use-media-query";
 import { Dropdown } from "@restart/ui";
 import clsx from "clsx";
 import { m } from "framer-motion";

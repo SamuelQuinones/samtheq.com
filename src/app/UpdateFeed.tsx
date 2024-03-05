@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, Fragment, useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import * as Portal from "@radix-ui/react-portal";
+import { Portal } from "@radix-ui/react-portal";
 import { faClockRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, m } from "framer-motion";
@@ -18,7 +18,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/Dialog";
-import { useBreakpoints, useIsomorphicLayoutEffect } from "@/hooks";
+import useIsomorphicLayoutEffect from "@/hooks/use-isomorphic-layout-effect";
+import useBreakpoints from "@/hooks/use-breakpoints";
 import { getUpdates } from "./update-feed-action";
 
 const UPDATE_FEED_HOME_AMOUNT = 3;
@@ -297,7 +298,7 @@ export default function UpdateFeedContainer() {
             </Button>
           </DialogFooter>
         </DialogContentSheet>
-        <Portal.Root container={ref}>
+        <Portal container={ref}>
           <DialogTrigger asChild>
             <Button
               className="relative flex items-center gap-x-1.5"
@@ -314,7 +315,7 @@ export default function UpdateFeedContainer() {
               )}
             </Button>
           </DialogTrigger>
-        </Portal.Root>
+        </Portal>
       </Dialog>
     </>
   );

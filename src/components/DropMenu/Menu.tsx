@@ -1,12 +1,13 @@
 "use client";
 
+import useIsomorphicLayoutEffect from "@/hooks/use-isomorphic-layout-effect";
+import useMergedRef from "@/hooks/use-merged-ref";
 /**
  * May 27th, 2023
  * Remember that hidden and show states need to be controlled with the show property:
  * `show && "dropmenu-show"`, where it is display none by default and block when "dropmenu-show" is active
  */
 
-import { useIsomorphicLayoutEffect, useMergedRef } from "@/hooks";
 import { useDropdownMenu, type UseDropdownMenuOptions } from "@restart/ui/DropdownMenu";
 import type { DynamicRefForwardingComponent } from "@restart/ui/types";
 import { type ElementType, forwardRef, type HTMLAttributes, type ReactNode } from "react";

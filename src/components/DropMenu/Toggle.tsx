@@ -1,6 +1,6 @@
 "use client";
 
-import { useMergedRef } from "@/hooks";
+import useMergedRef from "@/hooks/use-merged-ref";
 import { useDropdownToggle } from "@restart/ui/DropdownToggle";
 import type { DynamicRefForwardingComponent } from "@restart/ui/types";
 import {

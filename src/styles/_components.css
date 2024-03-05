@@ -1,5 +1,4 @@
 @import "./components/_container.css";
-@import "./components/_modal.css";
 @import "./components/_navigation.css";
 
 [data-nav-skip-link] {

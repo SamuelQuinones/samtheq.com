@@ -1,15 +1,16 @@
 "use client";
 
-import { useIsomorphicLayoutEffect, useOutsideClick } from "@/hooks";
 import { useState, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { m } from "framer-motion";
 import clsx from "clsx";
 import Image from "next/image";
-import { DropLink, NavLink } from "./NavLink";
-import DropmenuItem from "@/components/DropMenu/Item";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCode, faFilm } from "@fortawesome/free-solid-svg-icons";
+import DropmenuItem from "@/components/DropMenu/Item";
+import useOutsideClick from "@/hooks/use-outside-click";
+import useIsomorphicLayoutEffect from "@/hooks/use-isomorphic-layout-effect";
+import { DropLink, NavLink } from "./NavLink";
 
 /** h-8 = 2rem, py-3 is .75 rem on both sides, should total 3.5rem or 56px */
 const NAVBAR_BASE_HEIGHT = 2 + 2 * 0.75;
