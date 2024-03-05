@@ -2,6 +2,19 @@
 const nextConfig = {
   reactStrictMode: true,
   // output: "standalone", // Experiment with this
+  async headers() {
+    return [
+      {
+        source: "/:path*{/}?",
+        headers: [
+          {
+            key: "X-Accel-Buffering",
+            value: "no",
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       {
@@ -23,4 +36,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
