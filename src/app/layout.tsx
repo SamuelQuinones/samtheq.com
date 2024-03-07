@@ -41,6 +41,10 @@ export const viewport: Viewport = {
 
 export const metadata = mergeMetadata({
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? ""),
+  title: {
+    default: "SamTheQ",
+    template: "%s | SamTheQ",
+  },
   description:
     "A personal website for Samuel Quinones, to show off projects and a personal portfolio",
 });

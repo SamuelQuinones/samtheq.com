@@ -2,13 +2,7 @@ import deepmerge from "deepmerge";
 import isPlainObject from "@/util/is-plain-object";
 import type { Metadata } from "next";
 
-const title = {
-  default: "SamTheQ",
-  template: "%s | SamTheQ",
-};
-
 const SEO: Metadata = {
-  title,
   creator: "Samuel Quinones",
   generator: "Next.js",
   alternates: {
@@ -31,15 +25,11 @@ const SEO: Metadata = {
   twitter: {
     creator: "@SamuelQuinones1",
     card: "summary",
-    // description,
-    title,
   },
   openGraph: {
-    title,
     type: "website",
     siteName: "SamTheQ",
     url: "/",
-    // description,
     images: [
       {
         url: `/Logo_866.png`,
@@ -59,16 +49,16 @@ const SEO: Metadata = {
  */
 export function mergeMetadata<T extends Metadata>(metadata: T) {
   metadata.openGraph = metadata.openGraph ?? {};
-  metadata.twitter = metadata.twitter ?? {};
+  // metadata.twitter = metadata.twitter ?? {};
 
-  if (metadata.title) {
-    metadata.openGraph.title ??= metadata.title;
-    metadata.twitter.title ??= metadata.title;
-  }
-  if (metadata.description) {
-    metadata.openGraph.description ??= metadata.description;
-    metadata.twitter.description ??= metadata.description;
-  }
+  // if (metadata.title) {
+  //   metadata.openGraph.title ??= metadata.title;
+  //   metadata.twitter.title ??= metadata.title;
+  // }
+  // if (metadata.description) {
+  //   metadata.openGraph.description ??= metadata.description;
+  //   metadata.twitter.description ??= metadata.description;
+  // }
 
   if (metadata.alternates?.canonical && !metadata.openGraph.url) {
     // eslint-disable-next-line @typescript-eslint/no-base-to-string
