@@ -5,24 +5,25 @@
 
 @import "tailwindcss/utilities";
 
+/* OLD */
 /* https://www.realtimecolors.com/?colors=e5faf5-041612-86eed4-571599-cabc63&fonts=Poppins-Poppins */
 
+/* NEW */
+/* https://www.realtimecolors.com/dashboard?colors=dcf2fb-020a0d-81cff0-971242-e6912d&fonts=Poppins-Poppins */
+
 :root {
-  color-scheme: dark;
-  /* --text: 161 86% 94%; */
-  --text: 166 68% 94%;
-  /* --background: 167 85% 8%; */
-  --background-lighter-10: 167 69% 15%;
-  --background: 167 69% 5%;
-  --primary-lighter-10: 165 76% 83%;
-  --primary: 165 76% 73%;
-  --primary-darker-10: 165 76% 63%;
-  --secondary-lighter-10: 270 76% 44%;
-  --secondary: 270 76% 34%;
-  --secondary-darker-10: 270 76% 24%;
-  --accent-lighter-10: 52 49% 69%;
-  --accent: 52 49% 59%;
-  --accent-darker-10: 52 49% 49%;
+  --text: 197 79% 92%;
+  --background-lighter-10: 196 73% 13%;
+  --background: 196 73% 3%;
+  --primary-lighter-10: 198 79% 82%;
+  --primary: 198 79% 72%;
+  --primary-darker-10: 198 79% 62%;
+  --secondary-lighter-10: 338 79% 43%;
+  --secondary: 338 79% 33%;
+  --secondary-darker-10: 338 79% 23%;
+  --accent-lighter-10: 32 79% 64%;
+  --accent: 32 79% 54%;
+  --accent-darker-10: 32 79% 44%;
 }
 
 *,
