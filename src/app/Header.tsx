@@ -23,7 +23,7 @@ import {
 /** h-8 = 2rem, py-3 is .75 rem on both sides, should total 3.5rem or 56px */
 const NAVBAR_BASE_HEIGHT = 2 + 2 * 0.75;
 const navbarVariants = {
-  open: { height: "auto" },
+  open: { height: "312px" },
   closed: { height: `${NAVBAR_BASE_HEIGHT}rem` },
 };
 
