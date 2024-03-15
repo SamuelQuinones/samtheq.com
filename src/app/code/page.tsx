@@ -23,7 +23,7 @@ function Skeleton() {
         {[...Array(10)].map((_, i) => (
           <div
             key={i}
-            className="flex flex-col gap-y-3 rounded-md border-2 border-primary bg-gray-900 p-3 shadow-lg"
+            className="flex flex-col gap-y-3 rounded-md border-2 border-primary bg-primary/20 p-3 shadow-lg"
           >
             <h3 className="text-lg">
               <span className="inline-block size-5 rounded-full bg-current align-middle opacity-50" />{" "}
@@ -38,7 +38,7 @@ function Skeleton() {
                 <span className="inline-block min-h-[1em] w-1/3 cursor-wait bg-current align-middle opacity-50" />
               </p>
             </div>
-            <div className="-mx-3 -mb-3 grid grid-cols-3 items-center divide-x-2 divide-gray-900 rounded-b-md border-t border-primary">
+            <div className="-mx-3 -mb-3 grid grid-cols-3 items-center divide-x-2 divide-black rounded-b-md border-t border-primary">
               {[...Array(3)].map((_, ii) => (
                 <Button
                   className="flex size-full items-center justify-center gap-x-1 rounded-none border-0 first:rounded-bl-sm last:rounded-br-sm"

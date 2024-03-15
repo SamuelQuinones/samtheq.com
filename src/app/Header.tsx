@@ -1,25 +1,38 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { m } from "framer-motion";
 import clsx from "clsx";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCode, faFilm } from "@fortawesome/free-solid-svg-icons";
-import DropmenuItem from "@/components/DropMenu/Item";
 import useOutsideClick from "@/hooks/use-outside-click";
 import useIsomorphicLayoutEffect from "@/hooks/use-isomorphic-layout-effect";
-import { DropLink, NavLink } from "./NavLink";
+import {
+  navigationMenuTriggerStyle,
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuNextLink,
+} from "./NavigationMenu";
 
 /** h-8 = 2rem, py-3 is .75 rem on both sides, should total 3.5rem or 56px */
 const NAVBAR_BASE_HEIGHT = 2 + 2 * 0.75;
 const navbarVariants = {
-  open: { height: "auto" },
+  open: { height: "312px" },
   closed: { height: `${NAVBAR_BASE_HEIGHT}rem` },
 };
 
-const burgerLineClasses = clsx("h-[0.1875rem]", "rounded-full", "w-full", "relative", "bg-white");
+const burgerLineClasses = clsx("relative h-[0.1875rem] w-full rounded-full bg-white");
+
+const navLinkSyle = clsx("rounded-md p-2");
+const dropLinkStyle = clsx(
+  "gap-x-2 px-4 py-1.5 [&:not(:hover,:focus)]:data-[active]:aria-[current='page']:bg-background-lighter-10/70"
+);
 
 const burgerTop = {
   open: { y: "0.625rem", rotate: "45deg" },
@@ -37,7 +50,7 @@ const burgerBottom = {
 export default function Header() {
   const [open, setOpen] = useState(false);
   const HEADER_REF = useRef<HTMLElement>(null);
-  const CHILDREN_REF = useRef<HTMLDivElement>(null);
+  const CHILDREN_REF = useRef<HTMLUListElement>(null);
   const pathname = usePathname();
 
   const onAnimationComplete = useCallback((def: string) => {
@@ -59,6 +72,11 @@ export default function Header() {
     hideNavbar();
   }, [pathname]);
 
+  const projectListActive = useMemo(
+    () => (["/media", "/code"].includes(pathname) ? "" : undefined),
+    [pathname]
+  );
+
   return (
     <m.header
       role="navigation"
@@ -72,7 +90,7 @@ export default function Header() {
       onAnimationComplete={onAnimationComplete}
       transition={{ type: "tween", duration: 0.2 }}
     >
-      <nav className="bs-container-xl sm:flex sm:justify-between">
+      <div className="bs-container-xl sm:flex sm:justify-between">
         <a href="#stq-page-content" data-nav-skip-link="true">
           Skip To Content
         </a>
@@ -98,23 +116,73 @@ export default function Header() {
           </div>
         </section>
         {/* Content */}
-        <section ref={CHILDREN_REF} className="py-2 max-sm:hidden sm:flex sm:p-0">
-          <NavLink href="/">Home</NavLink>
-          <NavLink href="/about">About</NavLink>
-          <NavLink href="/experience">Experience</NavLink>
-          <a className="nav-link" href={process.env.NEXT_PUBLIC_BLOG_URL}>
-            Blog
-          </a>
-          <DropLink id="content-drop-down" label="Projects">
-            <DropmenuItem as={NavLink} href="/code">
-              <FontAwesomeIcon icon={faCode} height="1em" width="1em" className="mr-2" /> Code
-            </DropmenuItem>
-            <DropmenuItem as={NavLink} href="/media">
-              <FontAwesomeIcon icon={faFilm} height="1em" width="1em" className="mr-2" /> Media
-            </DropmenuItem>
-          </DropLink>
-        </section>
-      </nav>
+        <NavigationMenu>
+          <NavigationMenuList
+            ref={CHILDREN_REF}
+            className="flex-col py-2 max-sm:hidden sm:flex-row sm:space-x-1 sm:p-0"
+          >
+            <NavigationMenuItem>
+              <NavigationMenuNextLink href="/" className={navLinkSyle}>
+                Home
+              </NavigationMenuNextLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuNextLink href="/about" className={navLinkSyle}>
+                About
+              </NavigationMenuNextLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuNextLink href="/experience" className={navLinkSyle}>
+                Experience
+              </NavigationMenuNextLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                href={process.env.NEXT_PUBLIC_BLOG_URL}
+                className={clsx(navigationMenuTriggerStyle, navLinkSyle)}
+              >
+                Blog
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem className="hidden sm:list-item">
+              <NavigationMenuTrigger
+                data-contains-active={projectListActive}
+                className={clsx(
+                  navLinkSyle,
+                  "data-[contains-active]:text-text data-[contains-active]:underline"
+                )}
+              >
+                Projects
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="list-none py-2.5">
+                  <li>
+                    <NavigationMenuNextLink className={dropLinkStyle} href="/code">
+                      <FontAwesomeIcon icon={faCode} height="1em" width="1em" /> Code
+                    </NavigationMenuNextLink>
+                  </li>
+                  <li>
+                    <NavigationMenuNextLink className={dropLinkStyle} href="/media">
+                      <FontAwesomeIcon icon={faFilm} height="1em" width="1em" /> Media
+                    </NavigationMenuNextLink>
+                  </li>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem className="list-item border-t border-text/40 sm:hidden">
+              <h5 className="px-2 pt-2">Projects</h5>
+              <div className="mx-3 flex gap-x-3 pb-2">
+                <NavigationMenuNextLink className={clsx(navLinkSyle, "gap-x-2")} href="/code">
+                  <FontAwesomeIcon icon={faCode} height="1em" width="1em" /> Code
+                </NavigationMenuNextLink>
+                <NavigationMenuNextLink className={clsx(navLinkSyle, "gap-x-2")} href="/media">
+                  <FontAwesomeIcon icon={faFilm} height="1em" width="1em" /> Media
+                </NavigationMenuNextLink>
+              </div>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+      </div>
     </m.header>
   );
 }
