@@ -6,6 +6,33 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      keyframes: {
+        slideEnter: {
+          from: {
+            opacity: "0",
+            translate: "var(--tw-enter-translate-x,0) var(--tw-enter-translate-y,0)",
+          },
+          // to: {
+          //   opacity: "1",
+          //   translate: "var(--tw-exit-translate-x,0) var(--tw-exit-translate-y,0)",
+          // },
+        },
+        slideExit: {
+          // from: {
+          //   opacity: "1",
+          //   translate: "var(--tw-enter-translate-x,0) var(--tw-enter-translate-y,0)",
+          // },
+          to: {
+            opacity: "0",
+            translate: "var(--tw-exit-translate-x,0) var(--tw-exit-translate-y,0)",
+          },
+        },
+      },
+      // TODO: allow for changing of duration and timing function
+      animation: {
+        slideEnter: "slideEnter 250ms ease",
+        slideExit: "slideExit 250ms ease",
+      },
       colors: {
         info: colors.cyan,
         text: {
@@ -42,5 +69,48 @@ module.exports = {
       addVariant("hocus", ["&:hover", "&:focus"]);
       addVariant("disabled", ["&:disabled", "&.disabled"]);
     }),
+    plugin(
+      ({ matchUtilities, theme }) => {
+        matchUtilities(
+          {
+            "slide-in-from-top": (value) => ({
+              "--tw-enter-translate-y": `-${value}`,
+            }),
+            "slide-in-from-bottom": (value) => ({
+              "--tw-enter-translate-y": value,
+            }),
+            "slide-in-from-left": (value) => ({
+              "--tw-enter-translate-x": `-${value}`,
+            }),
+            "slide-in-from-right": (value) => ({
+              "--tw-enter-translate-x": value,
+            }),
+            "slide-out-to-top": (value) => ({
+              "--tw-exit-translate-y": `-${value}`,
+            }),
+            "slide-out-to-bottom": (value) => ({
+              "--tw-exit-translate-y": value,
+            }),
+            "slide-out-to-left": (value) => ({
+              "--tw-exit-translate-x": `-${value}`,
+            }),
+            "slide-out-to-right": (value) => ({
+              "--tw-exit-translate-x": value,
+            }),
+          },
+          { values: theme("animationTranslate") }
+        );
+      },
+      {
+        theme: {
+          extend: {
+            animationTranslate: ({ theme }) => ({
+              DEFAULT: "100%",
+              ...theme("translate"),
+            }),
+          },
+        },
+      }
+    ),
   ],
 };
